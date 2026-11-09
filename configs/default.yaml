@@ -1,0 +1,59 @@
+# Radar Track Lab default configuration.
+# Civil airport-surveillance (ASR-like) scenario. All radar values are generic,
+# public, textbook/standard-level numbers; see README "Virtual radar" for sources.
+
+site:
+  name: "Amsterdam Schiphol (EHAM) area, virtual radar at the aerodrome reference point"
+  lat_deg: 52.3081
+  lon_deg: 4.7642
+  extract_radius_km: 125      # wider than max_range so interpolation has margin
+
+truth:
+  points_file: data/processed/region_points.npz
+  min_nacp: 8                 # NACp >= 8 -> 95% horizontal EPU < 92.6 m
+  allowed_sources: [0]        # 0 = adsb_icao only (no MLAT / TIS-B / other)
+  max_gap_s: 20.0             # do not interpolate across longer gaps
+  exclude_ground: true
+  interpolation: hermite      # cubic Hermite using ADS-B ground speed / track
+  # evaluation window (UTC); chosen from the traffic-count histogram
+  eval_start_utc: "2026-11-06T12:45:00Z"
+  eval_duration_s: 1800
+  # separate window used only to choose the process-noise level q
+  tune_start_utc: "2026-11-06T10:00:00Z"
+  tune_duration_s: 900
+
+radar:
+  rotation_period_s: 4.8      # 12.5 rpm, ASR-class terminal radar
+  max_range_m: 100000.0
+  min_range_m: 1000.0
+  sigma_r_m: 50.0
+  sigma_az_deg: 0.15
+  pd: 0.9
+  clutter_lambda: 5.0         # mean false detections per scan (Poisson)
+  clutter_model: uniform_range_azimuth
+
+tracker:
+  q: 25.0                     # NCV white-noise acceleration PSD [m^2/s^3]; chosen by scripts/tune_q.py on the tune window
+  gate_probability: 0.999     # chi-square gate on the 2-D innovation
+  init_speed_sigma_mps: 150.0
+  confirm_m: 3                # M-of-N confirmation
+  confirm_n: 4
+  delete_misses: 5            # consecutive missed scans before a confirmed track is deleted
+
+baseline:
+  max_link_distance_m: 2000.0 # nearest-neighbour linking radius (no filter)
+
+eval:
+  gospa_c_m: 2000.0
+  gospa_p: 2
+  gospa_alpha: 2
+  warmup_s: 60.0              # first minute excluded from aggregate metrics
+
+monte_carlo:
+  runs: 20
+  base_seed: 20261106
+
+sweep:
+  pd: [0.7, 0.8, 0.9, 0.97]
+  clutter_lambda: [0, 5, 20]
+  sigma_az_deg: [0.15, 0.30]

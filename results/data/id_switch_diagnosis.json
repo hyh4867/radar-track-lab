@@ -1,0 +1,119 @@
+{
+  "runs": 20,
+  "mean_per_run": {
+    "after_truth_gap": 7.0,
+    "near_other": 4.6,
+    "other": 13.35
+  },
+  "per_seed": [
+    {
+      "after_truth_gap": 7,
+      "near_other": 5,
+      "other": 13
+    },
+    {
+      "after_truth_gap": 7,
+      "near_other": 7,
+      "other": 15
+    },
+    {
+      "after_truth_gap": 7,
+      "near_other": 8,
+      "other": 9
+    },
+    {
+      "after_truth_gap": 7,
+      "near_other": 2,
+      "other": 14
+    },
+    {
+      "after_truth_gap": 7,
+      "near_other": 6,
+      "other": 8
+    },
+    {
+      "after_truth_gap": 7,
+      "near_other": 5,
+      "other": 18
+    },
+    {
+      "after_truth_gap": 7,
+      "near_other": 0,
+      "other": 13
+    },
+    {
+      "after_truth_gap": 7,
+      "near_other": 4,
+      "other": 10
+    },
+    {
+      "after_truth_gap": 7,
+      "near_other": 2,
+      "other": 10
+    },
+    {
+      "after_truth_gap": 7,
+      "near_other": 3,
+      "other": 9
+    },
+    {
+      "after_truth_gap": 7,
+      "near_other": 9,
+      "other": 16
+    },
+    {
+      "after_truth_gap": 7,
+      "near_other": 8,
+      "other": 11
+    },
+    {
+      "after_truth_gap": 7,
+      "near_other": 3,
+      "other": 12
+    },
+    {
+      "after_truth_gap": 7,
+      "near_other": 4,
+      "other": 18
+    },
+    {
+      "after_truth_gap": 7,
+      "near_other": 3,
+      "other": 10
+    },
+    {
+      "after_truth_gap": 7,
+      "near_other": 4,
+      "other": 14
+    },
+    {
+      "after_truth_gap": 7,
+      "near_other": 4,
+      "other": 20
+    },
+    {
+      "after_truth_gap": 7,
+      "near_other": 5,
+      "other": 17
+    },
+    {
+      "after_truth_gap": 7,
+      "near_other": 1,
+      "other": 15
+    },
+    {
+      "after_truth_gap": 7,
+      "near_other": 9,
+      "other": 15
+    }
+  ],
+  "false_tracks_per_scan": {
+    "after_truth_end": 1.0013774104683195,
+    "never_matched": 0.0,
+    "other": 0.0765840220385675
+  },
+  "missed_per_scan": {
+    "before_first_track": 0.7460055096418733,
+    "other": 0.07575757575757576
+  }
+}

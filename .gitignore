@@ -1,0 +1,8 @@
+# raw adsb.lol archives and the extracted region file stay local (large; ODbL source data)
+data/raw/
+data/processed/
+.venv/
+__pycache__/
+*.log
+web/.vercel/
+.pytest_cache/

@@ -1,0 +1,85 @@
+{
+  "window": [
+    "2026-11-06T10:00:00Z",
+    900
+  ],
+  "scenario": {
+    "targets": 107,
+    "truth_per_scan_mean": 55.98395721925134,
+    "truth_per_scan_max": 60
+  },
+  "grid": [
+    {
+      "q": 1,
+      "gospa_mean_m": 2754.5821645321744,
+      "rmse_m": 195.88469838532527,
+      "id_switches": 144.4,
+      "fragmentations": 9.4
+    },
+    {
+      "q": 4,
+      "gospa_mean_m": 2462.1638297871928,
+      "rmse_m": 181.5167939445495,
+      "id_switches": 80.0,
+      "fragmentations": 4.8
+    },
+    {
+      "q": 9,
+      "gospa_mean_m": 2283.9094225803383,
+      "rmse_m": 170.15845602013968,
+      "id_switches": 46.8,
+      "fragmentations": 2.8
+    },
+    {
+      "q": 16,
+      "gospa_mean_m": 2143.3164475803137,
+      "rmse_m": 160.83232573723876,
+      "id_switches": 20.0,
+      "fragmentations": 1.8
+    },
+    {
+      "q": 25,
+      "gospa_mean_m": 2097.3563997589545,
+      "rmse_m": 158.91788831185423,
+      "id_switches": 8.0,
+      "fragmentations": 0.8
+    },
+    {
+      "q": 36,
+      "gospa_mean_m": 2098.362681780876,
+      "rmse_m": 160.56802555311327,
+      "id_switches": 5.0,
+      "fragmentations": 0.4
+    },
+    {
+      "q": 49,
+      "gospa_mean_m": 2110.413970965568,
+      "rmse_m": 164.83668626748877,
+      "id_switches": 3.4,
+      "fragmentations": 0.2
+    },
+    {
+      "q": 64,
+      "gospa_mean_m": 2131.9235748174333,
+      "rmse_m": 169.7903359016052,
+      "id_switches": 3.2,
+      "fragmentations": 0.2
+    },
+    {
+      "q": 100,
+      "gospa_mean_m": 2172.7351387797175,
+      "rmse_m": 178.28561072862226,
+      "id_switches": 3.2,
+      "fragmentations": 0.4
+    },
+    {
+      "q": 200,
+      "gospa_mean_m": 2269.350465638342,
+      "rmse_m": 194.92411369482278,
+      "id_switches": 3.2,
+      "fragmentations": 0.6
+    }
+  ],
+  "selected_q": 25,
+  "criterion": "minimum mean GOSPA over 5 seeds on the tuning window"
+}

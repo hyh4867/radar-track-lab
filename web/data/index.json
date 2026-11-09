@@ -1,0 +1,61 @@
+{
+ "scenarios": [
+  {
+   "id": "base",
+   "label": "기준 조건",
+   "pd": 0.9,
+   "clutter_lambda": 5,
+   "sigma_az_deg": 0.15,
+   "file": "data/base.json",
+   "bytes": 400677
+  },
+  {
+   "id": "low-pd",
+   "label": "탐지 확률 낮음",
+   "pd": 0.7,
+   "clutter_lambda": 5,
+   "sigma_az_deg": 0.15,
+   "file": "data/low-pd.json",
+   "bytes": 377583
+  },
+  {
+   "id": "clutter",
+   "label": "클러터 많음",
+   "pd": 0.9,
+   "clutter_lambda": 20,
+   "sigma_az_deg": 0.15,
+   "file": "data/clutter.json",
+   "bytes": 498045
+  },
+  {
+   "id": "az-noise",
+   "label": "방위 잡음 큼",
+   "pd": 0.9,
+   "clutter_lambda": 5,
+   "sigma_az_deg": 0.3,
+   "file": "data/az-noise.json",
+   "bytes": 400644
+  },
+  {
+   "id": "hard",
+   "label": "모두 나쁨",
+   "pd": 0.7,
+   "clutter_lambda": 20,
+   "sigma_az_deg": 0.3,
+   "file": "data/hard.json",
+   "bytes": 474399
+  },
+  {
+   "id": "clean",
+   "label": "좋은 조건",
+   "pd": 0.97,
+   "clutter_lambda": 0,
+   "sigma_az_deg": 0.15,
+   "file": "data/clean.json",
+   "bytes": 375722
+  }
+ ],
+ "window_utc": "2026-11-06T12:45:00Z",
+ "attribution": "Contains information from adsb.lol (globe_history_2026, 2026-11-06), made available under the ODbL 1.0.",
+ "license": "ODbL-1.0"
+}

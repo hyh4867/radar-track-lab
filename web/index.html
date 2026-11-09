@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Radar Track Lab</title>
+<link rel="icon" href="data:,">
+<meta name="description" content="ADS-B 기록을 정답으로 쓴 가상 공항 감시 레이더와 EKF 다중 표적 추적기 재생 데모">
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #07100c;
+  --panel: #0d1813;
+  --panel-2: #12201a;
+  --line: #1f3329;
+  --ink: #e6efe9;
+  --ink-2: #9fb3a8;
+  --ink-3: #6e8579;
+  --scope-bg: #030806;
+  --ring: rgba(120, 220, 160, 0.16);
+  --ring-label: rgba(150, 220, 180, 0.55);
+  --plot: #7dffae;
+  --clutter: #ffb547;
+  --track: #e9fbff;
+  --track-vec: #7fd8ff;
+  --false: #ff6b6b;
+  --truth: #d59bff;
+  --accent: #7fd8ff;
+  --baseline: #ffb547;
+  --focus: #b9f5d0;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--ink); }
+body {
+  font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
+  min-height: 100vh;
+}
+.num { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; }
+header {
+  display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  padding: 14px 16px 6px;
+}
+header h1 { font-size: 17px; margin: 0; letter-spacing: 0.02em; font-weight: 650; }
+header p { margin: 0; color: var(--ink-2); font-size: 13px; }
+main {
+  display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 14px;
+  padding: 8px 16px 16px; max-width: 1280px; margin: 0 auto;
+}
+.scope-wrap { position: relative; min-width: 0; }
+#scope {
+  display: block; width: min(100%, calc(100vh - 150px)); height: auto; aspect-ratio: 1 / 1;
+  margin: 0 auto; background: var(--scope-bg); border-radius: 10px; touch-action: manipulation;
+}
+.controls {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 10px;
+}
+button, select {
+  font: inherit; color: var(--ink); background: var(--panel-2); border: 1px solid var(--line);
+  border-radius: 8px; padding: 7px 12px; min-height: 36px; cursor: pointer;
+}
+button:hover, select:hover { border-color: #2e4a3c; }
+button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+button[aria-pressed="true"] { background: #1b3a2c; border-color: #3d7a5c; }
+#play { min-width: 76px; }
+#scrub { flex: 1 1 160px; accent-color: #5fd39a; min-width: 120px; }
+.clock { color: var(--ink-2); font-size: 13px; }
+aside { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+.card h2 { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--ink-2); letter-spacing: 0.04em; }
+.gospa-row { display: flex; align-items: baseline; gap: 8px; }
+.gospa-val { font-size: 30px; font-weight: 600; line-height: 1.1; }
+.gospa-unit { color: var(--ink-2); }
+.gospa-cmp { color: var(--ink-2); font-size: 12px; margin-top: 2px; }
+#spark { width: 100%; height: 56px; display: block; margin-top: 8px; }
+.spark-legend { display: flex; gap: 12px; font-size: 11.5px; color: var(--ink-2); margin-top: 4px; }
+.sw { display: inline-block; width: 14px; height: 2px; vertical-align: middle; margin-right: 5px; }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.stat { background: var(--panel-2); border-radius: 8px; padding: 8px 10px; }
+.stat .v { font-size: 20px; font-weight: 600; }
+.stat .l { font-size: 11.5px; color: var(--ink-2); }
+.scen { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.scen button { text-align: left; padding: 7px 9px; font-size: 13px; }
+.scen small { display: block; color: var(--ink-3); font-size: 11px; }
+.toggles { display: grid; gap: 4px; }
+.toggles label { display: flex; align-items: center; gap: 8px; min-height: 30px; cursor: pointer; color: var(--ink); }
+.toggles input { width: 17px; height: 17px; accent-color: #5fd39a; }
+.legend { display: grid; gap: 5px; font-size: 12.5px; color: var(--ink-2); }
+.legend i { display: inline-block; width: 18px; text-align: center; margin-right: 6px; font-style: normal; }
+.params { font-size: 12px; color: var(--ink-2); }
+.params b { color: var(--ink); font-weight: 600; }
+footer { max-width: 1280px; margin: 0 auto; padding: 0 16px 24px; color: var(--ink-3); font-size: 12px; }
+footer a { color: var(--ink-2); }
+#selinfo { font-size: 12.5px; color: var(--ink-2); min-height: 18px; }
+#loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--ink-2); }
+@media (max-width: 860px) {
+  main { grid-template-columns: 1fr; }
+  #scope { width: 100%; }
+  .stats { grid-template-columns: repeat(4, 1fr); }
+  .stat .v { font-size: 17px; }
+}
+@media (max-width: 420px) {
+  .stats { grid-template-columns: 1fr 1fr; }
+  .scen { grid-template-columns: 1fr 1fr; }
+}
+body.thumb header, body.thumb aside, body.thumb .controls, body.thumb footer { display: none; }
+body.thumb main { display: block; padding: 0; max-width: none; }
+body.thumb #scope { max-height: none; width: 100vmin; height: 100vmin; border-radius: 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Radar Track Lab</h1>
+  <p>실제 항공기 궤적(ADS-B)을 정답으로 쓴 가상 공항 감시 레이더와 다중 표적 추적기</p>
+</header>
+<main>
+  <div class="scope-wrap">
+    <canvas id="scope" role="img" aria-label="PPI 레이더 스코프: 회전 스윕, 탐지점, 추적 항적"></canvas>
+    <div id="loading">불러오는 중…</div>
+    <div class="controls">
+      <button id="play" type="button" aria-label="재생 또는 일시정지">일시정지</button>
+      <select id="speed" aria-label="재생 속도">
+        <option value="1">1×</option><option value="2" selected>2×</option>
+        <option value="4">4×</option><option value="8">8×</option>
+      </select>
+      <input id="scrub" type="range" min="1" max="124" value="1" aria-label="재생 위치">
+      <span class="clock num" id="clock">--:--:-- UTC</span>
+    </div>
+    <div id="selinfo" aria-live="polite"></div>
+  </div>
+  <aside>
+    <section class="card" aria-label="실시간 지표">
+      <h2>GOSPA (현재 scan)</h2>
+      <div class="gospa-row"><span class="gospa-val num" id="gospa">–</span><span class="gospa-unit">km</span></div>
+      <div class="gospa-cmp num" id="gospa-cmp">기준선 – km</div>
+      <canvas id="spark" aria-hidden="true"></canvas>
+      <div class="spark-legend"><span><span class="sw" style="background:var(--accent)"></span>추적기</span><span><span class="sw" style="background:var(--baseline)"></span>기준선(필터 없음)</span><span>최근 5분</span></div>
+    </section>
+    <section class="card stats" aria-label="항적 수">
+      <div class="stat"><div class="v num" id="n-tracks">–</div><div class="l">확정 항적</div></div>
+      <div class="stat"><div class="v num" id="n-truth">–</div><div class="l">정답 표적(ADS-B)</div></div>
+      <div class="stat"><div class="v num" id="n-false">–</div><div class="l">가짜 항적</div></div>
+      <div class="stat"><div class="v num" id="n-missed">–</div><div class="l">놓친 표적</div></div>
+    </section>
+    <section class="card" aria-label="잡음 조건">
+      <h2>잡음 조건</h2>
+      <div class="scen" id="scen"></div>
+      <p class="params" id="params"></p>
+    </section>
+    <section class="card" aria-label="표시 옵션">
+      <h2>표시</h2>
+      <div class="toggles">
+        <label><input type="checkbox" id="t-truth"> 정답 궤적(ADS-B) 겹쳐 보기</label>
+        <label><input type="checkbox" id="t-pred" checked> 예측 경로(90초)</label>
+        <label><input type="checkbox" id="t-trail" checked> 항적 꼬리</label>
+        <label><input type="checkbox" id="t-label"> 항적 번호·속도</label>
+        <label><input type="checkbox" id="t-tent"> 가항적(확정 전) 표시</label>
+        <label><input type="checkbox" id="t-lite"> 가벼운 모드</label>
+      </div>
+    </section>
+    <section class="card legend" aria-label="범례">
+      <h2>범례</h2>
+      <div><i style="color:var(--plot)">●</i>레이더 탐지점(잔상)</div>
+      <div><i style="color:var(--clutter)">●</i>클러터 탐지점(정답 보기에서만 구분)</div>
+      <div><i style="color:var(--track)">□</i>확정 항적 · 번호는 익명 항적 번호</div>
+      <div><i style="color:var(--track-vec)">—</i>속도 벡터(30초) · 점선은 예측 경로</div>
+      <div><i style="color:var(--false)">□</i>가짜 항적(정답 보기에서만)</div>
+      <div><i style="color:var(--truth)">◇</i>ADS-B 정답 위치</div>
+    </section>
+  </aside>
+</main>
+<footer>
+  가상 레이더 시뮬레이션입니다(실제 레이더 영상이 아님). 탐지점은 ADS-B 궤적에 교과서 수준의 레이더 잡음·탐지 확률·클러터를 더해 만들었습니다.
+  항공기 식별 정보(등록번호, 편명, ICAO 주소)는 쓰지 않고, 군용·LADD·PIA 표시 항공기는 제외했습니다.
+  위치 데이터: <a href="https://github.com/adsblol/globe_history_2026">adsb.lol</a> 2026-11-06 기록, <a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL 1.0</a>.
+</footer>
+<script>
+(() => {
+"use strict";
+const $ = (id) => document.getElementById(id);
+const params = new URLSearchParams(location.search);
+const THUMB = params.get("thumb") === "1";
+if (THUMB) document.body.classList.add("thumb");
+
+const canvas = $("scope");
+const ctx = canvas.getContext("2d", { alpha: false });
+const spark = $("spark");
+const sctx = spark.getContext("2d");
+const css = getComputedStyle(document.documentElement);
+const C = {};
+["scope-bg", "ring", "ring-label", "plot", "clutter", "track", "track-vec", "false", "truth", "accent", "baseline"]
+  .forEach((k) => { C[k] = css.getPropertyValue("--" + k).trim(); });
+
+const mobile = matchMedia("(max-width: 860px), (pointer: coarse)").matches;
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const state = {
+  index: null, scen: null, cache: new Map(), simT: 0, playing: !reduceMotion || THUMB, speed: 2,
+  truth: params.get("truth") === "1", pred: true, trail: true, tent: false,
+  lite: params.has("lite") ? params.get("lite") === "1" : (mobile && !THUMB),
+  selected: 0, lastFrame: 0, dpr: 1, size: 0, labels: null,
+};
+$("t-lite").checked = state.lite;
+$("t-truth").checked = state.truth;
+if (!state.playing) $("play").textContent = "재생";
+
+// ---------- data ----------
+function decode(doc) {
+  const T = doc.radar.rotation_period_s;
+  const scans = doc.scans.map((s, i) => {
+    const k = Int32Array.from(s.k), tracks = new Map();
+    for (let j = 0; j < k.length; j += 6) if (k[j] > 0) tracks.set(k[j], j);
+    const r = Int32Array.from(s.r), truth = new Map();
+    for (let j = 0; j < r.length; j += 3) truth.set(r[j], j);
+    const d = Int32Array.from(s.d);
+    // precompute detection x/y (dam) and time
+    const n = d.length / 4, det = new Float32Array(n * 4);
+    for (let j = 0; j < n; j++) {
+      const az = d[4 * j + 2] / 100 * Math.PI / 180, rr = d[4 * j + 1];
+      det[4 * j] = i * T + d[4 * j] / 100; det[4 * j + 1] = rr * Math.sin(az);
+      det[4 * j + 2] = rr * Math.cos(az); det[4 * j + 3] = d[4 * j + 3];
+    }
+    return { k, tracks, r, truth, det, g: s.g };
+  });
+  const hist = doc.g_hist || [];
+  const gAt = (i) => (i >= 0 ? scans[i].g : hist[hist.length + i]);
+  const gmax = Math.max(...scans.map((s) => Math.max(s.g[0], s.g[5])), ...hist.map((g) => Math.max(g[0], g[5])));
+  return { ...doc, T, scans, n: scans.length, gmax, gAt, histLen: hist.length };
+}
+
+async function loadScenario(id) {
+  if (!state.cache.has(id)) {
+    const meta = state.index.scenarios.find((s) => s.id === id);
+    const res = await fetch(meta.file);
+    if (!res.ok) throw new Error("load failed " + meta.file);
+    state.cache.set(id, decode(await res.json()));
+  }
+  const keepFrac = state.scen ? state.simT / (state.scen.n * state.scen.T) : 0;
+  state.scen = state.cache.get(id);
+  const sc = state.scen;
+  state.simT = Math.max(sc.T, keepFrac * sc.n * sc.T);
+  if (params.has("t")) state.simT = sc.T + parseFloat(params.get("t"));
+  $("scrub").max = String(sc.n - 1);
+  const rp = sc.radar;
+  $("params").innerHTML =
+    `Pd <b>${rp.pd}</b> · 클러터 λ <b>${rp.clutter_lambda}</b>/scan · σ<sub>θ</sub> <b>${rp.sigma_az_deg.toFixed(2)}°</b> · σ<sub>r</sub> <b>${rp.sigma_r_m} m</b><br>` +
+    `회전 주기 ${rp.rotation_period_s} s · 반경 ${rp.max_range_m / 1000} km · EKF q=${sc.tracker.q} · 확정 ${sc.tracker.confirm} · 삭제 ${sc.tracker.delete_misses}회 연속 누락<br>` +
+    `이 시나리오 30분 평균 GOSPA: 추적기 ${(sc.run_summary.ekf_gospa_mean_m / 1000).toFixed(2)} km, 기준선 ${(sc.run_summary.nn_gospa_mean_m / 1000).toFixed(2)} km (seed ${sc.seed})`;
+  document.querySelectorAll("#scen button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.id === id)));
+  $("loading").style.display = "none";
+}
+
+// ---------- geometry ----------
+let bgLayer = null, blip = null, cx = 0, cy = 0, R = 0, lastK = -1;
+function resize() {
+  const rect = canvas.getBoundingClientRect();
+  const size = Math.max(200, Math.floor(Math.min(rect.width, rect.height || rect.width)));
+  const dprCap = state.lite ? 1.5 : 2.5;
+  state.dpr = Math.min(window.devicePixelRatio || 1, dprCap);
+  if (THUMB && params.has("dpr")) state.dpr = parseFloat(params.get("dpr"));
+  state.size = size;
+  if (state.labels === null) { state.labels = params.has("labels") ? params.get("labels") === "1" : size >= 520; $("t-label").checked = state.labels; }
+  canvas.width = Math.round(size * state.dpr);
+  canvas.height = Math.round(size * state.dpr);
+  cx = canvas.width / 2; cy = canvas.height / 2; R = canvas.width * (size < 520 ? 0.44 : 0.47);
+  buildBackground(); buildBlip();
+  const sr = spark.getBoundingClientRect();
+  spark.width = Math.round(sr.width * (window.devicePixelRatio || 1));
+  spark.height = Math.round(sr.height * (window.devicePixelRatio || 1));
+  lastK = -1; // resizing clears the sparkline canvas: force a panel redraw
+}
+const fontPx = (px) => Math.max(10 * state.dpr, px * canvas.width / 900);
+function buildBackground() {
+  bgLayer = document.createElement("canvas");
+  bgLayer.width = canvas.width; bgLayer.height = canvas.height;
+  const b = bgLayer.getContext("2d");
+  b.fillStyle = C["scope-bg"]; b.fillRect(0, 0, bgLayer.width, bgLayer.height);
+  const g = b.createRadialGradient(cx, cy, 0, cx, cy, R);
+  g.addColorStop(0, "rgba(20, 60, 40, 0.35)"); g.addColorStop(1, "rgba(5, 15, 10, 0.0)");
+  b.fillStyle = g; b.beginPath(); b.arc(cx, cy, R, 0, 2 * Math.PI); b.fill();
+  b.strokeStyle = C.ring; b.lineWidth = Math.max(1, state.dpr);
+  b.font = `${fontPx(11)}px ui-monospace, Menlo, monospace`;
+  b.fillStyle = C["ring-label"]; b.textAlign = "left"; b.textBaseline = "bottom";
+  const la = 15 * Math.PI / 180;
+  for (let km = 20; km <= 100; km += 20) {
+    b.beginPath(); b.arc(cx, cy, R * km / 100, 0, 2 * Math.PI); b.stroke();
+    b.fillText(`${km} km`, cx + Math.sin(la) * R * km / 100 + 3 * state.dpr, cy - Math.cos(la) * R * km / 100 - 2 * state.dpr);
+  }
+  for (let deg = 0; deg < 360; deg += 10) {
+    const a = deg * Math.PI / 180, s = Math.sin(a), c = Math.cos(a);
+    const r0 = deg % 30 === 0 ? R * 0.955 : R * 0.975;
+    b.beginPath(); b.moveTo(cx + s * r0, cy - c * r0); b.lineTo(cx + s * R, cy - c * R); b.stroke();
+    if (deg % 30 === 0) {
+      b.save(); b.textAlign = "center"; b.textBaseline = "middle";
+      b.fillText(String(deg).padStart(3, "0"), cx + s * R * 1.035, cy - c * R * 1.035); b.restore();
+    }
+  }
+  b.setLineDash([2 * state.dpr, 6 * state.dpr]);
+  for (let deg = 0; deg < 360; deg += 30) {
+    const a = deg * Math.PI / 180;
+    b.beginPath(); b.moveTo(cx, cy); b.lineTo(cx + Math.sin(a) * R, cy - Math.cos(a) * R); b.stroke();
+  }
+  b.setLineDash([]);
+  b.fillStyle = C["ring-label"]; b.beginPath(); b.arc(cx, cy, 2.5 * state.dpr, 0, 2 * Math.PI); b.fill();
+}
+function buildBlip() {
+  const s = Math.round(28 * state.dpr);
+  blip = document.createElement("canvas"); blip.width = blip.height = s;
+  const b = blip.getContext("2d"), g = b.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2);
+  g.addColorStop(0, "rgba(220,255,235,1)"); g.addColorStop(0.18, "rgba(125,255,174,0.95)");
+  g.addColorStop(0.45, "rgba(125,255,174,0.25)"); g.addColorStop(1, "rgba(125,255,174,0)");
+  b.fillStyle = g; b.fillRect(0, 0, s, s);
+}
+const sx = (x) => cx + x / 10000 * R;
+const sy = (y) => cy - y / 10000 * R;
+
+// ---------- frame ----------
+function trackAt(sc, k, num, simT, sweep) {
+  // switch from snapshot k-1 to k when the beam passes the track's azimuth
+  const prev = sc.scans[k - 1], next = k < sc.n ? sc.scans[k] : null;
+  const jp = prev.tracks.get(num), jn = next ? next.tracks.get(num) : undefined;
+  let src = null, j = 0, te = 0;
+  const azOf = (arr, jj) => { let a = Math.atan2(arr[jj + 1], arr[jj + 2]); return a < 0 ? a + 2 * Math.PI : a; };
+  if (jn !== undefined && (jp === undefined ? sweep >= azOf(next.k, jn) : sweep >= azOf(prev.k, jp))) {
+    src = next.k; j = jn; te = (k + 1) * sc.T;
+  } else if (jp !== undefined && !(jn === undefined && next && sweep >= azOf(prev.k, jp))) {
+    src = prev.k; j = jp; te = k * sc.T;
+  }
+  if (!src) return null;
+  const dt = simT - te;
+  return { x: src[j + 1] + src[j + 3] * dt / 100, y: src[j + 2] + src[j + 4] * dt / 100,
+           vx: src[j + 3] / 10, vy: src[j + 4] / 10, flags: src[j + 5] };
+}
+
+function draw(now) {
+  const sc = state.scen;
+  if (!sc) return;
+  const T = sc.T;
+  const k = Math.min(sc.n - 1, Math.max(1, Math.floor(state.simT / T)));
+  const sweep = ((state.simT - k * T) / T) * 2 * Math.PI;
+  const simT = state.simT;
+  ctx.drawImage(bgLayer, 0, 0);
+  const dpr = state.dpr;
+
+  // sweep wedge
+  const beam = sweep - Math.PI / 2;
+  const span = Math.PI / 2.6;
+  if (ctx.createConicGradient && !state.lite) {
+    const g = ctx.createConicGradient(beam - span, cx, cy);
+    const f = span / (2 * Math.PI);
+    g.addColorStop(0, "rgba(90, 255, 160, 0)"); g.addColorStop(f * 0.999, "rgba(90, 255, 160, 0.17)");
+    g.addColorStop(f, "rgba(90, 255, 160, 0)"); g.addColorStop(1, "rgba(90, 255, 160, 0)");
+    ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, R, beam - span, beam); ctx.closePath(); ctx.fill();
+  } else {
+    const steps = 10;
+    for (let i = 0; i < steps; i++) {
+      ctx.fillStyle = `rgba(90,255,160,${0.017 * (i + 1)})`;
+      ctx.beginPath(); ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, R, beam - span * (1 - i / steps), beam - span * (1 - (i + 1) / steps)); ctx.closePath(); ctx.fill();
+    }
+  }
+  ctx.strokeStyle = "rgba(170, 255, 205, 0.85)"; ctx.lineWidth = 1.5 * dpr;
+  ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.cos(beam) * R, cy + Math.sin(beam) * R); ctx.stroke();
+
+  // detections with afterglow (current + two previous revolutions)
+  const tau = T * 0.75;
+  const bs = Math.max(blip.width * 0.55, blip.width * (canvas.width / 900) / dpr * 0.8);
+  for (let kk = Math.max(0, k - 2); kk <= k; kk++) {
+    const det = sc.scans[kk].det;
+    for (let j = 0; j < det.length; j += 4) {
+      const age = simT - det[j];
+      if (age < 0) continue;
+      const a = Math.exp(-age / tau);
+      if (a < 0.03) continue;
+      const x = sx(det[j + 1]), y = sy(det[j + 2]);
+      const clutter = det[j + 3] === 1 && state.truth;
+      if (state.lite || clutter) {
+        ctx.globalAlpha = a; ctx.fillStyle = clutter ? C.clutter : C.plot;
+        const s = (clutter ? 3.4 : 3.0) * dpr; ctx.fillRect(x - s / 2, y - s / 2, s, s);
+      } else {
+        ctx.globalAlpha = a; ctx.drawImage(blip, x - bs / 2, y - bs / 2, bs, bs);
+      }
+    }
+  }
+  ctx.globalAlpha = 1;
+
+  // truth overlay
+  if (state.truth) {
+    const p = sc.scans[k - 1], n = k < sc.n ? sc.scans[k] : p, f = (simT - k * T) / T;
+    ctx.strokeStyle = C.truth; ctx.lineWidth = 1.1 * dpr;
+    for (const [num, j] of p.truth) {
+      let x = p.r[j + 1], y = p.r[j + 2];
+      const jn = n.truth.get(num);
+      if (jn !== undefined) { x += (n.r[jn + 1] - x) * f; y += (n.r[jn + 2] - y) * f; }
+      // short history line
+      ctx.globalAlpha = 0.45; ctx.beginPath(); ctx.moveTo(sx(x), sy(y));
+      for (let h = 1; h <= 10 && k - 1 - h >= 0; h++) {
+        const s = sc.scans[k - 1 - h], jh = s.truth.get(num);
+        if (jh === undefined) break;
+        ctx.lineTo(sx(s.r[jh + 1]), sy(s.r[jh + 2]));
+      }
+      ctx.stroke(); ctx.globalAlpha = 0.95;
+      const X = sx(x), Y = sy(y), d = 6.5 * dpr;
+      ctx.beginPath(); ctx.moveTo(X, Y - d); ctx.lineTo(X + d, Y); ctx.lineTo(X, Y + d); ctx.lineTo(X - d, Y); ctx.closePath(); ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  // tentative tracks
+  if (state.tent) {
+    const p = sc.scans[k - 1];
+    ctx.strokeStyle = "rgba(233,251,255,0.35)"; ctx.lineWidth = 1 * dpr;
+    for (let j = 0; j < p.k.length; j += 6) if (p.k[j + 5] === 0) {
+      ctx.beginPath(); ctx.arc(sx(p.k[j + 1]), sy(p.k[j + 2]), 2.5 * dpr, 0, 2 * Math.PI); ctx.stroke();
+    }
+  }
+
+  // confirmed tracks
+  const nums = new Set([...sc.scans[k - 1].tracks.keys(), ...(k < sc.n ? sc.scans[k].tracks.keys() : [])]);
+  const fs = fontPx(state.lite ? 10 : 10.5);
+  ctx.font = `${fs}px ui-monospace, Menlo, monospace`;
+  ctx.textBaseline = "alphabetic"; ctx.textAlign = "left";
+  const shown = [];
+  for (const num of nums) {
+    const t = trackAt(sc, k, num, simT, sweep);
+    if (!t) continue;
+    const X = sx(t.x), Y = sy(t.y);
+    shown.push({ num, X, Y, t });
+    const isFalse = (t.flags & 2) && state.truth;
+    const col = isFalse ? C.false : C.track;
+    // trail dots
+    if (state.trail) {
+      const maxH = state.lite ? 6 : 10;
+      for (let h = 1; h <= maxH && k - 1 - h >= 0; h++) {
+        const s = sc.scans[k - 1 - h], jh = s.tracks.get(num);
+        if (jh === undefined) break;
+        ctx.globalAlpha = 0.55 * (1 - h / (maxH + 1)); ctx.fillStyle = col;
+        const r = 1.3 * dpr; ctx.fillRect(sx(s.k[jh + 1]) - r, sy(s.k[jh + 2]) - r, 2 * r, 2 * r);
+      }
+      ctx.globalAlpha = 1;
+    }
+    // velocity vector (30 s) and predicted path (to 90 s)
+    const vx = t.vx / 10000 * R, vy = -t.vy / 10000 * R; // px per s (dam units /10 -> m)
+    const kx = vx * 0.1, ky = vy * 0.1; // velocity in m/s -> dam/s
+    ctx.strokeStyle = C["track-vec"]; ctx.lineWidth = 1.2 * dpr;
+    ctx.beginPath(); ctx.moveTo(X, Y); ctx.lineTo(X + kx * 30, Y + ky * 30); ctx.stroke();
+    if (state.pred || state.selected === num) {
+      ctx.globalAlpha = state.selected === num ? 0.95 : 0.45;
+      ctx.setLineDash([3 * dpr, 4 * dpr]);
+      ctx.beginPath(); ctx.moveTo(X + kx * 30, Y + ky * 30); ctx.lineTo(X + kx * 90, Y + ky * 90); ctx.stroke();
+      ctx.setLineDash([]); ctx.globalAlpha = 1;
+    }
+    // symbol
+    const s = (state.selected === num ? 4.8 : 3.6) * dpr;
+    ctx.strokeStyle = col; ctx.lineWidth = (state.selected === num ? 1.8 : 1.3) * dpr;
+    ctx.strokeRect(X - s, Y - s, 2 * s, 2 * s);
+    // label
+    if (!state.labels && state.selected !== num) continue;
+    ctx.fillStyle = col; ctx.globalAlpha = 0.92;
+    const lab = "T" + String(num).padStart(3, "0");
+    ctx.fillText(lab, X + 6 * dpr, Y - 5 * dpr);
+    if (!state.lite || state.selected === num) {
+      const kt = Math.round(Math.hypot(t.vx, t.vy) * 1.943844);
+      ctx.globalAlpha = 0.6; ctx.fillText(`${kt}kt`, X + 6 * dpr, Y - 5 * dpr + fs * 1.05);
+    }
+    ctx.globalAlpha = 1;
+  }
+  state.shown = shown;
+
+  // HUD (thumbnail mode keeps the scope clean)
+  ctx.font = `${fontPx(11)}px ui-monospace, Menlo, monospace`;
+  ctx.fillStyle = "rgba(160, 220, 185, 0.7)"; ctx.textAlign = "left"; ctx.textBaseline = "top";
+  const utc = new Date((sc.t0_unix + simT) * 1000).toISOString().slice(11, 19);
+  ctx.fillText(`${utc} UTC`, 10 * dpr, 10 * dpr);
+  ctx.fillText(`SCAN ${String(k + sc.scan_offset).padStart(3, "0")}`, 10 * dpr, 10 * dpr + fontPx(11) * 1.3);
+  ctx.textAlign = "right";
+  if (state.size >= 520) {
+    ctx.fillText(`Pd ${sc.radar.pd}  λ ${sc.radar.clutter_lambda}  σθ ${sc.radar.sigma_az_deg.toFixed(2)}°`, canvas.width - 10 * dpr, 10 * dpr);
+    ctx.fillText(state.truth ? "ADS-B 정답 표시" : "", canvas.width - 10 * dpr, 10 * dpr + fontPx(11) * 1.3);
+  }
+  ctx.textAlign = "left"; ctx.textBaseline = "bottom";
+  ctx.fillText("SIMULATED ASR · EKF+GNN", 10 * dpr, canvas.height - 10 * dpr);
+
+  if (!THUMB) updatePanel(sc, k, utc);
+}
+
+function updatePanel(sc, k, utc) {
+  $("clock").textContent = `${utc} UTC`;
+  if (k === lastK) return;
+  lastK = k;
+  const g = sc.scans[k - 1].g;
+  $("gospa").textContent = (g[0] / 1000).toFixed(2);
+  $("gospa-cmp").textContent = `기준선 ${(g[5] / 1000).toFixed(2)} km · c = ${sc.gospa_c_m / 1000} km, p = 2`;
+  $("n-tracks").textContent = g[4];
+  $("n-truth").textContent = g[3];
+  $("n-false").textContent = g[2];
+  $("n-missed").textContent = g[1];
+  $("scrub").value = String(k);
+  drawSpark(sc, k);
+  if (state.selected) describeSelected();
+}
+
+function drawSpark(sc, k) {
+  const w = spark.width, h = spark.height, n = 62;
+  sctx.clearRect(0, 0, w, h);
+  const ymax = Math.max(4000, Math.ceil(sc.gmax / 2000) * 2000);
+  sctx.strokeStyle = "rgba(159,179,168,0.18)"; sctx.lineWidth = 1;
+  for (let v = 2000; v < ymax; v += 2000) {
+    const y = h - v / ymax * h; sctx.beginPath(); sctx.moveTo(0, y); sctx.lineTo(w, y); sctx.stroke();
+  }
+  const line = (idx, col) => {
+    sctx.strokeStyle = col; sctx.lineWidth = 2 * (window.devicePixelRatio || 1) / 1.5; sctx.beginPath();
+    let first = true;
+    for (let i = 0; i < n; i++) {
+      const kk = k - 1 - (n - 1 - i);
+      if (kk < -sc.histLen) continue;
+      const x = i / (n - 1) * w, y = h - Math.min(1, sc.gAt(kk)[idx] / ymax) * h;
+      if (first) { sctx.moveTo(x, y); first = false; } else sctx.lineTo(x, y);
+    }
+    sctx.stroke();
+  };
+  line(5, C.baseline); line(0, C.accent);
+}
+
+function describeSelected() {
+  const t = (state.shown || []).find((s) => s.num === state.selected);
+  if (!t) { $("selinfo").textContent = `T${String(state.selected).padStart(3, "0")}: 현재 표시되지 않음(삭제되었거나 누락 중)`; return; }
+  const v = t.t, spd = Math.hypot(v.vx, v.vy);
+  let hdg = Math.atan2(v.vx, v.vy) * 180 / Math.PI; if (hdg < 0) hdg += 360;
+  const rng = Math.hypot(v.x, v.y) / 100;
+  $("selinfo").textContent = `T${String(t.num).padStart(3, "0")} · 거리 ${rng.toFixed(1)} km · 지상속도 ${Math.round(spd)} m/s (${Math.round(spd * 1.943844)} kt) · 진행 방향 ${Math.round(hdg)}°` +
+    ((v.flags & 2) ? " · 이 scan에서 정답과 짝지어지지 않음(가짜 항적)" : "");
+}
+
+// ---------- loop ----------
+function frame(now) {
+  if (!state.lastFrame) state.lastFrame = now;
+  let dt = (now - state.lastFrame) / 1000;
+  const minDt = state.lite ? 1 / 31 : 0;
+  if (dt < minDt) { requestAnimationFrame(frame); return; }
+  state.lastFrame = now;
+  dt = Math.min(dt, 0.25);
+  const sc = state.scen;
+  if (sc && state.playing) {
+    state.simT += dt * state.speed;
+    if (state.simT >= sc.n * sc.T) state.simT = sc.T; // loop
+  }
+  draw(now);
+  requestAnimationFrame(frame);
+}
+
+// ---------- UI ----------
+$("play").addEventListener("click", () => {
+  state.playing = !state.playing;
+  $("play").textContent = state.playing ? "일시정지" : "재생";
+});
+$("speed").addEventListener("change", (e) => { state.speed = parseFloat(e.target.value); });
+$("scrub").addEventListener("input", (e) => {
+  if (!state.scen) return;
+  state.simT = parseInt(e.target.value, 10) * state.scen.T + 0.01; lastK = -1;
+});
+$("t-truth").addEventListener("change", (e) => { state.truth = e.target.checked; });
+$("t-pred").addEventListener("change", (e) => { state.pred = e.target.checked; });
+$("t-trail").addEventListener("change", (e) => { state.trail = e.target.checked; });
+$("t-tent").addEventListener("change", (e) => { state.tent = e.target.checked; });
+$("t-label").addEventListener("change", (e) => { state.labels = e.target.checked; });
+$("t-lite").addEventListener("change", (e) => { state.lite = e.target.checked; resize(); });
+canvas.addEventListener("click", (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const x = (e.clientX - rect.left) * canvas.width / rect.width, y = (e.clientY - rect.top) * canvas.height / rect.height;
+  let best = null, bd = 22 * state.dpr;
+  for (const s of state.shown || []) { const d = Math.hypot(s.X - x, s.Y - y); if (d < bd) { bd = d; best = s; } }
+  state.selected = best ? best.num : 0;
+  if (best) describeSelected(); else $("selinfo").textContent = "";
+});
+document.addEventListener("keydown", (e) => {
+  if (e.target.tagName === "INPUT" && e.target.type === "range") return;
+  if (e.code === "Space" && e.target.tagName !== "BUTTON") { e.preventDefault(); $("play").click(); }
+});
+let rz = 0;
+window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(resize, 120); });
+
+// deterministic rendering hook for thumbnails / video frames
+window.__renderAt = (t) => { state.playing = false; state.simT = state.scen.T + t; draw(performance.now()); };
+
+async function init() {
+  const res = await fetch("data/index.json");
+  state.index = await res.json();
+  const box = $("scen");
+  for (const s of state.index.scenarios) {
+    const b = document.createElement("button");
+    b.type = "button"; b.dataset.id = s.id;
+    b.innerHTML = `${s.label}<small>Pd ${s.pd} · λ ${s.clutter_lambda} · σθ ${s.sigma_az_deg.toFixed(2)}°</small>`;
+    b.addEventListener("click", () => loadScenario(s.id));
+    box.appendChild(b);
+  }
+  resize();
+  await loadScenario(params.get("scenario") || state.index.scenarios[0].id);
+  window.__ready = true;
+  requestAnimationFrame(frame);
+}
+init().catch((err) => { $("loading").textContent = "데이터를 불러오지 못했습니다: " + err.message; });
+})();
+</script>
+</body>
+</html>
