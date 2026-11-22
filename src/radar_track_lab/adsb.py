@@ -19,3 +19,20 @@ GROUND_SENTINEL_FT = -1.0e4
 def is_excluded(db_flags: int | None) -> bool:
     """True for military, PIA or LADD aircraft (never used as truth or shown)."""
     return bool(int(db_flags or 0) & EXCLUDE_MASK)
+
+# readsb position source -> small integer stored with each point
+SOURCE_CODES = {
+    "adsb_icao": 0,
+    "adsb_icao_nt": 1,
+    "adsr_icao": 2,
+    "tisb_icao": 3,
+    "mlat": 4,
+    "other": 5,
+    "mode_s": 6,
+    "adsb_other": 7,
+    "adsr_other": 8,
+    "tisb_other": 9,
+    "tisb_trackfile": 10,
+    "adsc": 11,
+    "unknown": 12,
+}

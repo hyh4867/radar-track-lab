@@ -1,0 +1,6 @@
+{"note": "scripts/stage3_stonesoup_b_lbpdiag.py, lambda 200, seed 20261106, analytic Jacobian, 2026-11-22 16:10-16:20 KST",
+ "rows": [
+{"mode": "uncapped", "n_scans": 45, "lbp": {"calls": 86, "maxed": 0, "max_it": 63}, "first_split": 33, "share_within_1cm": 0.5840149567655994, "max_pos_diff_m": 61415.21588532219},
+{"mode": "capped", "n_scans": 45, "lbp": {"calls": 86, "maxed": 0, "max_it": 49}, "first_split": 33, "share_within_1cm": 0.5823714585519413, "max_pos_diff_m": 39905.835110325555},
+{"mode": "capped", "n_scans": 33, "lbp": {"calls": 62, "maxed": 0, "max_it": 49}, "first_split": null, "share_within_1cm": 0.8124887204475726, "max_pos_diff_m": 8524.706367376164}
+]}

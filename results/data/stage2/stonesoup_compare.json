@@ -1,0 +1,472 @@
+{
+ "stonesoup_version": "1.9.1",
+ "filter": [
+  {
+   "case": "synthetic straight line",
+   "frame": "origin",
+   "updates": 78,
+   "max_pos_diff_m": 2.2071403054553294,
+   "max_vel_diff_mps": 0.44702740306193134,
+   "max_cov_rel_diff": 0.004818257601960521,
+   "agree": false
+  },
+  {
+   "case": "synthetic 1 deg/s turn",
+   "frame": "origin",
+   "updates": 73,
+   "max_pos_diff_m": 0.5195399364981862,
+   "max_vel_diff_mps": 0.10600659408798606,
+   "max_cov_rel_diff": 0.005414078517849412,
+   "agree": false
+  },
+  {
+   "case": "real ADS-B aircraft, most scans in the window",
+   "frame": "origin",
+   "updates": 374,
+   "max_pos_diff_m": 0.24587518691626942,
+   "max_vel_diff_mps": 0.021065568797808132,
+   "max_cov_rel_diff": 0.002608783044360272,
+   "agree": false
+  },
+  {
+   "case": "synthetic straight line",
+   "frame": "offset",
+   "updates": 78,
+   "max_pos_diff_m": 3.826118251591308e-05,
+   "max_vel_diff_mps": 7.723830699078698e-06,
+   "max_cov_rel_diff": 1.5304373849376503e-07,
+   "agree": true
+  },
+  {
+   "case": "synthetic 1 deg/s turn",
+   "frame": "offset",
+   "updates": 73,
+   "max_pos_diff_m": 2.801337835904007e-05,
+   "max_vel_diff_mps": 5.742237254916659e-06,
+   "max_cov_rel_diff": 6.77860359767718e-08,
+   "agree": true
+  },
+  {
+   "case": "real ADS-B aircraft, most scans in the window",
+   "frame": "offset",
+   "updates": 374,
+   "max_pos_diff_m": 4.845345391470407e-05,
+   "max_vel_diff_mps": 6.710076353707828e-06,
+   "max_cov_rel_diff": 2.393849779436214e-07,
+   "agree": true
+  }
+ ],
+ "tracker": [
+  {
+   "seed": 20261106,
+   "variant": "matched",
+   "frame": "offset",
+   "scans": 375,
+   "track_scans_union": 18863,
+   "track_scans_within_1cm": 18863,
+   "share_within_1cm": 1.0,
+   "max_diff_of_matching_m": 0.0049965008401403775,
+   "stone_soup_track_scans": 18863,
+   "share_with_counterpart_within_1cm": 1.0,
+   "scans_with_different_associations": 0,
+   "first_difference": null,
+   "scans_where_cost_rules_disagree": 0,
+   "this_project": {
+    "rmse_m": 171.7424074299184,
+    "id_switches": 25,
+    "fragmentations": 3,
+    "missed_per_scan": 0.7988980716253443,
+    "false_tracks_per_scan": 1.0964187327823691,
+    "gospa_mean_m": 2216.9711432688673
+   },
+   "stone_soup": {
+    "rmse_m": 171.74240754456238,
+    "id_switches": 25,
+    "fragmentations": 3,
+    "missed_per_scan": 0.7988980716253443,
+    "false_tracks_per_scan": 1.0964187327823691,
+    "gospa_mean_m": 2216.971143592948
+   },
+   "same_answer": true,
+   "wall_s": 283.87197725009173
+  },
+  {
+   "seed": 20261107,
+   "variant": "matched",
+   "frame": "offset",
+   "scans": 375,
+   "track_scans_union": 25274,
+   "track_scans_within_1cm": 12355,
+   "share_within_1cm": 0.48884228851784445,
+   "max_diff_of_matching_m": 0.0021543554563524473,
+   "stone_soup_track_scans": 18868,
+   "share_with_counterpart_within_1cm": 0.9995230019079924,
+   "scans_with_different_associations": 249,
+   "first_difference": {
+    "scan": 125,
+    "only_this_project": [],
+    "only_stone_soup": [
+     [
+      680,
+      43
+     ]
+    ]
+   },
+   "scans_where_cost_rules_disagree": 0,
+   "this_project": {
+    "rmse_m": 173.3762359514736,
+    "id_switches": 29,
+    "fragmentations": 3,
+    "missed_per_scan": 0.8099173553719008,
+    "false_tracks_per_scan": 1.0881542699724518,
+    "gospa_mean_m": 2232.83946902051
+   },
+   "stone_soup": {
+    "rmse_m": 173.37952594397865,
+    "id_switches": 29,
+    "fragmentations": 3,
+    "missed_per_scan": 0.8126721763085399,
+    "false_tracks_per_scan": 1.0881542699724518,
+    "gospa_mean_m": 2233.921391412365
+   },
+   "same_answer": false,
+   "wall_s": 278.59671229170635
+  },
+  {
+   "seed": 20261108,
+   "variant": "matched",
+   "frame": "offset",
+   "scans": 375,
+   "track_scans_union": 18855,
+   "track_scans_within_1cm": 18855,
+   "share_within_1cm": 1.0,
+   "max_diff_of_matching_m": 0.004378191574951107,
+   "stone_soup_track_scans": 18855,
+   "share_with_counterpart_within_1cm": 1.0,
+   "scans_with_different_associations": 0,
+   "first_difference": null,
+   "scans_where_cost_rules_disagree": 0,
+   "this_project": {
+    "rmse_m": 173.14529031150954,
+    "id_switches": 24,
+    "fragmentations": 1,
+    "missed_per_scan": 0.8071625344352618,
+    "false_tracks_per_scan": 1.0495867768595042,
+    "gospa_mean_m": 2210.754370901549
+   },
+   "stone_soup": {
+    "rmse_m": 173.14529035676713,
+    "id_switches": 24,
+    "fragmentations": 1,
+    "missed_per_scan": 0.8071625344352618,
+    "false_tracks_per_scan": 1.0495867768595042,
+    "gospa_mean_m": 2210.754371141733
+   },
+   "same_answer": true,
+   "wall_s": 277.9680929589085
+  },
+  {
+   "seed": 20261106,
+   "variant": "native",
+   "frame": "offset",
+   "scans": 375,
+   "track_scans_union": 18863,
+   "track_scans_within_1cm": 18810,
+   "share_within_1cm": 0.9971902666595982,
+   "max_diff_of_matching_m": 0.006051926059362514,
+   "stone_soup_track_scans": 18862,
+   "share_with_counterpart_within_1cm": 0.9972431343441841,
+   "scans_with_different_associations": 2,
+   "first_difference": {
+    "scan": 140,
+    "only_this_project": [
+     [
+      612,
+      9
+     ],
+     [
+      755,
+      10
+     ]
+    ],
+    "only_stone_soup": [
+     [
+      612,
+      10
+     ],
+     [
+      755,
+      9
+     ]
+    ]
+   },
+   "scans_where_cost_rules_disagree": 2,
+   "this_project": {
+    "rmse_m": 171.7424074299184,
+    "id_switches": 25,
+    "fragmentations": 3,
+    "missed_per_scan": 0.7988980716253443,
+    "false_tracks_per_scan": 1.0964187327823691,
+    "gospa_mean_m": 2216.9711432688673
+   },
+   "stone_soup": {
+    "rmse_m": 171.74916405130747,
+    "id_switches": 25,
+    "fragmentations": 3,
+    "missed_per_scan": 0.8016528925619835,
+    "false_tracks_per_scan": 1.0964187327823691,
+    "gospa_mean_m": 2218.1622893471317
+   },
+   "same_answer": false,
+   "wall_s": 552.660469666589
+  },
+  {
+   "seed": 20261107,
+   "variant": "native",
+   "frame": "offset",
+   "scans": 375,
+   "track_scans_union": 25278,
+   "track_scans_within_1cm": 12327,
+   "share_within_1cm": 0.4876572513648232,
+   "max_diff_of_matching_m": 0.006993398892840371,
+   "stone_soup_track_scans": 18871,
+   "share_with_counterpart_within_1cm": 0.9970324837051561,
+   "scans_with_different_associations": 250,
+   "first_difference": {
+    "scan": 85,
+    "only_this_project": [
+     [
+      469,
+      19
+     ]
+    ],
+    "only_stone_soup": [
+     [
+      474,
+      19
+     ]
+    ]
+   },
+   "scans_where_cost_rules_disagree": 2,
+   "this_project": {
+    "rmse_m": 173.3762359514736,
+    "id_switches": 29,
+    "fragmentations": 3,
+    "missed_per_scan": 0.8099173553719008,
+    "false_tracks_per_scan": 1.0881542699724518,
+    "gospa_mean_m": 2232.83946902051
+   },
+   "stone_soup": {
+    "rmse_m": 173.3562923096428,
+    "id_switches": 29,
+    "fragmentations": 3,
+    "missed_per_scan": 0.8154269972451791,
+    "false_tracks_per_scan": 1.0991735537190082,
+    "gospa_mean_m": 2238.6132254593585
+   },
+   "same_answer": false,
+   "wall_s": 550.8809542092495
+  },
+  {
+   "seed": 20261108,
+   "variant": "native",
+   "frame": "offset",
+   "scans": 375,
+   "track_scans_union": 18860,
+   "track_scans_within_1cm": 18784,
+   "share_within_1cm": 0.9959703075291623,
+   "max_diff_of_matching_m": 0.009348999495046924,
+   "stone_soup_track_scans": 18859,
+   "share_with_counterpart_within_1cm": 0.9960231189352564,
+   "scans_with_different_associations": 4,
+   "first_difference": {
+    "scan": 103,
+    "only_this_project": [
+     [
+      470,
+      20
+     ]
+    ],
+    "only_stone_soup": [
+     [
+      25,
+      20
+     ]
+    ]
+   },
+   "scans_where_cost_rules_disagree": 4,
+   "this_project": {
+    "rmse_m": 173.14529031150954,
+    "id_switches": 24,
+    "fragmentations": 1,
+    "missed_per_scan": 0.8071625344352618,
+    "false_tracks_per_scan": 1.0495867768595042,
+    "gospa_mean_m": 2210.754370901549
+   },
+   "stone_soup": {
+    "rmse_m": 173.13127087049537,
+    "id_switches": 24,
+    "fragmentations": 1,
+    "missed_per_scan": 0.8099173553719008,
+    "false_tracks_per_scan": 1.0633608815426998,
+    "gospa_mean_m": 2221.3424838416927
+   },
+   "same_answer": false,
+   "wall_s": 550.6188640417531
+  },
+  {
+   "seed": 20261106,
+   "variant": "matched",
+   "frame": "origin",
+   "scans": 375,
+   "track_scans_union": 18863,
+   "track_scans_within_1cm": 5307,
+   "share_within_1cm": 0.281344430896464,
+   "max_diff_of_matching_m": 0.009990117207553087,
+   "stone_soup_track_scans": 18863,
+   "share_with_counterpart_within_1cm": 0.281344430896464,
+   "scans_with_different_associations": 0,
+   "first_difference": null,
+   "scans_where_cost_rules_disagree": 0,
+   "this_project": {
+    "rmse_m": 171.7424074299184,
+    "id_switches": 25,
+    "fragmentations": 3,
+    "missed_per_scan": 0.7988980716253443,
+    "false_tracks_per_scan": 1.0964187327823691,
+    "gospa_mean_m": 2216.9711432688673
+   },
+   "stone_soup": {
+    "rmse_m": 171.7436832413089,
+    "id_switches": 25,
+    "fragmentations": 3,
+    "missed_per_scan": 0.7988980716253443,
+    "false_tracks_per_scan": 1.0964187327823691,
+    "gospa_mean_m": 2216.9806227445665
+   },
+   "same_answer": false,
+   "wall_s": 281.21792266657576
+  },
+  {
+   "seed": 20261106,
+   "variant": "matched_wide",
+   "frame": "offset",
+   "scans": 375,
+   "track_scans_union": 18863,
+   "track_scans_within_1cm": 18863,
+   "share_within_1cm": 1.0,
+   "max_diff_of_matching_m": 0.0049965008401403775,
+   "stone_soup_track_scans": 18863,
+   "share_with_counterpart_within_1cm": 1.0,
+   "scans_with_different_associations": 0,
+   "first_difference": null,
+   "scans_where_cost_rules_disagree": 0,
+   "this_project": {
+    "rmse_m": 171.7424074299184,
+    "id_switches": 25,
+    "fragmentations": 3,
+    "missed_per_scan": 0.7988980716253443,
+    "false_tracks_per_scan": 1.0964187327823691,
+    "gospa_mean_m": 2216.9711432688673
+   },
+   "stone_soup": {
+    "rmse_m": 171.74240754456238,
+    "id_switches": 25,
+    "fragmentations": 3,
+    "missed_per_scan": 0.7988980716253443,
+    "false_tracks_per_scan": 1.0964187327823691,
+    "gospa_mean_m": 2216.971143592948
+   },
+   "same_answer": true,
+   "wall_s": 289.0458844578825
+  },
+  {
+   "seed": 20261107,
+   "variant": "matched_wide",
+   "frame": "offset",
+   "scans": 375,
+   "track_scans_union": 18868,
+   "track_scans_within_1cm": 18868,
+   "share_within_1cm": 1.0,
+   "max_diff_of_matching_m": 0.0021543554563524473,
+   "stone_soup_track_scans": 18868,
+   "share_with_counterpart_within_1cm": 1.0,
+   "scans_with_different_associations": 0,
+   "first_difference": null,
+   "scans_where_cost_rules_disagree": 0,
+   "this_project": {
+    "rmse_m": 173.37952601123035,
+    "id_switches": 29,
+    "fragmentations": 3,
+    "missed_per_scan": 0.8126721763085399,
+    "false_tracks_per_scan": 1.0881542699724518,
+    "gospa_mean_m": 2233.9213918637975
+   },
+   "stone_soup": {
+    "rmse_m": 173.37952594397865,
+    "id_switches": 29,
+    "fragmentations": 3,
+    "missed_per_scan": 0.8126721763085399,
+    "false_tracks_per_scan": 1.0881542699724518,
+    "gospa_mean_m": 2233.921391412365
+   },
+   "same_answer": true,
+   "wall_s": 304.2110112081282
+  },
+  {
+   "seed": 20261108,
+   "variant": "matched_wide",
+   "frame": "offset",
+   "scans": 375,
+   "track_scans_union": 18855,
+   "track_scans_within_1cm": 18855,
+   "share_within_1cm": 1.0,
+   "max_diff_of_matching_m": 0.004378191574951107,
+   "stone_soup_track_scans": 18855,
+   "share_with_counterpart_within_1cm": 1.0,
+   "scans_with_different_associations": 0,
+   "first_difference": null,
+   "scans_where_cost_rules_disagree": 0,
+   "this_project": {
+    "rmse_m": 173.14529031150954,
+    "id_switches": 24,
+    "fragmentations": 1,
+    "missed_per_scan": 0.8071625344352618,
+    "false_tracks_per_scan": 1.0495867768595042,
+    "gospa_mean_m": 2210.754370901549
+   },
+   "stone_soup": {
+    "rmse_m": 173.14529035676713,
+    "id_switches": 24,
+    "fragmentations": 1,
+    "missed_per_scan": 0.8071625344352618,
+    "false_tracks_per_scan": 1.0495867768595042,
+    "gospa_mean_m": 2210.754371141733
+   },
+   "same_answer": true,
+   "wall_s": 277.13527600001544
+  }
+ ],
+ "jacobian_check": [
+  {
+   "east_m": 38000.0,
+   "north_m": 29000.0,
+   "max_rel_error": 2.425344373702567e-08
+  },
+  {
+   "east_m": -38000.0,
+   "north_m": 29000.0,
+   "max_rel_error": 0.007745611096997326
+  },
+  {
+   "east_m": 38000.0,
+   "north_m": -29000.0,
+   "max_rel_error": 0.0013919518165062628
+  },
+  {
+   "east_m": -38000.0,
+   "north_m": -29000.0,
+   "max_rel_error": 0.001278426721671087
+  }
+ ]
+}

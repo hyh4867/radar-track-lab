@@ -1,0 +1,123 @@
+{
+ "day": "2026-11-11",
+ "totals": {
+  "trace_files": 75222,
+  "non_icao_skipped": 9940,
+  "parsed": 65282
+ },
+ "sites": {
+  "EHAM": {
+   "aircraft_in_box": 1811,
+   "excluded_military": 36,
+   "excluded_pia": 0,
+   "excluded_ladd": 36,
+   "kept_aircraft": 1739,
+   "kept_points": 816244,
+   "box": [
+    51.18197387387388,
+    53.43422612612613,
+    2.92236458668705,
+    6.6060354133129495
+   ]
+  },
+  "EGLL": {
+   "aircraft_in_box": 2229,
+   "excluded_military": 55,
+   "excluded_pia": 0,
+   "excluded_ladd": 69,
+   "kept_aircraft": 2105,
+   "kept_points": 1406908,
+   "box": [
+    50.351373873873875,
+    52.60362612612612,
+    -2.2695029156764757,
+    1.3467029156764758
+   ]
+  },
+  "KATL": {
+   "aircraft_in_box": 3140,
+   "excluded_military": 11,
+   "excluded_pia": 4,
+   "excluded_ladd": 279,
+   "kept_aircraft": 2846,
+   "kept_points": 1670422,
+   "box": [
+    32.510573873873874,
+    34.76282612612612,
+    -85.78069584327456,
+    -83.07550415672544
+   ]
+  },
+  "LSZH": {
+   "aircraft_in_box": 1432,
+   "excluded_military": 38,
+   "excluded_pia": 0,
+   "excluded_ladd": 56,
+   "kept_aircraft": 1338,
+   "kept_points": 464790,
+   "box": [
+    46.33197387387388,
+    48.584226126126126,
+    6.882551258159668,
+    10.213648741840332
+   ]
+  },
+  "YSSY": {
+   "aircraft_in_box": 641,
+   "excluded_military": 32,
+   "excluded_pia": 0,
+   "excluded_ladd": 25,
+   "kept_aircraft": 584,
+   "kept_points": 656115,
+   "box": [
+    -35.072226126126125,
+    -32.81997387387388,
+    149.81970722627258,
+    152.53469277372741
+   ]
+  },
+  "ENGM": {
+   "aircraft_in_box": 256,
+   "excluded_military": 10,
+   "excluded_pia": 0,
+   "excluded_ladd": 3,
+   "kept_aircraft": 243,
+   "kept_points": 170867,
+   "box": [
+    59.067773873873875,
+    61.32002612612612,
+    8.834855093156953,
+    13.365944906843048
+   ]
+  },
+  "LEMD": {
+   "aircraft_in_box": 890,
+   "excluded_military": 5,
+   "excluded_pia": 0,
+   "excluded_ladd": 22,
+   "kept_aircraft": 863,
+   "kept_points": 391814,
+   "box": [
+    39.34607387387388,
+    41.598326126126125,
+    -5.041240547997178,
+    -2.0805594520028228
+   ]
+  },
+  "KDEN": {
+   "aircraft_in_box": 2335,
+   "excluded_military": 18,
+   "excluded_pia": 8,
+   "excluded_ladd": 230,
+   "kept_aircraft": 2079,
+   "kept_points": 1392466,
+   "box": [
+    38.735573873873875,
+    40.98782612612612,
+    -106.14028607884842,
+    -103.20611392115157
+   ]
+  }
+ },
+ "seconds": 284.4668049812317
+}

@@ -26,6 +26,18 @@ def load(config_path=None):
     return cfg, pts
 
 
+def load_stage2(config_path=None, stage2_path=None):
+    """Default config with configs/stage2.yaml merged over it (top-level keys are replaced or added)."""
+    cfg, pts = load(config_path)
+    extra = load_config(stage2_path or ROOT / "configs/stage2.yaml") or {}
+    for k, v in extra.items():
+        if isinstance(v, dict) and isinstance(cfg.get(k), dict):
+            cfg[k] = {**cfg[k], **v}
+        else:
+            cfg[k] = v
+    return cfg, pts
+
+
 def scenario_for(cfg, pts, which: str = "eval"):
     tc = cfg["truth"]
     t0 = utc_to_unix(tc[f"{which}_start_utc"])

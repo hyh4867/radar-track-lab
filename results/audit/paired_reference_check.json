@@ -1,0 +1,47 @@
+{
+ "check": [
+  {
+   "metric": "rmse_m",
+   "reference": [
+    -353.41,
+    -355.13,
+    -351.7
+   ],
+   "computed": [
+    -353.41,
+    -355.13,
+    -351.7
+   ],
+   "match": true
+  },
+  {
+   "metric": "rmse_at_update_m",
+   "reference": [
+    -47.02,
+    -47.56,
+    -46.49
+   ],
+   "computed": [
+    -47.02,
+    -47.56,
+    -46.49
+   ],
+   "match": true
+  },
+  {
+   "metric": "id_switches",
+   "reference": [
+    -434.25,
+    -442.45,
+    -426.05
+   ],
+   "computed": [
+    -434.25,
+    -442.45,
+    -426.05
+   ],
+   "match": true
+  }
+ ],
+ "errors": []
+}

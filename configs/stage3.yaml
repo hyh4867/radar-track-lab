@@ -1,0 +1,36 @@
+# Stage 3 additions, merged over default.yaml + stage2.yaml (scripts/stage3_run.py). docs/PREREGISTRATION_3.md.
+# Tracker parameters stay frozen at stage 2. Only the pre-gate changes (B0) and the sensor block is new.
+tracker:
+  pregate: adaptive           # B0: per-track pre-gate radius instead of the fixed 6 km
+sensor:
+  # E1 Swerling I, range-dependent Pd. snr_ref is set by scripts/stage3_calibrate_pd.py on the tuning window only.
+  pd_model: constant
+  pfa: 1.0e-6
+  snr_ref: 26.705945
+  snr_ref_range_m: 100000.0
+  # E2 altitude geometry (4/3 earth, 42 deg cone, Mode C slant -> ground conversion, 100 ft increments)
+  geometry: flat
+  mast_height_m: 20.0
+  k_earth: 1.3333333333333333
+  cone_max_elev_deg: 42.0
+  slant_correction: modec
+  modec_step_ft: 100.0
+  site_elevation_m: {EHAM: -3.0, EGLL: 25.0, KATL: 313.0, LSZH: 432.0, YSSY: 6.4, ENGM: 208.0}
+  # E4 resolution-cell merging (1.0 us pulse -> 150 m, 1.4 deg beamwidth)
+  merge: false
+  merge_dr_m: 150.0
+  merge_daz_deg: 1.4
+jipda:                       # FROZEN by scripts/stage3_tune_jipda.py --select (tuning window, 5 seeds)
+  p0: 0.01
+  confirm: 0.95
+  delete: 0.01
+  p_survive: 0.98
+  pd: 0.9
+# Sensor model steps (PREREGISTRATION_3 3.2); E3 = radar.clutter_model: map
+models:
+  M0: {}
+  M1: {sensor.pd_model: swerling1}
+  M2: {sensor.pd_model: swerling1, sensor.geometry: altitude}
+  M3: {sensor.pd_model: swerling1, sensor.geometry: altitude, radar.clutter_model: map}
+  M4: {sensor.pd_model: swerling1, sensor.geometry: altitude, radar.clutter_model: map, sensor.merge: true}
+  M2_noslant: {sensor.pd_model: swerling1, sensor.geometry: altitude, sensor.slant_correction: none}

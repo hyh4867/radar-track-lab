@@ -1,0 +1,117 @@
+{
+ "seed": 20261106,
+ "rows": {
+  "jpda|lam5_uniform": {
+   "clusters": 16743,
+   "multi": 503,
+   "lbp": 0,
+   "max_cluster_tracks": 5,
+   "lbp_share_of_multi": 0.0,
+   "lbp_share_of_all": 0.0,
+   "wall_s": 0.4277942500048084
+  },
+  "jipda|lam5_uniform": {
+   "clusters": 16768,
+   "multi": 188,
+   "lbp": 0,
+   "max_cluster_tracks": 3,
+   "lbp_share_of_multi": 0.0,
+   "lbp_share_of_all": 0.0,
+   "wall_s": 0.4211481249949429
+  },
+  "jpda|lam5_map": {
+   "clusters": 16665,
+   "multi": 903,
+   "lbp": 7,
+   "max_cluster_tracks": 22,
+   "lbp_share_of_multi": 0.007751937984496124,
+   "lbp_share_of_all": 0.00042004200420042004,
+   "wall_s": 0.8190590840094956
+  },
+  "jipda|lam5_map": {
+   "clusters": 16962,
+   "multi": 347,
+   "lbp": 0,
+   "max_cluster_tracks": 5,
+   "lbp_share_of_multi": 0.0,
+   "lbp_share_of_all": 0.0,
+   "wall_s": 0.4110013329918729
+  },
+  "jpda|lam200_uniform": {
+   "clusters": 1340,
+   "multi": 682,
+   "lbp": 373,
+   "max_cluster_tracks": 281,
+   "lbp_share_of_multi": 0.5469208211143695,
+   "lbp_share_of_all": 0.2783582089552239,
+   "wall_s": 3.723153500002809
+  },
+  "jipda|lam200_uniform": {
+   "clusters": 26543,
+   "multi": 4973,
+   "lbp": 269,
+   "max_cluster_tracks": 59,
+   "lbp_share_of_multi": 0.05409209732555801,
+   "lbp_share_of_all": 0.010134498737896997,
+   "wall_s": 2.7027190000080736
+  },
+  "jpda|lam200_map": {
+   "clusters": 1038,
+   "multi": 447,
+   "lbp": 386,
+   "max_cluster_tracks": 375,
+   "lbp_share_of_multi": 0.8635346756152126,
+   "lbp_share_of_all": 0.371868978805395,
+   "wall_s": 10.122864249991835
+  },
+  "jipda|lam200_map": {
+   "clusters": 14927,
+   "multi": 1650,
+   "lbp": 1122,
+   "max_cluster_tracks": 431,
+   "lbp_share_of_multi": 0.68,
+   "lbp_share_of_all": 0.07516580692704496,
+   "wall_s": 18.68893608399958
+  },
+  "jpda|lam1000_uniform": {
+   "clusters": 899,
+   "multi": 605,
+   "lbp": 394,
+   "max_cluster_tracks": 1331,
+   "lbp_share_of_multi": 0.6512396694214876,
+   "lbp_share_of_all": 0.4382647385984427,
+   "wall_s": 314.82426562499313
+  },
+  "jipda|lam1000_uniform": {
+   "clusters": 24589,
+   "multi": 8525,
+   "lbp": 400,
+   "max_cluster_tracks": 1189,
+   "lbp_share_of_multi": 0.0469208211143695,
+   "lbp_share_of_all": 0.016267436658668512,
+   "wall_s": 30.669694000011077
+  },
+  "jpda|lam1000_map": {
+   "clusters": 809,
+   "multi": 460,
+   "lbp": 379,
+   "max_cluster_tracks": 1662,
+   "lbp_share_of_multi": 0.8239130434782609,
+   "lbp_share_of_all": 0.4684796044499382,
+   "wall_s": 352.6780728339945
+  },
+  "jipda|lam1000_map": {
+   "clusters": 10770,
+   "multi": 1111,
+   "lbp": 407,
+   "max_cluster_tracks": 2510,
+   "lbp_share_of_multi": 0.36633663366336633,
+   "lbp_share_of_all": 0.03779015784586815,
+   "wall_s": 111.9540962500032
+  }
+ },
+ "code": {
+  "commit": "a6477f77a4a4f1842eebc4faafd8574587bcdd2d",
+  "dirty": false
+ }
+}

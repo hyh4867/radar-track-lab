@@ -1,0 +1,11 @@
+# Stage 2 additions, merged over configs/default.yaml (experiments.load_stage2).
+# FROZEN after scripts/tune_imm.py (tuning window 2026-11-06 10:00-10:15 UTC, 10 seeds,
+# results/data/stage2/tune_imm.json). Nothing here may change after the Q4 runs.
+imm:
+  q_cv: 25.0                  # NCV model PSD [m^2/s^3]
+  q_ct: 25.0                  # turn model white-noise acceleration PSD [m^2/s^3]
+  omega_noise_dps: 0.3        # turn-rate random walk [deg/s/sqrt(s)]
+  tau_cv_s: 300.0             # mean sojourn time in the NCV model
+  tau_ct_s: 40.0              # mean sojourn time in the turn model
+  omega_prior_sigma_dps: 3.0  # fixed (not tuned)
+  cv_omega_sigma_dps: 3.0     # fixed (not tuned)

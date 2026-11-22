@@ -26,24 +26,9 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from radar_track_lab.adsb import DBFLAG_LADD, DBFLAG_MILITARY, DBFLAG_PIA  # noqa: E402
+from radar_track_lab.adsb import DBFLAG_LADD, DBFLAG_MILITARY, DBFLAG_PIA, SOURCE_CODES  # noqa: E402
 from radar_track_lab.config import load_config  # noqa: E402
 
-SOURCE_CODES = {
-    "adsb_icao": 0,
-    "adsb_icao_nt": 1,
-    "adsr_icao": 2,
-    "tisb_icao": 3,
-    "mlat": 4,
-    "other": 5,
-    "mode_s": 6,
-    "adsb_other": 7,
-    "adsr_other": 8,
-    "tisb_other": 9,
-    "tisb_trackfile": 10,
-    "adsc": 11,
-    "unknown": 12,
-}
 
 
 def main() -> None:

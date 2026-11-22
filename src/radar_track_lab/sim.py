@@ -44,42 +44,90 @@ class RunResult:
     nees: np.ndarray  # columns: track_id, n_updates, status, nees4, nees2, d2, truth_id, t, truth_range
     snapshots: list | None = None
     scans: list | None = None
+    evals: list | None = None
+    audit: dict | None = None  # per-sample tables, see audit.py (only with audit=True)
 
 
-def make_tracker(method: str, params: TrackerParams):
+def make_tracker(method: str, params: TrackerParams, cfg: dict | None = None):
     if method == "ekf":
         return EKFTracker(params)
     if method == "nn":
         return NearestNeighborBaseline(params)
+    if method == "nnp":
+        from .tracker import NearestNeighborPredictBaseline
+
+        return NearestNeighborPredictBaseline(params)
+    if method == "ekfh":
+        from .tracker import EKFHoldOutputTracker
+
+        return EKFHoldOutputTracker(params)
+    if method == "imm":
+        from .imm import IMMParams, IMMTracker
+
+        return IMMTracker(params, IMMParams.from_config(cfg))
+    if method in ("jpda", "jipda", "jipda_est"):
+        from dataclasses import replace
+
+        from .jpda import JPDATracker, PDAParams
+
+        pda = PDAParams.from_config(cfg, "jpda" if method == "jpda" else "jipda")
+        if method == "jipda_est":
+            pda = replace(pda, density="estimated")
+        return JPDATracker(params, pda, RadarParams.from_config(cfg))
     raise ValueError(method)
 
 
-def run(scenario: Scenario, cfg: dict, seed: int, method: str = "ekf", record: bool = False) -> RunResult:
+def run(scenario: Scenario, cfg: dict, seed: int, method: str = "ekf", record: bool = False,
+        audit: bool = False) -> RunResult:
+    """One run. ``audit=True`` also returns the per-sample tables behind the two RMSEs; the scores are unchanged."""
     radar = RadarParams.from_config(cfg)
     params = TrackerParams.from_config(cfg)
     c = float(cfg["eval"]["gospa_c_m"])
     p = int(cfg["eval"]["gospa_p"])
     warmup = float(cfg["eval"].get("warmup_s", 60.0))
     scans = simulate_scans(scenario.scan_truths, radar, seed)
-    trk = make_tracker(method, params)
+    trk = make_tracker(method, params, cfg)
     evals, nees_rows, snaps = [], [], [] if record else None
     upd_sq = []  # squared position error at update time, tracks confirmed before the scan
+    a_upd, a_se = [], []  # audit rows (only filled with audit=True)
+    t_warm = scenario.t_start + warmup
     for k, scan in enumerate(scans):
         et = scenario.eval_truths[k]
         recs = trk.process_scan(scan, et.t)
         ids, pos, vel = trk.estimates(et.t)
         evals.append(evaluate_scan(et, ids, pos, c, p))
+        if audit:
+            from . import audit as A
+
+            ev = evals[-1]
+            last = dict(zip(trk.ids.tolist(), trk.T.tolist()))
+            sq_of = dict(zip(ev.pair_truth.tolist(), ev.sq_err.tolist()))
+            for tid in et.ids.tolist():
+                paired = tid in sq_of
+                reason = A.SE_WARMUP if et.t < t_warm else (A.USED if paired else A.SE_UNPAIRED)
+                tr = ev.assigned.get(tid, -1)
+                a_se.append((k, tid, et.t, sq_of.get(tid, np.nan), reason, tr, et.t - last[tr] if paired else np.nan))
         if recs:
             st = scenario.scan_truths[k]
             idx = {int(i): n for n, i in enumerate(st.ids)}
             for track_id, det, _t, x, P, n_upd, d2, status in recs:
                 tid = int(scan.truth_id[det])
                 if tid < 0 or tid not in idx:
+                    if audit:
+                        from . import audit as A
+
+                        a_upd.append((k, det, tid, scan.t[det], np.nan, A.UPD_CLUTTER if tid < 0 else A.UPD_NO_TRUTH,
+                                      track_id))
                     continue
                 j = idx[tid]
                 e = np.r_[st.pos[j], st.vel[j]] - x
                 if status == 1 and scan.t[det] >= scenario.t_start + warmup:
                     upd_sq.append(float(e[:2] @ e[:2]))
+                if audit:
+                    from . import audit as A
+
+                    reason = A.UPD_TENTATIVE if status != 1 else (A.UPD_WARMUP if scan.t[det] < t_warm else A.USED)
+                    a_upd.append((k, det, tid, scan.t[det], float(e[:2] @ e[:2]), reason, track_id))
                 if P is None:
                     continue
                 n4 = float(e @ np.linalg.solve(P, e))
@@ -98,9 +146,16 @@ def run(scenario: Scenario, cfg: dict, seed: int, method: str = "ekf", record: b
                     "confirmed": conf,
                     "gospa": evals[-1].gospa,
                     "assigned": evals[-1].assigned,
+                    "mu_ct": trk.mu[:, 1].copy() if hasattr(trk, "mu") else None,
+                    "omega_ct": trk.Xm[:, 1, 4].copy() if hasattr(trk, "Xm") else None,
                 }
             )
     summary = summarize(evals, c, warmup, scenario.t_start)
     summary["rmse_at_update_m"] = float(np.sqrt(np.mean(upd_sq))) if upd_sq else float("nan")
     nees = np.asarray(nees_rows, dtype=float) if nees_rows else np.zeros((0, 9))
-    return RunResult(summary, nees, snaps, scans if record else None)
+    aud = None
+    if audit:
+        from . import audit as A
+
+        aud = {"update": A.table(a_upd, A.UPD_FIELDS), "scan_end": A.table(a_se, A.SE_FIELDS)}
+    return RunResult(summary, nees, snaps, scans if record else None, evals if record else None, aud)

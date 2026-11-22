@@ -26,6 +26,7 @@ class Segment:
     t: np.ndarray  # (n,)
     pos: np.ndarray  # (n, 2) east, north [m]
     vel: np.ndarray  # (n, 2) [m/s]
+    alt: np.ndarray | None = None  # (n,) barometric altitude [m], NaN where missing (stage 3 geometry only)
 
     @property
     def t0(self) -> float:
@@ -51,6 +52,19 @@ class Segment:
         pos[valid] = p
         vel[valid] = v
         return pos, vel, valid
+
+    def altitude(self, tq) -> np.ndarray:
+        """Linearly interpolated barometric altitude [m]; NaN outside the segment or if none is known."""
+        tq = np.atleast_1d(np.asarray(tq, dtype=float))
+        out = np.full(tq.size, np.nan)
+        if self.alt is None:
+            return out
+        ok = np.isfinite(self.alt)
+        if not ok.any():
+            return out
+        inside = (tq >= self.t[0]) & (tq <= self.t[-1])
+        out[inside] = np.interp(tq[inside], self.t[ok], self.alt[ok])
+        return out
 
     def bracket_gap(self, tq):
         tq = np.atleast_1d(np.asarray(tq, dtype=float))
@@ -167,13 +181,14 @@ def build_truth(points: dict[str, np.ndarray], cfg: dict, t_start=None, t_end=No
     pos = np.stack([e[order], n[order]], axis=1)
     vel = np.stack([ve[order], vn[order]], axis=1)
     newleg = (p["flags"][order] & TRACE_FLAG_NEW_LEG) > 0
+    alt_m = p["alt"][order].astype(float) * 0.3048
     bounds = np.flatnonzero(np.diff(ac)) + 1
     for lo, hi in zip(np.r_[0, bounds], np.r_[bounds, ac.size]):
-        ta, pa, va, nl = tt[lo:hi], pos[lo:hi], vel[lo:hi], newleg[lo:hi]
+        ta, pa, va, nl, ha = tt[lo:hi], pos[lo:hi], vel[lo:hi], newleg[lo:hi], alt_m[lo:hi]
         # drop near-duplicate timestamps
         good = np.r_[True, np.diff(ta) > 0.05]
         st.dropped_duplicate_time += int((~good).sum())
-        ta, pa, va, nl = ta[good], pa[good], va[good], nl[good]
+        ta, pa, va, nl, ha = ta[good], pa[good], va[good], nl[good], ha[good]
         if ta.size < 2:
             continue
         cut = np.flatnonzero((np.diff(ta) > max_gap) | nl[1:]) + 1
@@ -185,7 +200,7 @@ def build_truth(points: dict[str, np.ndarray], cfg: dict, t_start=None, t_end=No
             if bad.any():  # fill missing velocity from finite differences
                 fd = np.gradient(pa[a:b], ta[a:b], axis=0)
                 sv[bad] = fd[bad]
-            segments.append(Segment(int(ac[lo]), ta[a:b].copy(), pa[a:b].copy(), sv))
+            segments.append(Segment(int(ac[lo]), ta[a:b].copy(), pa[a:b].copy(), sv, ha[a:b].copy()))
     st.kept_points = int(sum(s.t.size for s in segments))
     return TruthSet(segments, st, lat0, lon0)
 

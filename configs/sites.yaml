@@ -1,0 +1,12 @@
+# Stage 2 out-of-sample sites (docs/PREREGISTRATION_2.md, Q4). Civil airport
+# reference points only; the radar stays a generic virtual 2-D ASR.
+extract_radius_km: 125
+sites:
+  EHAM: {name: "Amsterdam Schiphol", lat_deg: 52.3081, lon_deg: 4.7642, role: stage1}
+  EGLL: {name: "London Heathrow", lat_deg: 51.4775, lon_deg: -0.4614, role: primary}
+  KATL: {name: "Atlanta", lat_deg: 33.6367, lon_deg: -84.4281, role: primary}
+  LSZH: {name: "Zurich", lat_deg: 47.4581, lon_deg: 8.5481, role: primary}
+  YSSY: {name: "Sydney", lat_deg: -33.9461, lon_deg: 151.1772, role: primary}
+  ENGM: {name: "Oslo Gardermoen", lat_deg: 60.1939, lon_deg: 11.1004, role: primary}
+  LEMD: {name: "Madrid", lat_deg: 40.4722, lon_deg: -3.5609, role: reserve}
+  KDEN: {name: "Denver", lat_deg: 39.8617, lon_deg: -104.6732, role: reserve}

@@ -1,0 +1,180 @@
+{
+ "rows": [
+  {
+   "name": "A M0 Schiphol EKF ID switch",
+   "recomputed": 24.95,
+   "summary": 24.95,
+   "match": true
+  },
+  {
+   "name": "A M0 Schiphol IMM-EKF ID switch",
+   "recomputed": -9.5,
+   "summary": -9.5,
+   "match": true
+  },
+  {
+   "name": "A M0 Schiphol IMM-EKF upper 95%",
+   "recomputed": -7.985361612746403,
+   "summary": -7.985361612746403,
+   "match": true
+  },
+  {
+   "name": "A M0 Schiphol EKF turn share (%)",
+   "recomputed": 99.25093632958801,
+   "summary": 99.25093632958801,
+   "match": true
+  },
+  {
+   "name": "A M0 Schiphol s_A (%)",
+   "recomputed": 59.65510273668949,
+   "summary": 59.65510273668949,
+   "match": true
+  },
+  {
+   "name": "A M0 Schiphol s_B (%)",
+   "recomputed": 97.13285700161119,
+   "summary": 97.13285700161117,
+   "match": true
+  },
+  {
+   "name": "A M4 Schiphol EKF ID switch",
+   "recomputed": 36.15,
+   "summary": 36.15,
+   "match": true
+  },
+  {
+   "name": "A M4 Schiphol IMM-EKF ID switch",
+   "recomputed": -7.85,
+   "summary": -7.85,
+   "match": true
+  },
+  {
+   "name": "A M4 Schiphol IMM-EKF upper 95%",
+   "recomputed": -5.880267645115295,
+   "summary": -5.880267645115295,
+   "match": true
+  },
+  {
+   "name": "A M4 Schiphol EKF turn share (%)",
+   "recomputed": 64.5933014354067,
+   "summary": 64.5933014354067,
+   "match": true
+  },
+  {
+   "name": "A M4 Schiphol s_A (%)",
+   "recomputed": 63.96490556835798,
+   "summary": 63.96490556835799,
+   "match": true
+  },
+  {
+   "name": "A M4 Schiphol s_B (%)",
+   "recomputed": 97.87210110489438,
+   "summary": 97.87210110489437,
+   "match": true
+  },
+  {
+   "name": "A M4 OOS scenarios where the IMM gain holds",
+   "recomputed": 12.0,
+   "summary": 12.0,
+   "match": true
+  },
+  {
+   "name": "B lam1000_uniform JIPDA-GNN false_tracks_per_scan",
+   "recomputed": -555.1947658402205,
+   "summary": -555.1947658402205,
+   "match": true
+  },
+  {
+   "name": "B lam1000_uniform JIPDA-GNN false_tracks_per_scan upper 95%",
+   "recomputed": -553.0203532923291,
+   "summary": -553.0203532923291,
+   "match": true
+  },
+  {
+   "name": "B lam1000_uniform JIPDA-GNN gospa_mean_m",
+   "recomputed": -30550.909894597204,
+   "summary": -30550.909894597204,
+   "match": true
+  },
+  {
+   "name": "B lam1000_uniform JIPDA-GNN gospa_mean_m upper 95%",
+   "recomputed": -30488.994971434564,
+   "summary": -30488.994971434564,
+   "match": true
+  },
+  {
+   "name": "B lam1000_map JIPDA-GNN false_tracks_per_scan",
+   "recomputed": -1392.9016528925617,
+   "summary": -1392.9016528925617,
+   "match": true
+  },
+  {
+   "name": "B lam1000_map JIPDA-GNN false_tracks_per_scan upper 95%",
+   "recomputed": -1390.3906487483182,
+   "summary": -1390.3906487483182,
+   "match": true
+  },
+  {
+   "name": "B lam1000_map JIPDA-GNN gospa_mean_m",
+   "recomputed": -49069.36899240639,
+   "summary": -49069.36899240639,
+   "match": true
+  },
+  {
+   "name": "B lam1000_map JIPDA-GNN gospa_mean_m upper 95%",
+   "recomputed": -49022.35934156791,
+   "summary": -49022.35934156791,
+   "match": true
+  },
+  {
+   "name": "B lam5_uniform JIPDA-GNN false_tracks_per_scan",
+   "recomputed": -0.18402203856749313,
+   "summary": -0.18402203856749313,
+   "match": true
+  },
+  {
+   "name": "B lam5_uniform JIPDA-GNN false_tracks_per_scan upper 95%",
+   "recomputed": -0.17539241992961724,
+   "summary": -0.17539241992961724,
+   "match": true
+  },
+  {
+   "name": "B lam5_uniform JIPDA-GNN gospa_mean_m",
+   "recomputed": -111.09827535597788,
+   "summary": -111.09827535597788,
+   "match": true
+  },
+  {
+   "name": "B lam5_uniform JIPDA-GNN gospa_mean_m upper 95%",
+   "recomputed": -105.10063474553819,
+   "summary": -105.10063474553819,
+   "match": true
+  },
+  {
+   "name": "B0 lam5 EKF adaptive-fixed id_switches",
+   "recomputed": 0.0,
+   "summary": 0.0,
+   "match": true
+  },
+  {
+   "name": "B0 lam5 EKF adaptive-fixed false_tracks_per_scan",
+   "recomputed": 0.0,
+   "summary": 0.0,
+   "match": true
+  },
+  {
+   "name": "B0 lam1000 EKF adaptive-fixed id_switches",
+   "recomputed": -5.5,
+   "summary": -5.5,
+   "match": true
+  },
+  {
+   "name": "B0 lam1000 EKF adaptive-fixed false_tracks_per_scan",
+   "recomputed": 1.3522038567493155,
+   "summary": 1.3522038567493155,
+   "match": true
+  }
+ ],
+ "all_match": true,
+ "n": 29
+}

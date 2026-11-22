@@ -1,0 +1,2760 @@
+{
+ "definitions": "(same as the stage 3 report):\n  lost       = sum of causes except truth_gap and near_other\n  turn share = turn / lost\n  base rate  = sum base.window_turn / sum base.assigned_target_scans\n  top-2 dependence = turn share after removing every lost event (any cause) of the two aircraft with the most\n                     turn losses in that scenario. A sensitivity measure, not a corrected value.\n\n    .venv/bin/python scripts/stage3_c2_breakdown.py",
+ "oos": [
+  "EGLL_1106_peak",
+  "EGLL_1111_same",
+  "EHAM_1106_busy2",
+  "EHAM_1111_same",
+  "ENGM_1106_peak",
+  "ENGM_1111_same",
+  "KATL_1106_peak",
+  "KATL_1111_same",
+  "LSZH_1106_peak",
+  "LSZH_1111_same",
+  "YSSY_1106_peak",
+  "YSSY_1111_same"
+ ],
+ "table": {
+  "EHAM_1106_eval|M0|ekf": {
+   "lost": 267,
+   "turn": 265,
+   "misses": 1,
+   "other": 1,
+   "turn_share": 0.9925093632958801,
+   "base_rate": 0.1931160065933087,
+   "share_over_base": 5.139446391857348,
+   "top2": [
+    252,
+    2233
+   ],
+   "turn_share_wo_top2": 0.9767441860465116,
+   "turn_wo_top2": 84,
+   "lost_wo_top2": 86,
+   "n_aircraft_turn": 38
+  },
+  "EGLL_1106_peak|M0|ekf": {
+   "lost": 705,
+   "turn": 585,
+   "misses": 15,
+   "other": 105,
+   "turn_share": 0.8297872340425532,
+   "base_rate": 0.23975596265388346,
+   "share_over_base": 3.460965995829896,
+   "top2": [
+    2359,
+    432
+   ],
+   "turn_share_wo_top2": 0.7989949748743719,
+   "turn_wo_top2": 477,
+   "lost_wo_top2": 597,
+   "n_aircraft_turn": 94
+  },
+  "EGLL_1111_same|M0|ekf": {
+   "lost": 506,
+   "turn": 356,
+   "misses": 14,
+   "other": 136,
+   "turn_share": 0.7035573122529645,
+   "base_rate": 0.2053503027043868,
+   "share_over_base": 3.4261323357568867,
+   "top2": [
+    928,
+    1667
+   ],
+   "turn_share_wo_top2": 0.647887323943662,
+   "turn_wo_top2": 276,
+   "lost_wo_top2": 426,
+   "n_aircraft_turn": 69
+  },
+  "EHAM_1106_busy2|M0|ekf": {
+   "lost": 265,
+   "turn": 211,
+   "misses": 5,
+   "other": 49,
+   "turn_share": 0.7962264150943397,
+   "base_rate": 0.21703347512483817,
+   "share_over_base": 3.668680209983038,
+   "top2": [
+    924,
+    526
+   ],
+   "turn_share_wo_top2": 0.6988636363636364,
+   "turn_wo_top2": 123,
+   "lost_wo_top2": 176,
+   "n_aircraft_turn": 39
+  },
+  "EHAM_1111_same|M0|ekf": {
+   "lost": 104,
+   "turn": 95,
+   "misses": 4,
+   "other": 5,
+   "turn_share": 0.9134615384615384,
+   "base_rate": 0.12598415789536566,
+   "share_over_base": 7.250606375606375,
+   "top2": [
+    18,
+    277
+   ],
+   "turn_share_wo_top2": 0.8977272727272727,
+   "turn_wo_top2": 79,
+   "lost_wo_top2": 88,
+   "n_aircraft_turn": 30
+  },
+  "ENGM_1106_peak|M0|ekf": {
+   "lost": 110,
+   "turn": 110,
+   "misses": 0,
+   "other": 0,
+   "turn_share": 1.0,
+   "base_rate": 0.2321853246165548,
+   "share_over_base": 4.306904416338379,
+   "top2": [
+    65,
+    6
+   ],
+   "turn_share_wo_top2": 1.0,
+   "turn_wo_top2": 81,
+   "lost_wo_top2": 81,
+   "n_aircraft_turn": 22
+  },
+  "ENGM_1111_same|M0|ekf": {
+   "lost": 35,
+   "turn": 32,
+   "misses": 3,
+   "other": 0,
+   "turn_share": 0.9142857142857143,
+   "base_rate": 0.11479814417284122,
+   "share_over_base": 7.964290022921944,
+   "top2": [
+    145,
+    174
+   ],
+   "turn_share_wo_top2": 0.8947368421052632,
+   "turn_wo_top2": 17,
+   "lost_wo_top2": 19,
+   "n_aircraft_turn": 10
+  },
+  "KATL_1106_peak|M0|ekf": {
+   "lost": 649,
+   "turn": 523,
+   "misses": 21,
+   "other": 105,
+   "turn_share": 0.8058551617873652,
+   "base_rate": 0.18469147824434734,
+   "share_over_base": 4.363250375424558,
+   "top2": [
+    923,
+    2938
+   ],
+   "turn_share_wo_top2": 0.748995983935743,
+   "turn_wo_top2": 373,
+   "lost_wo_top2": 498,
+   "n_aircraft_turn": 77
+  },
+  "KATL_1111_same|M0|ekf": {
+   "lost": 716,
+   "turn": 519,
+   "misses": 21,
+   "other": 176,
+   "turn_share": 0.7248603351955307,
+   "base_rate": 0.18097244328352804,
+   "share_over_base": 4.005363037840507,
+   "top2": [
+    1737,
+    412
+   ],
+   "turn_share_wo_top2": 0.6365313653136532,
+   "turn_wo_top2": 345,
+   "lost_wo_top2": 542,
+   "n_aircraft_turn": 75
+  },
+  "LSZH_1106_peak|M0|ekf": {
+   "lost": 276,
+   "turn": 263,
+   "misses": 7,
+   "other": 6,
+   "turn_share": 0.9528985507246377,
+   "base_rate": 0.1717272206460997,
+   "share_over_base": 5.5489080131821265,
+   "top2": [
+    1337,
+    1346
+   ],
+   "turn_share_wo_top2": 0.9436619718309859,
+   "turn_wo_top2": 201,
+   "lost_wo_top2": 213,
+   "n_aircraft_turn": 36
+  },
+  "LSZH_1111_same|M0|ekf": {
+   "lost": 47,
+   "turn": 45,
+   "misses": 2,
+   "other": 0,
+   "turn_share": 0.9574468085106383,
+   "base_rate": 0.12828316702627798,
+   "share_over_base": 7.463542027415892,
+   "top2": [
+    1174,
+    554
+   ],
+   "turn_share_wo_top2": 0.9333333333333333,
+   "turn_wo_top2": 28,
+   "lost_wo_top2": 30,
+   "n_aircraft_turn": 16
+  },
+  "YSSY_1106_peak|M0|ekf": {
+   "lost": 595,
+   "turn": 549,
+   "misses": 5,
+   "other": 41,
+   "turn_share": 0.9226890756302522,
+   "base_rate": 0.33439541824634994,
+   "share_over_base": 2.759275472340667,
+   "top2": [
+    407,
+    180
+   ],
+   "turn_share_wo_top2": 0.8763440860215054,
+   "turn_wo_top2": 326,
+   "lost_wo_top2": 372,
+   "n_aircraft_turn": 47
+  },
+  "YSSY_1111_same|M0|ekf": {
+   "lost": 139,
+   "turn": 136,
+   "misses": 3,
+   "other": 0,
+   "turn_share": 0.9784172661870504,
+   "base_rate": 0.3012980407646483,
+   "share_over_base": 3.2473402870592096,
+   "top2": [
+    154,
+    66
+   ],
+   "turn_share_wo_top2": 0.9716981132075472,
+   "turn_wo_top2": 103,
+   "lost_wo_top2": 106,
+   "n_aircraft_turn": 23
+  },
+  "OOS12|M0|ekf": {
+   "lost": 4147,
+   "turn": 3424,
+   "misses": 100,
+   "other": 623,
+   "turn_share": 0.8256571015191705,
+   "base_rate": 0.20647714805255854,
+   "share_over_base": 3.998781992615475,
+   "top2": [
+    407,
+    1737
+   ],
+   "turn_share_wo_top2": 0.8124675324675324,
+   "turn_wo_top2": 3128,
+   "lost_wo_top2": 3850,
+   "n_aircraft_turn": 491
+  },
+  "EHAM_1106_eval|M0|imm": {
+   "lost": 120,
+   "turn": 118,
+   "misses": 1,
+   "other": 1,
+   "turn_share": 0.9833333333333333,
+   "base_rate": 0.19320649450439314,
+   "share_over_base": 5.089545958875488,
+   "top2": [
+    252,
+    2233
+   ],
+   "turn_share_wo_top2": 0.8947368421052632,
+   "turn_wo_top2": 17,
+   "lost_wo_top2": 19,
+   "n_aircraft_turn": 16
+  },
+  "EGLL_1106_peak|M0|imm": {
+   "lost": 215,
+   "turn": 96,
+   "misses": 15,
+   "other": 104,
+   "turn_share": 0.44651162790697674,
+   "base_rate": 0.23988455901240538,
+   "share_over_base": 1.861360438309353,
+   "top2": [
+    2359,
+    46
+   ],
+   "turn_share_wo_top2": 0.2787878787878788,
+   "turn_wo_top2": 46,
+   "lost_wo_top2": 165,
+   "n_aircraft_turn": 36
+  },
+  "EGLL_1111_same|M0|imm": {
+   "lost": 182,
+   "turn": 32,
+   "misses": 12,
+   "other": 138,
+   "turn_share": 0.17582417582417584,
+   "base_rate": 0.20547214535492778,
+   "share_over_base": 0.8557080840347545,
+   "top2": [
+    1256,
+    1667
+   ],
+   "turn_share_wo_top2": 0.14772727272727273,
+   "turn_wo_top2": 26,
+   "lost_wo_top2": 176,
+   "n_aircraft_turn": 23
+  },
+  "EHAM_1106_busy2|M0|imm": {
+   "lost": 120,
+   "turn": 68,
+   "misses": 5,
+   "other": 47,
+   "turn_share": 0.5666666666666667,
+   "base_rate": 0.21709770517526408,
+   "share_over_base": 2.6101918774737567,
+   "top2": [
+    924,
+    1448
+   ],
+   "turn_share_wo_top2": 0.38095238095238093,
+   "turn_wo_top2": 32,
+   "lost_wo_top2": 84,
+   "n_aircraft_turn": 12
+  },
+  "EHAM_1111_same|M0|imm": {
+   "lost": 15,
+   "turn": 8,
+   "misses": 4,
+   "other": 3,
+   "turn_share": 0.5333333333333333,
+   "base_rate": 0.1260244187991303,
+   "share_over_base": 4.231984074319841,
+   "top2": [
+    1344,
+    18
+   ],
+   "turn_share_wo_top2": 0.4166666666666667,
+   "turn_wo_top2": 5,
+   "lost_wo_top2": 12,
+   "n_aircraft_turn": 7
+  },
+  "ENGM_1106_peak|M0|imm": {
+   "lost": 1,
+   "turn": 1,
+   "misses": 0,
+   "other": 0,
+   "turn_share": 1.0,
+   "base_rate": 0.23239477280163207,
+   "share_over_base": 4.303022774327122,
+   "top2": [
+    65
+   ],
+   "turn_share_wo_top2": NaN,
+   "turn_wo_top2": 0,
+   "lost_wo_top2": 0,
+   "n_aircraft_turn": 1
+  },
+  "ENGM_1111_same|M0|imm": {
+   "lost": 6,
+   "turn": 5,
+   "misses": 1,
+   "other": 0,
+   "turn_share": 0.8333333333333334,
+   "base_rate": 0.11488077104162628,
+   "share_over_base": 7.253897460623594,
+   "top2": [
+    145,
+    186
+   ],
+   "turn_share_wo_top2": 1.0,
+   "turn_wo_top2": 2,
+   "lost_wo_top2": 2,
+   "n_aircraft_turn": 4
+  },
+  "KATL_1106_peak|M0|imm": {
+   "lost": 354,
+   "turn": 233,
+   "misses": 16,
+   "other": 105,
+   "turn_share": 0.6581920903954802,
+   "base_rate": 0.18474675292290374,
+   "share_over_base": 3.562672036082544,
+   "top2": [
+    923,
+    2938
+   ],
+   "turn_share_wo_top2": 0.4692982456140351,
+   "turn_wo_top2": 107,
+   "lost_wo_top2": 228,
+   "n_aircraft_turn": 31
+  },
+  "KATL_1111_same|M0|imm": {
+   "lost": 465,
+   "turn": 272,
+   "misses": 18,
+   "other": 175,
+   "turn_share": 0.5849462365591398,
+   "base_rate": 0.18098918352871454,
+   "share_over_base": 3.231940302478552,
+   "top2": [
+    1737,
+    2844
+   ],
+   "turn_share_wo_top2": 0.4454022988505747,
+   "turn_wo_top2": 155,
+   "lost_wo_top2": 348,
+   "n_aircraft_turn": 30
+  },
+  "LSZH_1106_peak|M0|imm": {
+   "lost": 21,
+   "turn": 11,
+   "misses": 4,
+   "other": 6,
+   "turn_share": 0.5238095238095238,
+   "base_rate": 0.17185104390685613,
+   "share_over_base": 3.0480438867361808,
+   "top2": [
+    1337,
+    139
+   ],
+   "turn_share_wo_top2": 0.4117647058823529,
+   "turn_wo_top2": 7,
+   "lost_wo_top2": 17,
+   "n_aircraft_turn": 9
+  },
+  "LSZH_1111_same|M0|imm": {
+   "lost": 5,
+   "turn": 4,
+   "misses": 1,
+   "other": 0,
+   "turn_share": 0.8,
+   "base_rate": 0.12828851629231255,
+   "share_over_base": 6.235943973170251,
+   "top2": [
+    871,
+    185
+   ],
+   "turn_share_wo_top2": 0.5,
+   "turn_wo_top2": 1,
+   "lost_wo_top2": 2,
+   "n_aircraft_turn": 3
+  },
+  "YSSY_1106_peak|M0|imm": {
+   "lost": 290,
+   "turn": 257,
+   "misses": 4,
+   "other": 29,
+   "turn_share": 0.8862068965517241,
+   "base_rate": 0.3345480710481998,
+   "share_over_base": 2.6489672882437407,
+   "top2": [
+    407,
+    180
+   ],
+   "turn_share_wo_top2": 0.7676056338028169,
+   "turn_wo_top2": 109,
+   "lost_wo_top2": 142,
+   "n_aircraft_turn": 32
+  },
+  "YSSY_1111_same|M0|imm": {
+   "lost": 38,
+   "turn": 37,
+   "misses": 1,
+   "other": 0,
+   "turn_share": 0.9736842105263158,
+   "base_rate": 0.3013763105787646,
+   "share_over_base": 3.230792123828339,
+   "top2": [
+    154,
+    66
+   ],
+   "turn_share_wo_top2": 0.9285714285714286,
+   "turn_wo_top2": 13,
+   "lost_wo_top2": 14,
+   "n_aircraft_turn": 9
+  },
+  "OOS12|M0|imm": {
+   "lost": 1712,
+   "turn": 1024,
+   "misses": 81,
+   "other": 607,
+   "turn_share": 0.5981308411214953,
+   "base_rate": 0.20656176630855236,
+   "share_over_base": 2.8956512708553976,
+   "top2": [
+    407,
+    1737
+   ],
+   "turn_share_wo_top2": 0.5477287689269256,
+   "turn_wo_top2": 832,
+   "lost_wo_top2": 1519,
+   "n_aircraft_turn": 194
+  },
+  "EHAM_1106_eval|M1|ekf": {
+   "lost": 336,
+   "turn": 259,
+   "misses": 74,
+   "other": 3,
+   "turn_share": 0.7708333333333334,
+   "base_rate": 0.19300172338052918,
+   "share_over_base": 3.9939194315562174,
+   "top2": [
+    252,
+    2233
+   ],
+   "turn_share_wo_top2": 0.5549132947976878,
+   "turn_wo_top2": 96,
+   "lost_wo_top2": 173,
+   "n_aircraft_turn": 44
+  },
+  "EGLL_1106_peak|M1|ekf": {
+   "lost": 713,
+   "turn": 540,
+   "misses": 82,
+   "other": 91,
+   "turn_share": 0.7573632538569425,
+   "base_rate": 0.24068936144321743,
+   "share_over_base": 3.1466420007749987,
+   "top2": [
+    2359,
+    432
+   ],
+   "turn_share_wo_top2": 0.7135761589403974,
+   "turn_wo_top2": 431,
+   "lost_wo_top2": 604,
+   "n_aircraft_turn": 97
+  },
+  "EGLL_1111_same|M1|ekf": {
+   "lost": 512,
+   "turn": 315,
+   "misses": 58,
+   "other": 139,
+   "turn_share": 0.615234375,
+   "base_rate": 0.2061748259409714,
+   "share_over_base": 2.9840421699986974,
+   "top2": [
+    928,
+    1667
+   ],
+   "turn_share_wo_top2": 0.5612472160356348,
+   "turn_wo_top2": 252,
+   "lost_wo_top2": 449,
+   "n_aircraft_turn": 69
+  },
+  "EHAM_1106_busy2|M1|ekf": {
+   "lost": 355,
+   "turn": 240,
+   "misses": 83,
+   "other": 32,
+   "turn_share": 0.676056338028169,
+   "base_rate": 0.21725773738299514,
+   "share_over_base": 3.1117710520770814,
+   "top2": [
+    924,
+    526
+   ],
+   "turn_share_wo_top2": 0.5691699604743083,
+   "turn_wo_top2": 144,
+   "lost_wo_top2": 253,
+   "n_aircraft_turn": 40
+  },
+  "EHAM_1111_same|M1|ekf": {
+   "lost": 128,
+   "turn": 87,
+   "misses": 37,
+   "other": 4,
+   "turn_share": 0.6796875,
+   "base_rate": 0.12675525019965406,
+   "share_over_base": 5.362203923935413,
+   "top2": [
+    1344,
+    18
+   ],
+   "turn_share_wo_top2": 0.6226415094339622,
+   "turn_wo_top2": 66,
+   "lost_wo_top2": 106,
+   "n_aircraft_turn": 31
+  },
+  "ENGM_1106_peak|M1|ekf": {
+   "lost": 98,
+   "turn": 90,
+   "misses": 8,
+   "other": 0,
+   "turn_share": 0.9183673469387755,
+   "base_rate": 0.23276112607288862,
+   "share_over_base": 3.9455357620635967,
+   "top2": [
+    65,
+    175
+   ],
+   "turn_share_wo_top2": 0.9117647058823529,
+   "turn_wo_top2": 62,
+   "lost_wo_top2": 68,
+   "n_aircraft_turn": 20
+  },
+  "ENGM_1111_same|M1|ekf": {
+   "lost": 28,
+   "turn": 22,
+   "misses": 6,
+   "other": 0,
+   "turn_share": 0.7857142857142857,
+   "base_rate": 0.11557635001531735,
+   "share_over_base": 6.798227194492254,
+   "top2": [
+    145,
+    174
+   ],
+   "turn_share_wo_top2": 0.625,
+   "turn_wo_top2": 10,
+   "lost_wo_top2": 16,
+   "n_aircraft_turn": 8
+  },
+  "KATL_1106_peak|M1|ekf": {
+   "lost": 816,
+   "turn": 516,
+   "misses": 198,
+   "other": 102,
+   "turn_share": 0.6323529411764706,
+   "base_rate": 0.18513091460198108,
+   "share_over_base": 3.415706893340783,
+   "top2": [
+    923,
+    2938
+   ],
+   "turn_share_wo_top2": 0.5480916030534351,
+   "turn_wo_top2": 359,
+   "lost_wo_top2": 655,
+   "n_aircraft_turn": 78
+  },
+  "KATL_1111_same|M1|ekf": {
+   "lost": 876,
+   "turn": 504,
+   "misses": 159,
+   "other": 213,
+   "turn_share": 0.5753424657534246,
+   "base_rate": 0.18133695430195146,
+   "share_over_base": 3.1727811243338673,
+   "top2": [
+    1737,
+    412
+   ],
+   "turn_share_wo_top2": 0.46551724137931033,
+   "turn_wo_top2": 324,
+   "lost_wo_top2": 696,
+   "n_aircraft_turn": 75
+  },
+  "LSZH_1106_peak|M1|ekf": {
+   "lost": 281,
+   "turn": 235,
+   "misses": 42,
+   "other": 4,
+   "turn_share": 0.8362989323843416,
+   "base_rate": 0.17304729292250803,
+   "share_over_base": 4.832776741320322,
+   "top2": [
+    1337,
+    1346
+   ],
+   "turn_share_wo_top2": 0.7964601769911505,
+   "turn_wo_top2": 180,
+   "lost_wo_top2": 226,
+   "n_aircraft_turn": 37
+  },
+  "LSZH_1111_same|M1|ekf": {
+   "lost": 78,
+   "turn": 40,
+   "misses": 38,
+   "other": 0,
+   "turn_share": 0.5128205128205128,
+   "base_rate": 0.12918321224734738,
+   "share_over_base": 3.9697148251633054,
+   "top2": [
+    554,
+    1174
+   ],
+   "turn_share_wo_top2": 0.42424242424242425,
+   "turn_wo_top2": 28,
+   "lost_wo_top2": 66,
+   "n_aircraft_turn": 14
+  },
+  "YSSY_1106_peak|M1|ekf": {
+   "lost": 573,
+   "turn": 503,
+   "misses": 30,
+   "other": 40,
+   "turn_share": 0.8778359511343804,
+   "base_rate": 0.3361804234580334,
+   "share_over_base": 2.6112048468044238,
+   "top2": [
+    407,
+    180
+   ],
+   "turn_share_wo_top2": 0.8238805970149253,
+   "turn_wo_top2": 276,
+   "lost_wo_top2": 335,
+   "n_aircraft_turn": 42
+  },
+  "YSSY_1111_same|M1|ekf": {
+   "lost": 121,
+   "turn": 107,
+   "misses": 13,
+   "other": 1,
+   "turn_share": 0.8842975206611571,
+   "base_rate": 0.30331082730008946,
+   "share_over_base": 2.9154828679632048,
+   "top2": [
+    154,
+    66
+   ],
+   "turn_share_wo_top2": 0.8555555555555555,
+   "turn_wo_top2": 77,
+   "lost_wo_top2": 90,
+   "n_aircraft_turn": 22
+  },
+  "OOS12|M1|ekf": {
+   "lost": 4579,
+   "turn": 3199,
+   "misses": 754,
+   "other": 626,
+   "turn_share": 0.6986241537453592,
+   "base_rate": 0.20735146083565567,
+   "share_over_base": 3.3692752919598696,
+   "top2": [
+    407,
+    1737
+   ],
+   "turn_share_wo_top2": 0.676663542642924,
+   "turn_wo_top2": 2888,
+   "lost_wo_top2": 4268,
+   "n_aircraft_turn": 487
+  },
+  "EHAM_1106_eval|M1|imm": {
+   "lost": 209,
+   "turn": 135,
+   "misses": 71,
+   "other": 3,
+   "turn_share": 0.645933014354067,
+   "base_rate": 0.19318514514785037,
+   "share_over_base": 3.343595667563959,
+   "top2": [
+    2233,
+    252
+   ],
+   "turn_share_wo_top2": 0.3392857142857143,
+   "turn_wo_top2": 38,
+   "lost_wo_top2": 112,
+   "n_aircraft_turn": 23
+  },
+  "EGLL_1106_peak|M1|imm": {
+   "lost": 287,
+   "turn": 114,
+   "misses": 80,
+   "other": 93,
+   "turn_share": 0.397212543554007,
+   "base_rate": 0.24088452566687651,
+   "share_over_base": 1.6489749287727982,
+   "top2": [
+    2359,
+    95
+   ],
+   "turn_share_wo_top2": 0.2782608695652174,
+   "turn_wo_top2": 64,
+   "lost_wo_top2": 230,
+   "n_aircraft_turn": 45
+  },
+  "EGLL_1111_same|M1|imm": {
+   "lost": 246,
+   "turn": 46,
+   "misses": 58,
+   "other": 142,
+   "turn_share": 0.18699186991869918,
+   "base_rate": 0.2062449791433076,
+   "share_over_base": 0.9066493191515195,
+   "top2": [
+    2058,
+    1153
+   ],
+   "turn_share_wo_top2": 0.14798206278026907,
+   "turn_wo_top2": 33,
+   "lost_wo_top2": 223,
+   "n_aircraft_turn": 28
+  },
+  "EHAM_1106_busy2|M1|imm": {
+   "lost": 220,
+   "turn": 106,
+   "misses": 80,
+   "other": 34,
+   "turn_share": 0.4818181818181818,
+   "base_rate": 0.21741159170284066,
+   "share_over_base": 2.2161568205467788,
+   "top2": [
+    924,
+    1448
+   ],
+   "turn_share_wo_top2": 0.3651685393258427,
+   "turn_wo_top2": 65,
+   "lost_wo_top2": 178,
+   "n_aircraft_turn": 22
+  },
+  "EHAM_1111_same|M1|imm": {
+   "lost": 48,
+   "turn": 10,
+   "misses": 36,
+   "other": 2,
+   "turn_share": 0.20833333333333334,
+   "base_rate": 0.12684782434232703,
+   "share_over_base": 1.6423879117634652,
+   "top2": [
+    357,
+    445
+   ],
+   "turn_share_wo_top2": 0.11904761904761904,
+   "turn_wo_top2": 5,
+   "lost_wo_top2": 42,
+   "n_aircraft_turn": 7
+  },
+  "ENGM_1106_peak|M1|imm": {
+   "lost": 10,
+   "turn": 2,
+   "misses": 8,
+   "other": 0,
+   "turn_share": 0.2,
+   "base_rate": 0.23303255039405146,
+   "share_over_base": 0.8582492002160456,
+   "top2": [
+    65,
+    245
+   ],
+   "turn_share_wo_top2": 0.0,
+   "turn_wo_top2": 0,
+   "lost_wo_top2": 6,
+   "n_aircraft_turn": 2
+  },
+  "ENGM_1111_same|M1|imm": {
+   "lost": 10,
+   "turn": 4,
+   "misses": 6,
+   "other": 0,
+   "turn_share": 0.4,
+   "base_rate": 0.11557152206302129,
+   "share_over_base": 3.4610602409638553,
+   "top2": [
+    145,
+    186
+   ],
+   "turn_share_wo_top2": 0.14285714285714285,
+   "turn_wo_top2": 1,
+   "lost_wo_top2": 7,
+   "n_aircraft_turn": 3
+  },
+  "KATL_1106_peak|M1|imm": {
+   "lost": 560,
+   "turn": 263,
+   "misses": 199,
+   "other": 98,
+   "turn_share": 0.46964285714285714,
+   "base_rate": 0.18522049175720012,
+   "share_over_base": 2.5355880048007733,
+   "top2": [
+    2938,
+    923
+   ],
+   "turn_share_wo_top2": 0.30660377358490565,
+   "turn_wo_top2": 130,
+   "lost_wo_top2": 424,
+   "n_aircraft_turn": 40
+  },
+  "KATL_1111_same|M1|imm": {
+   "lost": 665,
+   "turn": 292,
+   "misses": 161,
+   "other": 212,
+   "turn_share": 0.43909774436090226,
+   "base_rate": 0.18137152810648086,
+   "share_over_base": 2.4209849745717182,
+   "top2": [
+    1737,
+    2844
+   ],
+   "turn_share_wo_top2": 0.3180987202925046,
+   "turn_wo_top2": 174,
+   "lost_wo_top2": 547,
+   "n_aircraft_turn": 41
+  },
+  "LSZH_1106_peak|M1|imm": {
+   "lost": 63,
+   "turn": 16,
+   "misses": 43,
+   "other": 4,
+   "turn_share": 0.25396825396825395,
+   "base_rate": 0.1731498180886675,
+   "share_over_base": 1.4667543793675861,
+   "top2": [
+    1027,
+    1337
+   ],
+   "turn_share_wo_top2": 0.17543859649122806,
+   "turn_wo_top2": 10,
+   "lost_wo_top2": 57,
+   "n_aircraft_turn": 12
+  },
+  "LSZH_1111_same|M1|imm": {
+   "lost": 46,
+   "turn": 7,
+   "misses": 39,
+   "other": 0,
+   "turn_share": 0.15217391304347827,
+   "base_rate": 0.12922273574547405,
+   "share_over_base": 1.1776094366490617,
+   "top2": [
+    1092,
+    871
+   ],
+   "turn_share_wo_top2": 0.05714285714285714,
+   "turn_wo_top2": 2,
+   "lost_wo_top2": 35,
+   "n_aircraft_turn": 4
+  },
+  "YSSY_1106_peak|M1|imm": {
+   "lost": 310,
+   "turn": 253,
+   "misses": 30,
+   "other": 27,
+   "turn_share": 0.8161290322580645,
+   "base_rate": 0.33621613894646557,
+   "share_over_base": 2.427393981786263,
+   "top2": [
+    407,
+    180
+   ],
+   "turn_share_wo_top2": 0.6993464052287581,
+   "turn_wo_top2": 107,
+   "lost_wo_top2": 153,
+   "n_aircraft_turn": 25
+  },
+  "YSSY_1111_same|M1|imm": {
+   "lost": 51,
+   "turn": 38,
+   "misses": 12,
+   "other": 1,
+   "turn_share": 0.7450980392156863,
+   "base_rate": 0.3033297180043384,
+   "share_over_base": 2.4563964392207343,
+   "top2": [
+    154,
+    399
+   ],
+   "turn_share_wo_top2": 0.5,
+   "turn_wo_top2": 13,
+   "lost_wo_top2": 26,
+   "n_aircraft_turn": 11
+  },
+  "OOS12|M1|imm": {
+   "lost": 2516,
+   "turn": 1151,
+   "misses": 752,
+   "other": 613,
+   "turn_share": 0.45747217806041335,
+   "base_rate": 0.20744777544757853,
+   "share_over_base": 2.2052402204525703,
+   "top2": [
+    407,
+    1737
+   ],
+   "turn_share_wo_top2": 0.4129032258064516,
+   "turn_wo_top2": 960,
+   "lost_wo_top2": 2325,
+   "n_aircraft_turn": 231
+  },
+  "EHAM_1106_eval|M2|ekf": {
+   "lost": 429,
+   "turn": 234,
+   "misses": 191,
+   "other": 4,
+   "turn_share": 0.5454545454545454,
+   "base_rate": 0.15075559795160157,
+   "share_over_base": 3.618137919028769,
+   "top2": [
+    252,
+    2233
+   ],
+   "turn_share_wo_top2": 0.29856115107913667,
+   "turn_wo_top2": 83,
+   "lost_wo_top2": 278,
+   "n_aircraft_turn": 36
+  },
+  "EGLL_1106_peak|M2|ekf": {
+   "lost": 835,
+   "turn": 527,
+   "misses": 217,
+   "other": 91,
+   "turn_share": 0.6311377245508982,
+   "base_rate": 0.23571683662727863,
+   "share_over_base": 2.677525006619994,
+   "top2": [
+    2359,
+    432
+   ],
+   "turn_share_wo_top2": 0.5769230769230769,
+   "turn_wo_top2": 420,
+   "lost_wo_top2": 728,
+   "n_aircraft_turn": 92
+  },
+  "EGLL_1111_same|M2|ekf": {
+   "lost": 581,
+   "turn": 281,
+   "misses": 160,
+   "other": 140,
+   "turn_share": 0.4836488812392427,
+   "base_rate": 0.20647337324074355,
+   "share_over_base": 2.3424273728279648,
+   "top2": [
+    928,
+    1667
+   ],
+   "turn_share_wo_top2": 0.4296577946768061,
+   "turn_wo_top2": 226,
+   "lost_wo_top2": 526,
+   "n_aircraft_turn": 71
+  },
+  "EHAM_1106_busy2|M2|ekf": {
+   "lost": 458,
+   "turn": 231,
+   "misses": 196,
+   "other": 31,
+   "turn_share": 0.5043668122270742,
+   "base_rate": 0.18181901438763268,
+   "share_over_base": 2.774004764714978,
+   "top2": [
+    924,
+    1953
+   ],
+   "turn_share_wo_top2": 0.3962765957446808,
+   "turn_wo_top2": 149,
+   "lost_wo_top2": 376,
+   "n_aircraft_turn": 39
+  },
+  "EHAM_1111_same|M2|ekf": {
+   "lost": 161,
+   "turn": 82,
+   "misses": 78,
+   "other": 1,
+   "turn_share": 0.5093167701863354,
+   "base_rate": 0.12587249039302895,
+   "share_over_base": 4.0462913587871805,
+   "top2": [
+    1344,
+    445
+   ],
+   "turn_share_wo_top2": 0.417910447761194,
+   "turn_wo_top2": 56,
+   "lost_wo_top2": 134,
+   "n_aircraft_turn": 25
+  },
+  "ENGM_1106_peak|M2|ekf": {
+   "lost": 97,
+   "turn": 88,
+   "misses": 9,
+   "other": 0,
+   "turn_share": 0.9072164948453608,
+   "base_rate": 0.2327906976744186,
+   "share_over_base": 3.897133794041011,
+   "top2": [
+    65,
+    175
+   ],
+   "turn_share_wo_top2": 0.8955223880597015,
+   "turn_wo_top2": 60,
+   "lost_wo_top2": 67,
+   "n_aircraft_turn": 20
+  },
+  "ENGM_1111_same|M2|ekf": {
+   "lost": 28,
+   "turn": 22,
+   "misses": 6,
+   "other": 0,
+   "turn_share": 0.7857142857142857,
+   "base_rate": 0.11561659864324618,
+   "share_over_base": 6.795860585197935,
+   "top2": [
+    145,
+    174
+   ],
+   "turn_share_wo_top2": 0.625,
+   "turn_wo_top2": 10,
+   "lost_wo_top2": 16,
+   "n_aircraft_turn": 8
+  },
+  "KATL_1106_peak|M2|ekf": {
+   "lost": 1149,
+   "turn": 516,
+   "misses": 538,
+   "other": 95,
+   "turn_share": 0.4490861618798956,
+   "base_rate": 0.18688281873634607,
+   "share_over_base": 2.4030361106307234,
+   "top2": [
+    923,
+    2938
+   ],
+   "turn_share_wo_top2": 0.3640040444893832,
+   "turn_wo_top2": 360,
+   "lost_wo_top2": 989,
+   "n_aircraft_turn": 78
+  },
+  "KATL_1111_same|M2|ekf": {
+   "lost": 1035,
+   "turn": 485,
+   "misses": 340,
+   "other": 210,
+   "turn_share": 0.46859903381642515,
+   "base_rate": 0.18249476133614181,
+   "share_over_base": 2.5677396457057773,
+   "top2": [
+    1737,
+    412
+   ],
+   "turn_share_wo_top2": 0.3567251461988304,
+   "turn_wo_top2": 305,
+   "lost_wo_top2": 855,
+   "n_aircraft_turn": 75
+  },
+  "LSZH_1106_peak|M2|ekf": {
+   "lost": 467,
+   "turn": 240,
+   "misses": 223,
+   "other": 4,
+   "turn_share": 0.5139186295503212,
+   "base_rate": 0.17496035482865935,
+   "share_over_base": 2.937343320168775,
+   "top2": [
+    1337,
+    1346
+   ],
+   "turn_share_wo_top2": 0.44902912621359226,
+   "turn_wo_top2": 185,
+   "lost_wo_top2": 412,
+   "n_aircraft_turn": 37
+  },
+  "LSZH_1111_same|M2|ekf": {
+   "lost": 162,
+   "turn": 42,
+   "misses": 120,
+   "other": 0,
+   "turn_share": 0.25925925925925924,
+   "base_rate": 0.13082692183358116,
+   "share_over_base": 1.9816965470536017,
+   "top2": [
+    554,
+    1174
+   ],
+   "turn_share_wo_top2": 0.1891891891891892,
+   "turn_wo_top2": 28,
+   "lost_wo_top2": 148,
+   "n_aircraft_turn": 14
+  },
+  "YSSY_1106_peak|M2|ekf": {
+   "lost": 578,
+   "turn": 504,
+   "misses": 50,
+   "other": 24,
+   "turn_share": 0.8719723183391004,
+   "base_rate": 0.3362045911100884,
+   "share_over_base": 2.5935764751456882,
+   "top2": [
+    407,
+    180
+   ],
+   "turn_share_wo_top2": 0.8147058823529412,
+   "turn_wo_top2": 277,
+   "lost_wo_top2": 340,
+   "n_aircraft_turn": 42
+  },
+  "YSSY_1111_same|M2|ekf": {
+   "lost": 162,
+   "turn": 108,
+   "misses": 53,
+   "other": 1,
+   "turn_share": 0.6666666666666666,
+   "base_rate": 0.30389754345546327,
+   "share_over_base": 2.193721802046642,
+   "top2": [
+    154,
+    66
+   ],
+   "turn_share_wo_top2": 0.5954198473282443,
+   "turn_wo_top2": 78,
+   "lost_wo_top2": 131,
+   "n_aircraft_turn": 22
+  },
+  "OOS12|M2|ekf": {
+   "lost": 5713,
+   "turn": 3126,
+   "misses": 1990,
+   "other": 597,
+   "turn_share": 0.547173113950639,
+   "base_rate": 0.20463855863453448,
+   "share_over_base": 2.673851485280638,
+   "top2": [
+    407,
+    1737
+   ],
+   "turn_share_wo_top2": 0.523039762170197,
+   "turn_wo_top2": 2815,
+   "lost_wo_top2": 5382,
+   "n_aircraft_turn": 480
+  },
+  "EHAM_1106_eval|M2|imm": {
+   "lost": 298,
+   "turn": 102,
+   "misses": 193,
+   "other": 3,
+   "turn_share": 0.3422818791946309,
+   "base_rate": 0.15097849168932928,
+   "share_over_base": 2.2670903342904594,
+   "top2": [
+    2233,
+    252
+   ],
+   "turn_share_wo_top2": 0.08411214953271028,
+   "turn_wo_top2": 18,
+   "lost_wo_top2": 214,
+   "n_aircraft_turn": 13
+  },
+  "EGLL_1106_peak|M2|imm": {
+   "lost": 419,
+   "turn": 117,
+   "misses": 212,
+   "other": 90,
+   "turn_share": 0.27923627684964203,
+   "base_rate": 0.23590793365211168,
+   "share_over_base": 1.1836663249377009,
+   "top2": [
+    2359,
+    1251
+   ],
+   "turn_share_wo_top2": 0.16434540389972144,
+   "turn_wo_top2": 59,
+   "lost_wo_top2": 359,
+   "n_aircraft_turn": 33
+  },
+  "EGLL_1111_same|M2|imm": {
+   "lost": 333,
+   "turn": 31,
+   "misses": 160,
+   "other": 142,
+   "turn_share": 0.09309309309309309,
+   "base_rate": 0.2065427538170739,
+   "share_over_base": 0.45072069279923355,
+   "top2": [
+    573,
+    837
+   ],
+   "turn_share_wo_top2": 0.08206686930091185,
+   "turn_wo_top2": 27,
+   "lost_wo_top2": 329,
+   "n_aircraft_turn": 25
+  },
+  "EHAM_1106_busy2|M2|imm": {
+   "lost": 318,
+   "turn": 87,
+   "misses": 198,
+   "other": 33,
+   "turn_share": 0.27358490566037735,
+   "base_rate": 0.18191363375535669,
+   "share_over_base": 1.5039274408003038,
+   "top2": [
+    924,
+    1491
+   ],
+   "turn_share_wo_top2": 0.17204301075268819,
+   "turn_wo_top2": 48,
+   "lost_wo_top2": 279,
+   "n_aircraft_turn": 15
+  },
+  "EHAM_1111_same|M2|imm": {
+   "lost": 86,
+   "turn": 9,
+   "misses": 76,
+   "other": 1,
+   "turn_share": 0.10465116279069768,
+   "base_rate": 0.12607728214513178,
+   "share_over_base": 0.8300556691111902,
+   "top2": [
+    1344,
+    445
+   ],
+   "turn_share_wo_top2": 0.0379746835443038,
+   "turn_wo_top2": 3,
+   "lost_wo_top2": 79,
+   "n_aircraft_turn": 4
+  },
+  "ENGM_1106_peak|M2|imm": {
+   "lost": 11,
+   "turn": 2,
+   "misses": 9,
+   "other": 0,
+   "turn_share": 0.18181818181818182,
+   "base_rate": 0.23306894447834045,
+   "share_over_base": 0.7801047120418848,
+   "top2": [
+    65,
+    245
+   ],
+   "turn_share_wo_top2": 0.0,
+   "turn_wo_top2": 0,
+   "lost_wo_top2": 7,
+   "n_aircraft_turn": 2
+  },
+  "ENGM_1111_same|M2|imm": {
+   "lost": 10,
+   "turn": 4,
+   "misses": 6,
+   "other": 0,
+   "turn_share": 0.4,
+   "base_rate": 0.11561176732783597,
+   "share_over_base": 3.459855421686747,
+   "top2": [
+    145,
+    186
+   ],
+   "turn_share_wo_top2": 0.14285714285714285,
+   "turn_wo_top2": 1,
+   "lost_wo_top2": 7,
+   "n_aircraft_turn": 3
+  },
+  "KATL_1106_peak|M2|imm": {
+   "lost": 892,
+   "turn": 263,
+   "misses": 541,
+   "other": 88,
+   "turn_share": 0.2948430493273543,
+   "base_rate": 0.18696635508827517,
+   "share_over_base": 1.5769845285166184,
+   "top2": [
+    2938,
+    923
+   ],
+   "turn_share_wo_top2": 0.17195767195767195,
+   "turn_wo_top2": 130,
+   "lost_wo_top2": 756,
+   "n_aircraft_turn": 40
+  },
+  "KATL_1111_same|M2|imm": {
+   "lost": 822,
+   "turn": 270,
+   "misses": 342,
+   "other": 210,
+   "turn_share": 0.3284671532846715,
+   "base_rate": 0.18253221601236225,
+   "share_over_base": 1.7995023588736008,
+   "top2": [
+    1737,
+    2844
+   ],
+   "turn_share_wo_top2": 0.2159090909090909,
+   "turn_wo_top2": 152,
+   "lost_wo_top2": 704,
+   "n_aircraft_turn": 41
+  },
+  "LSZH_1106_peak|M2|imm": {
+   "lost": 245,
+   "turn": 16,
+   "misses": 224,
+   "other": 5,
+   "turn_share": 0.0653061224489796,
+   "base_rate": 0.1750629987400252,
+   "share_over_base": 0.373043549573611,
+   "top2": [
+    1027,
+    1337
+   ],
+   "turn_share_wo_top2": 0.04184100418410042,
+   "turn_wo_top2": 10,
+   "lost_wo_top2": 239,
+   "n_aircraft_turn": 12
+  },
+  "LSZH_1111_same|M2|imm": {
+   "lost": 128,
+   "turn": 6,
+   "misses": 121,
+   "other": 1,
+   "turn_share": 0.046875,
+   "base_rate": 0.13086256941346833,
+   "share_over_base": 0.358200211184113,
+   "top2": [
+    871,
+    1092
+   ],
+   "turn_share_wo_top2": 0.01694915254237288,
+   "turn_wo_top2": 2,
+   "lost_wo_top2": 118,
+   "n_aircraft_turn": 4
+  },
+  "YSSY_1106_peak|M2|imm": {
+   "lost": 327,
+   "turn": 253,
+   "misses": 50,
+   "other": 24,
+   "turn_share": 0.7737003058103975,
+   "base_rate": 0.3362476370510397,
+   "share_over_base": 2.3009836220587507,
+   "top2": [
+    407,
+    180
+   ],
+   "turn_share_wo_top2": 0.6294117647058823,
+   "turn_wo_top2": 107,
+   "lost_wo_top2": 170,
+   "n_aircraft_turn": 25
+  },
+  "YSSY_1111_same|M2|imm": {
+   "lost": 91,
+   "turn": 38,
+   "misses": 52,
+   "other": 1,
+   "turn_share": 0.4175824175824176,
+   "base_rate": 0.3039164547608181,
+   "share_over_base": 1.3740039772149044,
+   "top2": [
+    154,
+    399
+   ],
+   "turn_share_wo_top2": 0.19696969696969696,
+   "turn_wo_top2": 13,
+   "lost_wo_top2": 66,
+   "n_aircraft_turn": 11
+  },
+  "OOS12|M2|imm": {
+   "lost": 3682,
+   "turn": 1096,
+   "misses": 1991,
+   "other": 595,
+   "turn_share": 0.29766431287343836,
+   "base_rate": 0.204733596298176,
+   "share_over_base": 1.4539104390073683,
+   "top2": [
+    407,
+    1737
+   ],
+   "turn_share_wo_top2": 0.26073177758571014,
+   "turn_wo_top2": 905,
+   "lost_wo_top2": 3471,
+   "n_aircraft_turn": 208
+  },
+  "EHAM_1106_eval|M4|ekf": {
+   "lost": 418,
+   "turn": 270,
+   "misses": 141,
+   "other": 7,
+   "turn_share": 0.645933014354067,
+   "base_rate": 0.1506862218705551,
+   "share_over_base": 4.28660966036395,
+   "top2": [
+    252,
+    2233
+   ],
+   "turn_share_wo_top2": 0.3755274261603376,
+   "turn_wo_top2": 89,
+   "lost_wo_top2": 237,
+   "n_aircraft_turn": 39
+  },
+  "EGLL_1106_peak|M4|ekf": {
+   "lost": 902,
+   "turn": 584,
+   "misses": 210,
+   "other": 108,
+   "turn_share": 0.647450110864745,
+   "base_rate": 0.23569698397076463,
+   "share_over_base": 2.7469596766034705,
+   "top2": [
+    2359,
+    432
+   ],
+   "turn_share_wo_top2": 0.596958174904943,
+   "turn_wo_top2": 471,
+   "lost_wo_top2": 789,
+   "n_aircraft_turn": 104
+  },
+  "EGLL_1111_same|M4|ekf": {
+   "lost": 644,
+   "turn": 316,
+   "misses": 181,
+   "other": 147,
+   "turn_share": 0.4906832298136646,
+   "base_rate": 0.2066000259078544,
+   "share_over_base": 2.3750395366964474,
+   "top2": [
+    928,
+    1667
+   ],
+   "turn_share_wo_top2": 0.44594594594594594,
+   "turn_wo_top2": 264,
+   "lost_wo_top2": 592,
+   "n_aircraft_turn": 78
+  },
+  "EHAM_1106_busy2|M4|ekf": {
+   "lost": 478,
+   "turn": 243,
+   "misses": 206,
+   "other": 29,
+   "turn_share": 0.5083682008368201,
+   "base_rate": 0.18172371955710537,
+   "share_over_base": 2.7974785134037994,
+   "top2": [
+    924,
+    1448
+   ],
+   "turn_share_wo_top2": 0.390625,
+   "turn_wo_top2": 150,
+   "lost_wo_top2": 384,
+   "n_aircraft_turn": 44
+  },
+  "EHAM_1111_same|M4|ekf": {
+   "lost": 169,
+   "turn": 74,
+   "misses": 88,
+   "other": 7,
+   "turn_share": 0.4378698224852071,
+   "base_rate": 0.12580388931225378,
+   "share_over_base": 3.480574606071077,
+   "top2": [
+    18,
+    1344
+   ],
+   "turn_share_wo_top2": 0.3624161073825503,
+   "turn_wo_top2": 54,
+   "lost_wo_top2": 149,
+   "n_aircraft_turn": 29
+  },
+  "ENGM_1106_peak|M4|ekf": {
+   "lost": 111,
+   "turn": 92,
+   "misses": 8,
+   "other": 11,
+   "turn_share": 0.8288288288288288,
+   "base_rate": 0.23287259323924536,
+   "share_over_base": 3.559151454019831,
+   "top2": [
+    65,
+    175
+   ],
+   "turn_share_wo_top2": 0.7831325301204819,
+   "turn_wo_top2": 65,
+   "lost_wo_top2": 83,
+   "n_aircraft_turn": 22
+  },
+  "ENGM_1111_same|M4|ekf": {
+   "lost": 37,
+   "turn": 24,
+   "misses": 9,
+   "other": 4,
+   "turn_share": 0.6486486486486487,
+   "base_rate": 0.11590782122905027,
+   "share_over_base": 5.596245721562025,
+   "top2": [
+    174,
+    145
+   ],
+   "turn_share_wo_top2": 0.5384615384615384,
+   "turn_wo_top2": 14,
+   "lost_wo_top2": 26,
+   "n_aircraft_turn": 10
+  },
+  "KATL_1106_peak|M4|ekf": {
+   "lost": 1153,
+   "turn": 546,
+   "misses": 510,
+   "other": 97,
+   "turn_share": 0.4735472679965308,
+   "base_rate": 0.18665737091266743,
+   "share_over_base": 2.5369867028615354,
+   "top2": [
+    923,
+    2938
+   ],
+   "turn_share_wo_top2": 0.39235412474849096,
+   "turn_wo_top2": 390,
+   "lost_wo_top2": 994,
+   "n_aircraft_turn": 84
+  },
+  "KATL_1111_same|M4|ekf": {
+   "lost": 1095,
+   "turn": 509,
+   "misses": 381,
+   "other": 205,
+   "turn_share": 0.4648401826484018,
+   "base_rate": 0.18254432026370812,
+   "share_over_base": 2.5464510863821017,
+   "top2": [
+    1737,
+    2844
+   ],
+   "turn_share_wo_top2": 0.35320088300220753,
+   "turn_wo_top2": 320,
+   "lost_wo_top2": 906,
+   "n_aircraft_turn": 77
+  },
+  "LSZH_1106_peak|M4|ekf": {
+   "lost": 466,
+   "turn": 215,
+   "misses": 231,
+   "other": 20,
+   "turn_share": 0.4613733905579399,
+   "base_rate": 0.17482125725650022,
+   "share_over_base": 2.6391149325794308,
+   "top2": [
+    1346,
+    1337
+   ],
+   "turn_share_wo_top2": 0.3932038834951456,
+   "turn_wo_top2": 162,
+   "lost_wo_top2": 412,
+   "n_aircraft_turn": 33
+  },
+  "LSZH_1111_same|M4|ekf": {
+   "lost": 156,
+   "turn": 30,
+   "misses": 123,
+   "other": 3,
+   "turn_share": 0.19230769230769232,
+   "base_rate": 0.13070973170652772,
+   "share_over_base": 1.4712576469781582,
+   "top2": [
+    416,
+    1174
+   ],
+   "turn_share_wo_top2": 0.13934426229508196,
+   "turn_wo_top2": 17,
+   "lost_wo_top2": 122,
+   "n_aircraft_turn": 8
+  },
+  "YSSY_1106_peak|M4|ekf": {
+   "lost": 607,
+   "turn": 523,
+   "misses": 48,
+   "other": 36,
+   "turn_share": 0.8616144975288303,
+   "base_rate": 0.3352530285115291,
+   "share_over_base": 2.570042398585521,
+   "top2": [
+    407,
+    180
+   ],
+   "turn_share_wo_top2": 0.8015665796344648,
+   "turn_wo_top2": 307,
+   "lost_wo_top2": 383,
+   "n_aircraft_turn": 48
+  },
+  "YSSY_1111_same|M4|ekf": {
+   "lost": 167,
+   "turn": 106,
+   "misses": 55,
+   "other": 6,
+   "turn_share": 0.6347305389221557,
+   "base_rate": 0.3032314220433032,
+   "share_over_base": 2.093221522509341,
+   "top2": [
+    268,
+    154
+   ],
+   "turn_share_wo_top2": 0.5763888888888888,
+   "turn_wo_top2": 83,
+   "lost_wo_top2": 144,
+   "n_aircraft_turn": 27
+  },
+  "OOS12|M4|ekf": {
+   "lost": 5985,
+   "turn": 3262,
+   "misses": 2050,
+   "other": 673,
+   "turn_share": 0.5450292397660819,
+   "base_rate": 0.20447333435616097,
+   "share_over_base": 2.6655272262383374,
+   "top2": [
+    407,
+    1737
+   ],
+   "turn_share_wo_top2": 0.5232968584539358,
+   "turn_wo_top2": 2965,
+   "lost_wo_top2": 5666,
+   "n_aircraft_turn": 510
+  },
+  "EHAM_1106_eval|M4|imm": {
+   "lost": 278,
+   "turn": 130,
+   "misses": 141,
+   "other": 7,
+   "turn_share": 0.4676258992805755,
+   "base_rate": 0.15091260063717257,
+   "share_over_base": 3.098653772489496,
+   "top2": [
+    2233,
+    252
+   ],
+   "turn_share_wo_top2": 0.17777777777777778,
+   "turn_wo_top2": 32,
+   "lost_wo_top2": 180,
+   "n_aircraft_turn": 22
+  },
+  "EGLL_1106_peak|M4|imm": {
+   "lost": 472,
+   "turn": 143,
+   "misses": 208,
+   "other": 121,
+   "turn_share": 0.3029661016949153,
+   "base_rate": 0.23591388426736606,
+   "share_over_base": 1.2842232776412497,
+   "top2": [
+    2359,
+    1251
+   ],
+   "turn_share_wo_top2": 0.1712846347607053,
+   "turn_wo_top2": 68,
+   "lost_wo_top2": 397,
+   "n_aircraft_turn": 39
+  },
+  "EGLL_1111_same|M4|imm": {
+   "lost": 369,
+   "turn": 42,
+   "misses": 180,
+   "other": 147,
+   "turn_share": 0.11382113821138211,
+   "base_rate": 0.20663690450490904,
+   "share_over_base": 0.5508267677745728,
+   "top2": [
+    928,
+    683
+   ],
+   "turn_share_wo_top2": 0.10164835164835165,
+   "turn_wo_top2": 37,
+   "lost_wo_top2": 364,
+   "n_aircraft_turn": 35
+  },
+  "EHAM_1106_busy2|M4|imm": {
+   "lost": 308,
+   "turn": 71,
+   "misses": 209,
+   "other": 28,
+   "turn_share": 0.2305194805194805,
+   "base_rate": 0.18182790311148045,
+   "share_over_base": 1.2677893578201074,
+   "top2": [
+    924,
+    1448
+   ],
+   "turn_share_wo_top2": 0.14492753623188406,
+   "turn_wo_top2": 40,
+   "lost_wo_top2": 276,
+   "n_aircraft_turn": 20
+  },
+  "EHAM_1111_same|M4|imm": {
+   "lost": 114,
+   "turn": 15,
+   "misses": 88,
+   "other": 11,
+   "turn_share": 0.13157894736842105,
+   "base_rate": 0.1259080684044603,
+   "share_over_base": 1.0450398376833476,
+   "top2": [
+    18,
+    1344
+   ],
+   "turn_share_wo_top2": 0.07476635514018691,
+   "turn_wo_top2": 8,
+   "lost_wo_top2": 107,
+   "n_aircraft_turn": 9
+  },
+  "ENGM_1106_peak|M4|imm": {
+   "lost": 31,
+   "turn": 8,
+   "misses": 8,
+   "other": 15,
+   "turn_share": 0.25806451612903225,
+   "base_rate": 0.23324802233597022,
+   "share_over_base": 1.106395302067412,
+   "top2": [
+    65,
+    67
+   ],
+   "turn_share_wo_top2": 0.16,
+   "turn_wo_top2": 4,
+   "lost_wo_top2": 25,
+   "n_aircraft_turn": 6
+  },
+  "ENGM_1111_same|M4|imm": {
+   "lost": 19,
+   "turn": 4,
+   "misses": 9,
+   "other": 6,
+   "turn_share": 0.21052631578947367,
+   "base_rate": 0.1159110589681276,
+   "share_over_base": 1.8162746304247182,
+   "top2": [
+    230,
+    174
+   ],
+   "turn_share_wo_top2": 0.07142857142857142,
+   "turn_wo_top2": 1,
+   "lost_wo_top2": 14,
+   "n_aircraft_turn": 3
+  },
+  "KATL_1106_peak|M4|imm": {
+   "lost": 875,
+   "turn": 271,
+   "misses": 514,
+   "other": 90,
+   "turn_share": 0.3097142857142857,
+   "base_rate": 0.18673184239426563,
+   "share_over_base": 1.6586045622596866,
+   "top2": [
+    923,
+    2938
+   ],
+   "turn_share_wo_top2": 0.19759679572763686,
+   "turn_wo_top2": 148,
+   "lost_wo_top2": 749,
+   "n_aircraft_turn": 48
+  },
+  "KATL_1111_same|M4|imm": {
+   "lost": 887,
+   "turn": 305,
+   "misses": 384,
+   "other": 198,
+   "turn_share": 0.3438556933483653,
+   "base_rate": 0.18259363121172045,
+   "share_over_base": 1.8831746269926508,
+   "top2": [
+    1737,
+    2844
+   ],
+   "turn_share_wo_top2": 0.215633423180593,
+   "turn_wo_top2": 160,
+   "lost_wo_top2": 742,
+   "n_aircraft_turn": 38
+  },
+  "LSZH_1106_peak|M4|imm": {
+   "lost": 276,
+   "turn": 20,
+   "misses": 235,
+   "other": 21,
+   "turn_share": 0.07246376811594203,
+   "base_rate": 0.174896211818901,
+   "share_over_base": 0.41432440052489966,
+   "top2": [
+    419,
+    1346
+   ],
+   "turn_share_wo_top2": 0.041353383458646614,
+   "turn_wo_top2": 11,
+   "lost_wo_top2": 266,
+   "n_aircraft_turn": 12
+  },
+  "LSZH_1111_same|M4|imm": {
+   "lost": 137,
+   "turn": 7,
+   "misses": 123,
+   "other": 7,
+   "turn_share": 0.051094890510948905,
+   "base_rate": 0.13073278707623004,
+   "share_over_base": 0.39083455385339233,
+   "top2": [
+    939,
+    416
+   ],
+   "turn_share_wo_top2": 0.018518518518518517,
+   "turn_wo_top2": 2,
+   "lost_wo_top2": 108,
+   "n_aircraft_turn": 4
+  },
+  "YSSY_1106_peak|M4|imm": {
+   "lost": 344,
+   "turn": 255,
+   "misses": 49,
+   "other": 40,
+   "turn_share": 0.7412790697674418,
+   "base_rate": 0.33532754823858213,
+   "share_over_base": 2.210611903678219,
+   "top2": [
+    407,
+    180
+   ],
+   "turn_share_wo_top2": 0.595,
+   "turn_wo_top2": 119,
+   "lost_wo_top2": 200,
+   "n_aircraft_turn": 26
+  },
+  "YSSY_1111_same|M4|imm": {
+   "lost": 101,
+   "turn": 41,
+   "misses": 55,
+   "other": 5,
+   "turn_share": 0.40594059405940597,
+   "base_rate": 0.30322433236681334,
+   "share_over_base": 1.3387467651122924,
+   "top2": [
+    154,
+    66
+   ],
+   "turn_share_wo_top2": 0.2857142857142857,
+   "turn_wo_top2": 24,
+   "lost_wo_top2": 84,
+   "n_aircraft_turn": 16
+  },
+  "OOS12|M4|imm": {
+   "lost": 3933,
+   "turn": 1182,
+   "misses": 2062,
+   "other": 689,
+   "turn_share": 0.3005339435545385,
+   "base_rate": 0.20456589301216224,
+   "share_over_base": 1.4691302598359863,
+   "top2": [
+    1737,
+    407
+   ],
+   "turn_share_wo_top2": 0.2669889873757722,
+   "turn_wo_top2": 994,
+   "lost_wo_top2": 3723,
+   "n_aircraft_turn": 248
+  }
+ },
+ "imm_minus_ekf_oos12_per_seed": {
+  "M0": {
+   "turn": {
+    "mean": -120.0,
+    "lo": -124.10259691530686,
+    "hi": -115.89740308469314,
+    "n": 20
+   },
+   "misses": {
+    "mean": -0.95,
+    "lo": -1.3920458040241148,
+    "hi": -0.5079541959758852,
+    "n": 20
+   },
+   "lost": {
+    "mean": -121.75,
+    "lo": -126.07655275227523,
+    "hi": -117.42344724772477,
+    "n": 20
+   }
+  },
+  "M4": {
+   "turn": {
+    "mean": -104.0,
+    "lo": -108.14453255620055,
+    "hi": -99.85546744379945,
+    "n": 20
+   },
+   "misses": {
+    "mean": 0.6,
+    "lo": -0.08582372187936638,
+    "hi": 1.2858237218793662,
+    "n": 20
+   },
+   "lost": {
+    "mean": -102.6,
+    "lo": -107.0720549162953,
+    "hi": -98.12794508370469,
+    "n": 20
+   }
+  }
+ },
+ "range_bins_km": [
+  0,
+  5,
+  10,
+  15,
+  40,
+  60,
+  80,
+  90,
+  100
+ ],
+ "ranges_ekf": {
+  "all13|M1": {
+   "turn": {
+    "n": 3458,
+    "counts": [
+     133,
+     67,
+     158,
+     968,
+     783,
+     700,
+     290,
+     359
+    ],
+    "median_km": 48.08198832235478,
+    "within_15km": 358
+   },
+   "misses": {
+    "n": 828,
+    "counts": [
+     0,
+     0,
+     0,
+     0,
+     1,
+     38,
+     243,
+     546
+    ],
+    "median_km": 92.27133252354757,
+    "within_15km": 0
+   }
+  },
+  "OOS12|M1": {
+   "turn": {
+    "n": 3199,
+    "counts": [
+     133,
+     66,
+     114,
+     894,
+     773,
+     697,
+     205,
+     317
+    ],
+    "median_km": 47.981390831694576,
+    "within_15km": 313
+   },
+   "misses": {
+    "n": 754,
+    "counts": [
+     0,
+     0,
+     0,
+     0,
+     1,
+     36,
+     213,
+     504
+    ],
+    "median_km": 92.28269247156348,
+    "within_15km": 0
+   }
+  },
+  "by_scenario|M1": {
+   "EHAM_1106_eval": {
+    "n": 74,
+    "counts": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     2,
+     30,
+     42
+    ],
+    "median_km": 91.70574784465296,
+    "within_15km": 0
+   },
+   "EGLL_1106_peak": {
+    "n": 82,
+    "counts": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     3,
+     26,
+     53
+    ],
+    "median_km": 91.88589558241509,
+    "within_15km": 0
+   },
+   "EGLL_1111_same": {
+    "n": 58,
+    "counts": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     4,
+     21,
+     33
+    ],
+    "median_km": 90.73014984935787,
+    "within_15km": 0
+   },
+   "EHAM_1106_busy2": {
+    "n": 83,
+    "counts": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     8,
+     33,
+     42
+    ],
+    "median_km": 90.02683243440963,
+    "within_15km": 0
+   },
+   "EHAM_1111_same": {
+    "n": 37,
+    "counts": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     11,
+     26
+    ],
+    "median_km": 92.84730276659701,
+    "within_15km": 0
+   },
+   "ENGM_1106_peak": {
+    "n": 8,
+    "counts": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     1,
+     6
+    ],
+    "median_km": 94.2119797814681,
+    "within_15km": 0
+   },
+   "ENGM_1111_same": {
+    "n": 6,
+    "counts": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     6
+    ],
+    "median_km": 92.90985614848724,
+    "within_15km": 0
+   },
+   "KATL_1106_peak": {
+    "n": 198,
+    "counts": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     7,
+     46,
+     145
+    ],
+    "median_km": 93.11848597789967,
+    "within_15km": 0
+   },
+   "KATL_1111_same": {
+    "n": 159,
+    "counts": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     6,
+     38,
+     115
+    ],
+    "median_km": 93.19411275985074,
+    "within_15km": 0
+   },
+   "LSZH_1106_peak": {
+    "n": 42,
+    "counts": [
+     0,
+     0,
+     0,
+     0,
+     1,
+     2,
+     16,
+     23
+    ],
+    "median_km": 90.23834785588173,
+    "within_15km": 0
+   },
+   "LSZH_1111_same": {
+    "n": 38,
+    "counts": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     2,
+     14,
+     22
+    ],
+    "median_km": 90.35112450082664,
+    "within_15km": 0
+   },
+   "YSSY_1106_peak": {
+    "n": 30,
+    "counts": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     2,
+     4,
+     24
+    ],
+    "median_km": 92.56720063840845,
+    "within_15km": 0
+   },
+   "YSSY_1111_same": {
+    "n": 13,
+    "counts": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     3,
+     9
+    ],
+    "median_km": 91.69435491024119,
+    "within_15km": 0
+   }
+  },
+  "all13|M2": {
+   "turn": {
+    "n": 3360,
+    "counts": [
+     112,
+     69,
+     147,
+     953,
+     793,
+     710,
+     258,
+     318
+    ],
+    "median_km": 47.95663687029641,
+    "within_15km": 328
+   },
+   "misses": {
+    "n": 2181,
+    "counts": [
+     424,
+     674,
+     258,
+     0,
+     2,
+     43,
+     232,
+     548
+    ],
+    "median_km": 9.866802762274496,
+    "within_15km": 1356
+   }
+  },
+  "OOS12|M2": {
+   "turn": {
+    "n": 3126,
+    "counts": [
+     112,
+     69,
+     104,
+     873,
+     786,
+     710,
+     189,
+     283
+    ],
+    "median_km": 48.08198832235478,
+    "within_15km": 285
+   },
+   "misses": {
+    "n": 1990,
+    "counts": [
+     385,
+     633,
+     238,
+     0,
+     2,
+     39,
+     197,
+     496
+    ],
+    "median_km": 9.707971851503855,
+    "within_15km": 1256
+   }
+  },
+  "by_scenario|M2": {
+   "EHAM_1106_eval": {
+    "n": 191,
+    "counts": [
+     39,
+     41,
+     20,
+     0,
+     0,
+     4,
+     35,
+     52
+    ],
+    "median_km": 11.169940351800069,
+    "within_15km": 100
+   },
+   "EGLL_1106_peak": {
+    "n": 217,
+    "counts": [
+     40,
+     81,
+     0,
+     0,
+     1,
+     10,
+     27,
+     58
+    ],
+    "median_km": 9.009993608249133,
+    "within_15km": 121
+   },
+   "EGLL_1111_same": {
+    "n": 160,
+    "counts": [
+     40,
+     60,
+     20,
+     0,
+     0,
+     3,
+     7,
+     30
+    ],
+    "median_km": 8.732889136192922,
+    "within_15km": 120
+   },
+   "EHAM_1106_busy2": {
+    "n": 196,
+    "counts": [
+     20,
+     98,
+     20,
+     0,
+     0,
+     4,
+     27,
+     27
+    ],
+    "median_km": 9.634050369122408,
+    "within_15km": 138
+   },
+   "EHAM_1111_same": {
+    "n": 78,
+    "counts": [
+     0,
+     20,
+     20,
+     0,
+     0,
+     1,
+     11,
+     26
+    ],
+    "median_km": 11.081072163658858,
+    "within_15km": 40
+   },
+   "ENGM_1106_peak": {
+    "n": 9,
+    "counts": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     2,
+     6
+    ],
+    "median_km": 94.18257023369146,
+    "within_15km": 0
+   },
+   "ENGM_1111_same": {
+    "n": 6,
+    "counts": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     6
+    ],
+    "median_km": 92.90985614848724,
+    "within_15km": 0
+   },
+   "KATL_1106_peak": {
+    "n": 538,
+    "counts": [
+     122,
+     155,
+     60,
+     0,
+     0,
+     7,
+     46,
+     148
+    ],
+    "median_km": 9.114973905279088,
+    "within_15km": 337
+   },
+   "KATL_1111_same": {
+    "n": 340,
+    "counts": [
+     40,
+     21,
+     118,
+     0,
+     0,
+     6,
+     39,
+     116
+    ],
+    "median_km": 12.464536471214718,
+    "within_15km": 179
+   },
+   "LSZH_1106_peak": {
+    "n": 223,
+    "counts": [
+     41,
+     139,
+     0,
+     0,
+     1,
+     2,
+     17,
+     23
+    ],
+    "median_km": 8.9027461293493,
+    "within_15km": 180
+   },
+   "LSZH_1111_same": {
+    "n": 120,
+    "counts": [
+     22,
+     59,
+     0,
+     0,
+     0,
+     2,
+     14,
+     23
+    ],
+    "median_km": 7.227261565426949,
+    "within_15km": 81
+   },
+   "YSSY_1106_peak": {
+    "n": 50,
+    "counts": [
+     20,
+     0,
+     0,
+     0,
+     0,
+     2,
+     4,
+     24
+    ],
+    "median_km": 89.12386936167198,
+    "within_15km": 20
+   },
+   "YSSY_1111_same": {
+    "n": 53,
+    "counts": [
+     40,
+     0,
+     0,
+     0,
+     0,
+     1,
+     3,
+     9
+    ],
+    "median_km": 2.55855603323713,
+    "within_15km": 40
+   }
+  },
+  "all13|M4": {
+   "turn": {
+    "n": 3532,
+    "counts": [
+     149,
+     70,
+     166,
+     1028,
+     734,
+     771,
+     294,
+     320
+    ],
+    "median_km": 47.76796111549184,
+    "within_15km": 385
+   },
+   "misses": {
+    "n": 2191,
+    "counts": [
+     430,
+     672,
+     258,
+     0,
+     1,
+     33,
+     274,
+     523
+    ],
+    "median_km": 9.866802762274496,
+    "within_15km": 1360
+   }
+  },
+  "OOS12|M4": {
+   "turn": {
+    "n": 3262,
+    "counts": [
+     143,
+     70,
+     116,
+     935,
+     726,
+     771,
+     214,
+     287
+    ],
+    "median_km": 47.98507455362838,
+    "within_15km": 329
+   },
+   "misses": {
+    "n": 2050,
+    "counts": [
+     393,
+     630,
+     238,
+     0,
+     1,
+     32,
+     261,
+     495
+    ],
+    "median_km": 10.016034868176355,
+    "within_15km": 1261
+   }
+  },
+  "by_scenario|M4": {
+   "EHAM_1106_eval": {
+    "n": 141,
+    "counts": [
+     37,
+     42,
+     20,
+     0,
+     0,
+     1,
+     13,
+     28
+    ],
+    "median_km": 8.264974834202198,
+    "within_15km": 99
+   },
+   "EGLL_1106_peak": {
+    "n": 210,
+    "counts": [
+     38,
+     74,
+     0,
+     0,
+     1,
+     5,
+     35,
+     57
+    ],
+    "median_km": 9.009993608249133,
+    "within_15km": 112
+   },
+   "EGLL_1111_same": {
+    "n": 181,
+    "counts": [
+     43,
+     58,
+     21,
+     0,
+     0,
+     7,
+     22,
+     30
+    ],
+    "median_km": 9.640740304933678,
+    "within_15km": 122
+   },
+   "EHAM_1106_busy2": {
+    "n": 206,
+    "counts": [
+     28,
+     95,
+     20,
+     0,
+     0,
+     4,
+     25,
+     34
+    ],
+    "median_km": 9.634050369122408,
+    "within_15km": 143
+   },
+   "EHAM_1111_same": {
+    "n": 88,
+    "counts": [
+     0,
+     20,
+     20,
+     0,
+     0,
+     0,
+     22,
+     26
+    ],
+    "median_km": 82.42714874899733,
+    "within_15km": 40
+   },
+   "ENGM_1106_peak": {
+    "n": 8,
+    "counts": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     1,
+     2,
+     5
+    ],
+    "median_km": 91.78567149120647,
+    "within_15km": 0
+   },
+   "ENGM_1111_same": {
+    "n": 9,
+    "counts": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     5,
+     4
+    ],
+    "median_km": 89.51669701842428,
+    "within_15km": 0
+   },
+   "KATL_1106_peak": {
+    "n": 510,
+    "counts": [
+     123,
+     158,
+     59,
+     0,
+     0,
+     7,
+     40,
+     123
+    ],
+    "median_km": 8.505464873037551,
+    "within_15km": 340
+   },
+   "KATL_1111_same": {
+    "n": 381,
+    "counts": [
+     39,
+     31,
+     115,
+     0,
+     0,
+     3,
+     58,
+     135
+    ],
+    "median_km": 80.98888014683786,
+    "within_15km": 185
+   },
+   "LSZH_1106_peak": {
+    "n": 231,
+    "counts": [
+     41,
+     137,
+     3,
+     0,
+     0,
+     4,
+     21,
+     25
+    ],
+    "median_km": 8.9027461293493,
+    "within_15km": 181
+   },
+   "LSZH_1111_same": {
+    "n": 123,
+    "counts": [
+     25,
+     57,
+     0,
+     0,
+     0,
+     0,
+     16,
+     25
+    ],
+    "median_km": 7.227261565426949,
+    "within_15km": 82
+   },
+   "YSSY_1106_peak": {
+    "n": 48,
+    "counts": [
+     18,
+     0,
+     0,
+     0,
+     0,
+     0,
+     7,
+     23
+    ],
+    "median_km": 88.59457845925924,
+    "within_15km": 18
+   },
+   "YSSY_1111_same": {
+    "n": 55,
+    "counts": [
+     38,
+     0,
+     0,
+     0,
+     0,
+     1,
+     8,
+     8
+    ],
+    "median_km": 2.55855603323713,
+    "within_15km": 38
+   }
+  }
+ }
+}

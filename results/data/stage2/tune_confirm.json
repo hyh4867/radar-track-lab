@@ -1,0 +1,186 @@
+{
+ "seeds": [
+  20271106,
+  20271107,
+  20271108,
+  20271109,
+  20271110
+ ],
+ "rows": [
+  {
+   "m": 3,
+   "n": 4,
+   "clutter_lambda": 5.0,
+   "gospa_mean_m": 2097.3563997589545,
+   "false_tracks_per_scan": 0.8434285714285714,
+   "missed_per_scan": 0.8434285714285714,
+   "init_delay_mean_s": 16.340000014503797,
+   "id_switches": 8.0,
+   "rmse_m": 158.91788831185423
+  },
+  {
+   "m": 3,
+   "n": 4,
+   "clutter_lambda": 200.0,
+   "gospa_mean_m": 5237.841104202051,
+   "false_tracks_per_scan": 12.051428571428573,
+   "missed_per_scan": 1.0571428571428572,
+   "init_delay_mean_s": 18.080000012119612,
+   "id_switches": 20.6,
+   "rmse_m": 172.94113604825853
+  },
+  {
+   "m": 3,
+   "n": 4,
+   "clutter_lambda": 1000.0,
+   "gospa_mean_m": 33309.703021977606,
+   "false_tracks_per_scan": 552.8811428571428,
+   "missed_per_scan": 0.8982857142857142,
+   "init_delay_mean_s": 11.340000008543331,
+   "id_switches": 209.4,
+   "rmse_m": 219.095360444037
+  },
+  {
+   "m": 4,
+   "n": 5,
+   "clutter_lambda": 5.0,
+   "gospa_mean_m": 2252.4213596856202,
+   "false_tracks_per_scan": 0.8205714285714285,
+   "missed_per_scan": 1.1977142857142857,
+   "init_delay_mean_s": 21.820000008742017,
+   "id_switches": 6.8,
+   "rmse_m": 159.87680371978655
+  },
+  {
+   "m": 4,
+   "n": 5,
+   "clutter_lambda": 200.0,
+   "gospa_mean_m": 2790.429625133001,
+   "false_tracks_per_scan": 1.768,
+   "missed_per_scan": 1.528,
+   "init_delay_mean_s": 25.600000005960464,
+   "id_switches": 10.2,
+   "rmse_m": 167.52820311200236
+  },
+  {
+   "m": 4,
+   "n": 5,
+   "clutter_lambda": 1000.0,
+   "gospa_mean_m": 12202.077646827991,
+   "false_tracks_per_scan": 71.88228571428571,
+   "missed_per_scan": 1.5874285714285716,
+   "init_delay_mean_s": 18.640000005563103,
+   "id_switches": 85.2,
+   "rmse_m": 226.54276553737841
+  },
+  {
+   "m": 4,
+   "n": 6,
+   "clutter_lambda": 5.0,
+   "gospa_mean_m": 2254.0120222800383,
+   "false_tracks_per_scan": 0.8217142857142857,
+   "missed_per_scan": 1.2,
+   "init_delay_mean_s": 21.880000007152557,
+   "id_switches": 7.0,
+   "rmse_m": 159.6881854256248
+  },
+  {
+   "m": 4,
+   "n": 6,
+   "clutter_lambda": 200.0,
+   "gospa_mean_m": 2959.847242166462,
+   "false_tracks_per_scan": 2.2697142857142856,
+   "missed_per_scan": 1.5085714285714285,
+   "init_delay_mean_s": 25.310212773930097,
+   "id_switches": 12.0,
+   "rmse_m": 169.43965885444322
+  },
+  {
+   "m": 4,
+   "n": 6,
+   "clutter_lambda": 1000.0,
+   "gospa_mean_m": 17995.621659431705,
+   "false_tracks_per_scan": 159.47314285714288,
+   "missed_per_scan": 1.4548571428571428,
+   "init_delay_mean_s": 18.53234042586587,
+   "id_switches": 115.6,
+   "rmse_m": 228.43157095497253
+  },
+  {
+   "m": 5,
+   "n": 6,
+   "clutter_lambda": 5.0,
+   "gospa_mean_m": 2425.71316386761,
+   "false_tracks_per_scan": 0.8057142857142857,
+   "missed_per_scan": 1.6205714285714286,
+   "init_delay_mean_s": 28.159999999403954,
+   "id_switches": 5.8,
+   "rmse_m": 159.61759322016775
+  },
+  {
+   "m": 5,
+   "n": 6,
+   "clutter_lambda": 200.0,
+   "gospa_mean_m": 2902.7515221729464,
+   "false_tracks_per_scan": 1.5965714285714285,
+   "missed_per_scan": 2.0068571428571427,
+   "init_delay_mean_s": 31.971489356236255,
+   "id_switches": 9.4,
+   "rmse_m": 169.2804781709342
+  },
+  {
+   "m": 5,
+   "n": 6,
+   "clutter_lambda": 1000.0,
+   "gospa_mean_m": 5242.1528384603425,
+   "false_tracks_per_scan": 10.458285714285713,
+   "missed_per_scan": 2.482285714285714,
+   "init_delay_mean_s": 31.211063829973234,
+   "id_switches": 29.6,
+   "rmse_m": 197.53953102838744
+  },
+  {
+   "m": 6,
+   "n": 8,
+   "clutter_lambda": 5.0,
+   "gospa_mean_m": 2558.1608259887867,
+   "false_tracks_per_scan": 0.8057142857142857,
+   "missed_per_scan": 1.9565714285714286,
+   "init_delay_mean_s": 33.14000000059604,
+   "id_switches": 5.8,
+   "rmse_m": 159.4075313037605
+  },
+  {
+   "m": 6,
+   "n": 8,
+   "clutter_lambda": 200.0,
+   "gospa_mean_m": 3002.953227142363,
+   "false_tracks_per_scan": 1.5588571428571432,
+   "missed_per_scan": 2.3245714285714287,
+   "init_delay_mean_s": 36.408085117399274,
+   "id_switches": 9.4,
+   "rmse_m": 169.807544075875
+  },
+  {
+   "m": 6,
+   "n": 8,
+   "clutter_lambda": 1000.0,
+   "gospa_mean_m": 4597.964751455251,
+   "false_tracks_per_scan": 6.734857142857143,
+   "missed_per_scan": 3.042285714285714,
+   "init_delay_mean_s": 42.470212780795194,
+   "id_switches": 22.0,
+   "rmse_m": 188.84793885637635
+  }
+ ],
+ "allowed_by_lambda5_constraint": [
+  [
+   3,
+   4
+  ]
+ ],
+ "selected": [
+  3,
+  4
+ ]
+}

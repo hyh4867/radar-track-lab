@@ -51,6 +51,8 @@ class TrackerParams:
     max_range_m: float
     prune_radius_m: float = 6000.0
     max_link_distance_m: float = 2000.0
+    pregate: str = "fixed"  # "fixed": prune_radius_m for every track (stages 1-2); "adaptive": per-track bound (stage 3, B0)
+    pregate_q: float = 25.0  # largest motion-model PSD used for the adaptive bound
 
     @classmethod
     def from_config(cls, cfg: dict) -> "TrackerParams":
@@ -66,6 +68,10 @@ class TrackerParams:
             sigma_az_rad=float(np.radians(r["sigma_az_deg"])),
             max_range_m=float(r["max_range_m"]),
             max_link_distance_m=float(cfg.get("baseline", {}).get("max_link_distance_m", 2000.0)),
+            prune_radius_m=float(t.get("prune_radius_m", 6000.0)),
+            pregate=str(t.get("pregate", "fixed")),
+            pregate_q=float(max([float(t["q"])] + [float(v) for k, v in (cfg.get("imm") or {}).items()
+                                                   if k in ("q_cv", "q_ct")])),
         )
 
     @property
@@ -121,8 +127,9 @@ def assign(cost: np.ndarray):
 
 
 def _candidate_pairs(px, py, T, vx, vy, t_det, ex, ey, radius, use_velocity=True, chunk=512):
-    """Track/detection pairs whose (linearly predicted) distance is below ``radius``."""
+    """Track/detection pairs whose (linearly predicted) distance is below ``radius`` (scalar or one per track)."""
     gi, dj = [], []
+    radius = np.broadcast_to(np.asarray(radius, dtype=float), px.shape) if np.ndim(radius) else radius
     for s in range(0, px.size, chunk):
         sl = slice(s, s + chunk)
         if use_velocity:
@@ -131,10 +138,32 @@ def _candidate_pairs(px, py, T, vx, vy, t_det, ex, ey, radius, use_velocity=True
             qy = py[sl, None] + dt * vy[sl, None]
         else:
             qx, qy = px[sl, None], py[sl, None]
-        a, b = np.nonzero(np.hypot(qx - ex[None, :], qy - ey[None, :]) < radius)
+        rad = radius[sl, None] if np.ndim(radius) else radius
+        a, b = np.nonzero(np.hypot(qx - ex[None, :], qy - ey[None, :]) < rad)
         gi.append(a + s)
         dj.append(b)
     return np.concatenate(gi), np.concatenate(dj)
+
+
+PREGATE_FACTOR, PREGATE_MARGIN_M = 1.5, 500.0
+
+
+def pregate_radius(P, T, t_end, p: "TrackerParams", P_extra=None):
+    """Per-track Cartesian radius that contains every detection the chi-square gate can accept in this scan.
+
+    Bound on the predicted position spread at any time up to ``t_end`` (the latest detection time):
+    std_pos(dt) <= sqrt(lmax(P_pp)) + dt * sqrt(lmax(P_vv)), plus the process-noise position variance
+    q dt^3 / 3 and the largest measurement-noise variance (range or cross-range at max range).
+    ``P_extra`` (N,) adds an exactly computed variance bound (IMM). The result is widened by
+    ``PREGATE_FACTOR`` and ``PREGATE_MARGIN_M`` for the polar nonlinearity and turn-model means.
+    """
+    dt = np.maximum(t_end - T, 0.0)
+    lam = lambda A: 0.5 * (A[:, 0, 0] + A[:, 1, 1]) + np.sqrt(0.25 * (A[:, 0, 0] - A[:, 1, 1]) ** 2 + A[:, 0, 1] ** 2)  # noqa: E731
+    sd = np.sqrt(np.maximum(lam(P[:, :2, :2]), 0.0)) + dt * np.sqrt(np.maximum(lam(P[:, 2:4, 2:4]), 0.0))
+    var = sd**2 + p.pregate_q * dt**3 / 3.0 + max(p.sigma_r_m**2, (p.max_range_m * p.sigma_az_rad) ** 2)
+    if P_extra is not None:
+        var = np.maximum(var, P_extra)
+    return PREGATE_FACTOR * np.sqrt(p.gate_threshold * var) + PREGATE_MARGIN_M
 
 
 class MofN:
@@ -161,6 +190,8 @@ class MofN:
 
 
 class _TrackerBase:
+    _fields = ("X", "P", "T", "ids", "status", "hits", "scans", "misses", "n_upd")
+
     def __init__(self, params: TrackerParams):
         self.p = params
         self.mofn = MofN(params.confirm_m, params.confirm_n, params.delete_misses)
@@ -177,7 +208,7 @@ class _TrackerBase:
 
     # -- helpers ---------------------------------------------------------
     def _subset(self, keep):
-        for name in ("X", "P", "T", "ids", "status", "hits", "scans", "misses", "n_upd"):
+        for name in self._fields:
             setattr(self, name, getattr(self, name)[keep])
 
     def _append(self, X, P, T):
@@ -247,6 +278,20 @@ class _TrackerBase:
     def _extrapolate_factor(self) -> float:
         return 1.0
 
+    def _pregate(self, group, scan):
+        """Pre-gate radius for ``group``: the fixed stage 1-2 value or the per-track bound (stage 3)."""
+        if self.p.pregate == "fixed":
+            return self.p.prune_radius_m
+        if self.p.pregate == "none":
+            return np.inf
+        if self.p.pregate != "adaptive":
+            raise ValueError(self.p.pregate)
+        t_end = float(scan.t.max()) if scan.t.size else float(scan.t0)
+        return pregate_radius(self.P[group], self.T[group], t_end, self.p, self._pregate_extra(group, t_end))
+
+    def _pregate_extra(self, group, t_end):
+        return None
+
 
 class EKFTracker(_TrackerBase):
     name = "EKF-GNN"
@@ -257,7 +302,7 @@ class EKFTracker(_TrackerBase):
         ze, zn = polar_to_cart(z[:, 0], z[:, 1])
         X = self.X[group]
         gi, dj = _candidate_pairs(X[:, 0], X[:, 1], self.T[group], X[:, 2], X[:, 3], scan.t[dets], ze, zn,
-                                  p.prune_radius_m)
+                                  self._pregate(group, scan))
         if gi.size == 0:
             return gi, dj, None
         dt = scan.t[dets][dj] - self.T[group][gi]
@@ -325,3 +370,35 @@ class NearestNeighborBaseline(_TrackerBase):
 
     def _extrapolate_factor(self) -> float:
         return 0.0  # estimate = last detection, held until the next one
+
+
+class NearestNeighborPredictBaseline(NearestNeighborBaseline):
+    """The baseline with output prediction only (docs/PREDICT_BASELINE_PROTOCOL.md).
+
+    Association, track management and the coverage check are inherited unchanged and still use
+    the last detection. Only the reported position differs: the last detection is extrapolated
+    with the two-point velocity of the last two linked detections. No smoothing, no guards.
+    """
+
+    name = "NN-baseline + output prediction"
+
+    def estimates(self, t_eval: float, confirmed_only: bool = True):
+        ids, pos, vel = super().estimates(t_eval, confirmed_only)
+        sel = self.status == CONFIRMED if confirmed_only else np.ones(self.ids.size, bool)
+        return ids, pos + (t_eval - self.T[sel])[:, None] * vel, vel
+
+
+class EKFHoldOutputTracker(EKFTracker):
+    """The EKF tracker with output prediction removed (docs/HOLD_EKF_PROTOCOL.md).
+
+    Filter, gating, assignment, track management and the coverage check are inherited unchanged.
+    Only the reported position differs: the position right after the last update is held instead
+    of being predicted to the evaluation time.
+    """
+
+    name = "EKF-GNN, output held at the last update"
+
+    def estimates(self, t_eval: float, confirmed_only: bool = True):
+        sel = self.status == CONFIRMED if confirmed_only else np.ones(self.ids.size, bool)
+        X = self.X[sel]
+        return self.ids[sel].copy(), X[:, :2].copy(), X[:, 2:].copy()

@@ -49,13 +49,15 @@ class ScanEval:
     track_ids: np.ndarray
     assigned: dict  # truth_id -> track_id
     sq_err: np.ndarray  # squared position errors of assigned pairs
+    pair_truth: np.ndarray = None  # truth ids of the assigned pairs, same order as sq_err
 
 
 def evaluate_scan(eval_truth, track_ids, track_pos, c: float, p: int = 2) -> ScanEval:
     g = gospa(eval_truth.pos, track_pos, c, p)
     assigned = {int(eval_truth.ids[i]): int(track_ids[j]) for i, j in g.pairs}
     sq = np.array([np.sum((eval_truth.pos[i] - track_pos[j]) ** 2) for i, j in g.pairs])
-    return ScanEval(eval_truth.t, g, eval_truth.ids.copy(), np.asarray(track_ids).copy(), assigned, sq)
+    pt = np.array([int(eval_truth.ids[i]) for i, _ in g.pairs], dtype=np.int64)
+    return ScanEval(eval_truth.t, g, eval_truth.ids.copy(), np.asarray(track_ids).copy(), assigned, sq, pt)
 
 
 def summarize(scan_evals: list[ScanEval], c: float, warmup_s: float, t_start: float) -> dict:
