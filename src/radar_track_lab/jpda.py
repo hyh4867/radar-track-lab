@@ -44,7 +44,14 @@ class PDAParams:
     exact_max_events: int = 100_000
     lbp_tol: float = 1e-10
     lbp_max_iter: int = 2000
-    density: str = "true"  # "true" | "estimated" (JIPDA-est, PREREGISTRATION_3 7.3)
+    density: str = "true"  # "true" | "estimated" (PREREGISTRATION_3 7.3) | "map" (PREREGISTRATION_4) | "amap" (PREREGISTRATION_5)
+    map_dr_m: float = 2000.0  # JIPDA-map cell range size
+    map_daz_deg: float = 3.0  # JIPDA-map cell azimuth size
+    map_tau_scans: float = 100.0  # JIPDA-map exponential forgetting time constant
+    amap_n_min: float = 20.0  # JIPDA-amap (PREREGISTRATION_5): widen until the window holds this many weighted counts
+    amap_cap_dr_m: float = 10_000.0  # JIPDA-amap widest window, range (the stage 3 coarse cell)
+    amap_cap_daz_deg: float = 22.5  # JIPDA-amap widest window, azimuth
+    amap_floor_frac: float | None = None  # stage 6: floor = max(frac x cap-window density, FLOOR / 10); None = FLOOR
 
     @classmethod
     def from_config(cls, cfg: dict, mode: str) -> "PDAParams":
@@ -171,6 +178,127 @@ class GridDensity:
             self.hist.pop(0)
 
 
+class ClutterMapDensity:
+    """Clutter map density (JIPDA-map, docs/PREREGISTRATION_4.md): fine range x azimuth cells, exponential forgetting.
+
+    Each scan the counts of the detections not explained by confirmed tracks are added with
+        C <- a C + c,   N <- a N + 1,   a = exp(-1 / tau)
+    and the density in a cell is max(C, floor * N * vol) / (N * vol): an exponentially weighted mean count per scan
+    divided by the cell volume [m rad]. The floor is the same density as the JIPDA-est floor (one detection per
+    10 scans in a 10 km x 22.5 deg cell), held as a fixed density so that small cells do not raise it.
+    """
+
+    FLOOR = 1.0 / (10 * 10_000.0 * TWO_PI / 16)  # [1/(m rad) per scan], GridDensity floor for its full cells
+
+    def __init__(self, r_min, r_max, dr=2000.0, daz_deg=3.0, tau=100.0):
+        self.r_min, self.r_max, self.dr = float(r_min), float(r_max), float(dr)
+        self.n_az = int(round(360.0 / daz_deg))
+        if abs(self.n_az * daz_deg - 360.0) > 1e-9:
+            raise ValueError("azimuth cell must divide 360 deg")
+        self.daz = TWO_PI / self.n_az
+        self.n_r = int(np.ceil((self.r_max - self.r_min) / self.dr - 1e-9))
+        self.a = float(np.exp(-1.0 / tau))
+        self.C = np.zeros((self.n_r, self.n_az))
+        self.N = 0.0
+        edges = np.minimum(self.r_min + self.dr * np.arange(self.n_r + 1), self.r_max)
+        self.vol = np.repeat((np.diff(edges) * self.daz)[:, None], self.n_az, axis=1)
+
+    def _cells(self, r, az):
+        i = np.clip(((np.asarray(r, float) - self.r_min) // self.dr).astype(int), 0, self.n_r - 1)
+        j = np.clip((np.asarray(az, float) % TWO_PI // self.daz).astype(int), 0, self.n_az - 1)
+        return i, j
+
+    def density(self, r, az):
+        i, j = self._cells(r, az)
+        if self.N == 0.0:  # before any scan: one detection per cell (as GridDensity)
+            return 1.0 / self.vol[i, j]
+        return np.maximum(self.C[i, j] / (self.N * self.vol[i, j]), self.FLOOR)
+
+    def add(self, r, az):
+        c = np.zeros((self.n_r, self.n_az))
+        i, j = self._cells(r, az)
+        np.add.at(c, (i, j), 1.0)
+        self.C = self.a * self.C + c
+        self.N = self.a * self.N + 1.0
+
+    def grid(self):
+        """Current density on the whole grid [1/(m rad) per scan] (for figures)."""
+        if self.N == 0.0:
+            return 1.0 / self.vol
+        return np.maximum(self.C / (self.N * self.vol), self.FLOOR)
+
+
+class AdaptiveClutterMapDensity(ClutterMapDensity):
+    """Clutter map with data-driven widening (JIPDA-amap, docs/PREREGISTRATION_5.md).
+
+    The fine cells and the exponential forgetting are those of ClutterMapDensity. For each cell the window grows as
+    (2k_r+1) x (2k_a+1) fine cells with k_r = min(k, K_r), k_a = min(k, K_a), k = 0, 1, 2, ... until the summed
+    weighted count C in the window reaches ``n_min``. K_r, K_a are the largest half-widths whose window still fits in
+    the cap (``cap_dr`` x ``cap_daz``, the stage 3 coarse cell): with 1 km x 1.5 deg cells, 9 km x 22.5 deg. If the cap
+    window is still short of n_min its value is used. Windows are cut at the range edges and wrap in azimuth. The
+    density of a cell is max(sum C / (N sum vol), FLOOR) over its window (floor unchanged from ClutterMapDensity).
+    """
+
+    FLOOR_MIN = ClutterMapDensity.FLOOR / 10.0  # stage 6 data-driven floor: absolute lower limit
+
+    def __init__(self, r_min, r_max, dr=1000.0, daz_deg=1.5, tau=30.0, n_min=20.0, cap_dr=10_000.0, cap_daz_deg=22.5,
+                 floor_frac=None):
+        super().__init__(r_min, r_max, dr, daz_deg, tau)
+        self.n_min = float(n_min)
+        self.floor_frac = None if floor_frac is None else float(floor_frac)
+        self.K_r = max(0, int(np.floor((cap_dr / self.dr - 1.0) / 2.0 + 1e-9)))
+        self.K_a = max(0, int(np.floor((cap_daz_deg / daz_deg - 1.0) / 2.0 + 1e-9)))
+        self.K_a = min(self.K_a, (self.n_az - 1) // 2)
+        self.dens = None
+        self.level = None  # chosen k per cell (diagnostics, tests)
+
+    @staticmethod
+    def _box(A, kr, ka, K_a):
+        """Window sums of A over rows i-kr..i+kr (cut at the edges) and columns j-ka..j+ka (wrapping)."""
+        n_r, n_az = A.shape
+        P = np.concatenate([A[:, n_az - K_a:], A, A[:, :K_a]], axis=1) if K_a else A
+        S = np.zeros((n_r + 1, P.shape[1] + 1))
+        S[1:, 1:] = P.cumsum(0).cumsum(1)
+        i = np.arange(n_r)
+        lo, hi = np.clip(i - kr, 0, n_r), np.clip(i + kr + 1, 0, n_r)
+        j = np.arange(n_az) + K_a
+        jl, jh = j - ka, j + ka + 1
+        return S[hi][:, jh] - S[lo][:, jh] - S[hi][:, jl] + S[lo][:, jl]
+
+    def _refresh(self):
+        K = max(self.K_r, self.K_a)
+        csum = np.zeros_like(self.C)
+        vsum = np.ones_like(self.C)
+        level = np.full(self.C.shape, -1)
+        for k in range(K + 1):
+            kr, ka = min(k, self.K_r), min(k, self.K_a)
+            c = self._box(self.C, kr, ka, self.K_a)
+            v = self._box(self.vol, kr, ka, self.K_a)
+            take = (level < 0) & ((c >= self.n_min) | (k == K))
+            csum[take], vsum[take], level[take] = c[take], v[take], k
+        self.level = level
+        if self.floor_frac is None:
+            self.floor = self.FLOOR
+        else:  # stage 6 (PREREGISTRATION_6 part 2): floor from the cap-window density of the same cell
+            self.floor = np.maximum(self.floor_frac * c / (self.N * v), self.FLOOR_MIN)
+        self.dens = np.maximum(csum / (self.N * vsum), self.floor)
+
+    def density(self, r, az):
+        if self.N == 0.0:
+            return super().density(r, az)
+        i, j = self._cells(r, az)
+        return self.dens[i, j]
+
+    def add(self, r, az):
+        super().add(r, az)
+        self._refresh()
+
+    def grid(self):
+        if self.N == 0.0:
+            return super().grid()
+        return self.dens.copy()
+
+
 # --- tracker -----------------------------------------------------------------------------------------
 class JPDATracker(_TrackerBase):
     """JPDA (M-of-N) or JIPDA (existence) on the stage 1 EKF."""
@@ -182,8 +310,18 @@ class JPDATracker(_TrackerBase):
         self.pda = pda
         self.radar = radar
         self.E = np.zeros(0)
-        self.name = {"jpda": "EKF-JPDA", "jipda": "EKF-JIPDA"}[pda.mode] + ("-est" if pda.density == "estimated" else "")
-        self.est = GridDensity(radar.min_range_m, radar.max_range_m) if pda.density == "estimated" else None
+        self.name = {"jpda": "EKF-JPDA", "jipda": "EKF-JIPDA"}[pda.mode] + {"estimated": "-est", "map": "-map", "amap": "-amap"}.get(pda.density, "")
+        if pda.density == "estimated":
+            self.est = GridDensity(radar.min_range_m, radar.max_range_m)
+        elif pda.density == "map":
+            self.est = ClutterMapDensity(radar.min_range_m, radar.max_range_m, pda.map_dr_m, pda.map_daz_deg,
+                                         pda.map_tau_scans)
+        elif pda.density == "amap":
+            self.est = AdaptiveClutterMapDensity(radar.min_range_m, radar.max_range_m, pda.map_dr_m, pda.map_daz_deg,
+                                                 pda.map_tau_scans, pda.amap_n_min, pda.amap_cap_dr_m,
+                                                 pda.amap_cap_daz_deg, pda.amap_floor_frac)
+        else:
+            self.est = None
         self.stats = {"clusters": 0, "multi": 0, "lbp": 0, "max_cluster_tracks": 0}
         self.keep_last = False
         self.last = None

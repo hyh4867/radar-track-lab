@@ -1,0 +1,10 @@
+# Stage 5 additions (docs/PREREGISTRATION_5.md), merged after configs/stage4.yaml by scripts/stage5_run.py.
+# JIPDA-amap: the stage 4 fine cells (1 km x 1.5 deg) with data-driven widening up to the stage 3 coarse cell.
+# n_min and tau_scans are written by scripts/stage5_select.py --write from the tuning window only.
+clutter_amap_est:
+  dr_m: 1000.0
+  daz_deg: 1.5
+  cap_dr_m: 10000.0
+  cap_daz_deg: 22.5
+  n_min: 20.0                # FROZEN by scripts/stage5_select.py --write (n20_30)
+  tau_scans: 30.0            # FROZEN by scripts/stage5_select.py --write (n20_30)

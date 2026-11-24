@@ -1,0 +1,75 @@
+{
+ "files": [
+  {
+   "file": "EHAM_1106_eval__jipda__lam1000_map.json",
+   "code": {
+    "commit": "0c96e4cc85a7c38c9278986e738c57a7a7d96768",
+    "dirty": true
+   },
+   "rows": [
+    {
+     "seed": 20261106,
+     "n_metrics": 19,
+     "differ": [],
+     "false_tracks_per_scan": [
+      4.099173553719008,
+      4.099173553719008
+     ],
+     "gospa_mean_m": [
+      3874.468225338937,
+      3874.468225338937
+     ]
+    },
+    {
+     "seed": 20261107,
+     "n_metrics": 19,
+     "differ": [],
+     "false_tracks_per_scan": [
+      3.743801652892562,
+      3.743801652892562
+     ],
+     "gospa_mean_m": [
+      3733.827770117018,
+      3733.827770117018
+     ]
+    }
+   ]
+  },
+  {
+   "file": "EHAM_1106_eval__jipda_est__lam1000_map.json",
+   "code": {
+    "commit": "0c96e4cc85a7c38c9278986e738c57a7a7d96768",
+    "dirty": true
+   },
+   "rows": [
+    {
+     "seed": 20261106,
+     "n_metrics": 19,
+     "differ": [],
+     "false_tracks_per_scan": [
+      39.00275482093664,
+      39.00275482093664
+     ],
+     "gospa_mean_m": [
+      9051.621626971235,
+      9051.621626971235
+     ]
+    },
+    {
+     "seed": 20261107,
+     "n_metrics": 19,
+     "differ": [],
+     "false_tracks_per_scan": [
+      38.815426997245176,
+      38.815426997245176
+     ],
+     "gospa_mean_m": [
+      8994.656765724072,
+      8994.656765724072
+     ]
+    }
+   ]
+  }
+ ],
+ "pass": true
+}

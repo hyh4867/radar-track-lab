@@ -1,0 +1,412 @@
+{
+ "files": [
+  {
+   "new": "results/stage5/regression/EHAM_1106_eval__jipda__lam1000_map.json",
+   "old": "results/stage3/b1/EHAM_1106_eval__jipda__lam1000_map.json",
+   "code": {
+    "commit": "96fe2b6b31559896b78a820f5184a331f4f8d364",
+    "dirty": false
+   },
+   "rows": [
+    {
+     "seed": 20261106,
+     "n_compared": 19,
+     "differ": [],
+     "id_switches": [
+      35,
+      35
+     ],
+     "false_tracks_per_scan": [
+      4.099173553719008,
+      4.099173553719008
+     ]
+    },
+    {
+     "seed": 20261107,
+     "n_compared": 19,
+     "differ": [],
+     "id_switches": [
+      32,
+      32
+     ],
+     "false_tracks_per_scan": [
+      3.743801652892562,
+      3.743801652892562
+     ]
+    }
+   ],
+   "pass": true
+  },
+  {
+   "new": "results/stage5/regression/EHAM_1106_eval__jipda_est__lam1000_map.json",
+   "old": "results/stage3/b1/EHAM_1106_eval__jipda_est__lam1000_map.json",
+   "code": {
+    "commit": "96fe2b6b31559896b78a820f5184a331f4f8d364",
+    "dirty": false
+   },
+   "rows": [
+    {
+     "seed": 20261106,
+     "n_compared": 19,
+     "differ": [],
+     "id_switches": [
+      55,
+      55
+     ],
+     "false_tracks_per_scan": [
+      39.00275482093664,
+      39.00275482093664
+     ]
+    },
+    {
+     "seed": 20261107,
+     "n_compared": 19,
+     "differ": [],
+     "id_switches": [
+      51,
+      51
+     ],
+     "false_tracks_per_scan": [
+      38.815426997245176,
+      38.815426997245176
+     ]
+    }
+   ],
+   "pass": true
+  },
+  {
+   "new": "results/stage5/regression/EHAM_1106_eval__jipda_map__lam200_map.json",
+   "old": "results/stage4/eval/EHAM_1106_eval__jipda_map__lam200_map.json",
+   "code": {
+    "commit": "96fe2b6b31559896b78a820f5184a331f4f8d364",
+    "dirty": false
+   },
+   "rows": [
+    {
+     "seed": 20261106,
+     "n_compared": 19,
+     "differ": [],
+     "id_switches": [
+      31,
+      31
+     ],
+     "false_tracks_per_scan": [
+      9.93939393939394,
+      9.93939393939394
+     ]
+    },
+    {
+     "seed": 20261107,
+     "n_compared": 19,
+     "differ": [],
+     "id_switches": [
+      38,
+      38
+     ],
+     "false_tracks_per_scan": [
+      8.724517906336088,
+      8.724517906336088
+     ]
+    }
+   ],
+   "pass": true
+  },
+  {
+   "new": "results/stage5/regression/cone/EHAM_1106_eval__M4__ekf.json",
+   "old": "results/stage4/cone/EHAM_1106_eval__M4_regression__ekf.json",
+   "code": {
+    "commit": "96fe2b6b31559896b78a820f5184a331f4f8d364",
+    "dirty": false
+   },
+   "rows": [
+    {
+     "seed": 20261106,
+     "n_compared": 22,
+     "differ": [],
+     "id_switches": [
+      35,
+      35
+     ],
+     "false_tracks_per_scan": [
+      1.258953168044077,
+      1.258953168044077
+     ]
+    },
+    {
+     "seed": 20261107,
+     "n_compared": 22,
+     "differ": [],
+     "id_switches": [
+      38,
+      38
+     ],
+     "false_tracks_per_scan": [
+      1.165289256198347,
+      1.165289256198347
+     ]
+    }
+   ],
+   "pass": true
+  },
+  {
+   "new": "results/stage5/regression/cone/EHAM_1106_eval__M4__ekf_cone.json",
+   "old": "results/stage4/cone/EHAM_1106_eval__M4__ekf_cone.json",
+   "code": {
+    "commit": "96fe2b6b31559896b78a820f5184a331f4f8d364",
+    "dirty": false
+   },
+   "rows": [
+    {
+     "seed": 20261106,
+     "n_compared": 22,
+     "differ": [],
+     "id_switches": [
+      32,
+      32
+     ],
+     "false_tracks_per_scan": [
+      1.303030303030303,
+      1.303030303030303
+     ]
+    },
+    {
+     "seed": 20261107,
+     "n_compared": 22,
+     "differ": [],
+     "id_switches": [
+      32,
+      32
+     ],
+     "false_tracks_per_scan": [
+      1.2121212121212122,
+      1.2121212121212122
+     ]
+    }
+   ],
+   "pass": true
+  },
+  {
+   "new": "results/stage5/regression/cone/EHAM_1106_eval__M4__imm.json",
+   "old": "results/stage4/cone/EHAM_1106_eval__M4_regression__imm.json",
+   "code": {
+    "commit": "96fe2b6b31559896b78a820f5184a331f4f8d364",
+    "dirty": false
+   },
+   "rows": [
+    {
+     "seed": 20261106,
+     "n_compared": 22,
+     "differ": [],
+     "id_switches": [
+      23,
+      23
+     ],
+     "false_tracks_per_scan": [
+      1.2975206611570247,
+      1.2975206611570247
+     ]
+    },
+    {
+     "seed": 20261107,
+     "n_compared": 22,
+     "differ": [],
+     "id_switches": [
+      31,
+      31
+     ],
+     "false_tracks_per_scan": [
+      1.278236914600551,
+      1.278236914600551
+     ]
+    }
+   ],
+   "pass": true
+  },
+  {
+   "new": "results/stage5/regression/cone/EHAM_1106_eval__M4__imm_cone.json",
+   "old": "results/stage4/cone/EHAM_1106_eval__M4__imm_cone.json",
+   "code": {
+    "commit": "96fe2b6b31559896b78a820f5184a331f4f8d364",
+    "dirty": false
+   },
+   "rows": [
+    {
+     "seed": 20261106,
+     "n_compared": 22,
+     "differ": [],
+     "id_switches": [
+      19,
+      19
+     ],
+     "false_tracks_per_scan": [
+      1.3168044077134986,
+      1.3168044077134986
+     ]
+    },
+    {
+     "seed": 20261107,
+     "n_compared": 22,
+     "differ": [],
+     "id_switches": [
+      23,
+      23
+     ],
+     "false_tracks_per_scan": [
+      1.2369146005509641,
+      1.2369146005509641
+     ]
+    }
+   ],
+   "pass": true
+  },
+  {
+   "new": "results/stage5/regression/cone/KATL_1106_peak__M4__ekf.json",
+   "old": "results/stage4/cone/KATL_1106_peak__M4_regression__ekf.json",
+   "code": {
+    "commit": "96fe2b6b31559896b78a820f5184a331f4f8d364",
+    "dirty": false
+   },
+   "rows": [
+    {
+     "seed": 20261106,
+     "n_compared": 22,
+     "differ": [],
+     "id_switches": [
+      219,
+      219
+     ],
+     "false_tracks_per_scan": [
+      3.159779614325069,
+      3.159779614325069
+     ]
+    },
+    {
+     "seed": 20261107,
+     "n_compared": 22,
+     "differ": [],
+     "id_switches": [
+      218,
+      218
+     ],
+     "false_tracks_per_scan": [
+      3.0964187327823693,
+      3.0964187327823693
+     ]
+    }
+   ],
+   "pass": true
+  },
+  {
+   "new": "results/stage5/regression/cone/KATL_1106_peak__M4__ekf_cone.json",
+   "old": "results/stage4/cone/KATL_1106_peak__M4__ekf_cone.json",
+   "code": {
+    "commit": "96fe2b6b31559896b78a820f5184a331f4f8d364",
+    "dirty": false
+   },
+   "rows": [
+    {
+     "seed": 20261106,
+     "n_compared": 22,
+     "differ": [],
+     "id_switches": [
+      197,
+      197
+     ],
+     "false_tracks_per_scan": [
+      3.484848484848485,
+      3.484848484848485
+     ]
+    },
+    {
+     "seed": 20261107,
+     "n_compared": 22,
+     "differ": [],
+     "id_switches": [
+      206,
+      206
+     ],
+     "false_tracks_per_scan": [
+      3.393939393939394,
+      3.393939393939394
+     ]
+    }
+   ],
+   "pass": true
+  },
+  {
+   "new": "results/stage5/regression/cone/KATL_1106_peak__M4__imm.json",
+   "old": "results/stage4/cone/KATL_1106_peak__M4_regression__imm.json",
+   "code": {
+    "commit": "96fe2b6b31559896b78a820f5184a331f4f8d364",
+    "dirty": false
+   },
+   "rows": [
+    {
+     "seed": 20261106,
+     "n_compared": 22,
+     "differ": [],
+     "id_switches": [
+      201,
+      201
+     ],
+     "false_tracks_per_scan": [
+      3.1460055096418733,
+      3.1460055096418733
+     ]
+    },
+    {
+     "seed": 20261107,
+     "n_compared": 22,
+     "differ": [],
+     "id_switches": [
+      200,
+      200
+     ],
+     "false_tracks_per_scan": [
+      3.1404958677685952,
+      3.1404958677685952
+     ]
+    }
+   ],
+   "pass": true
+  },
+  {
+   "new": "results/stage5/regression/cone/KATL_1106_peak__M4__imm_cone.json",
+   "old": "results/stage4/cone/KATL_1106_peak__M4__imm_cone.json",
+   "code": {
+    "commit": "96fe2b6b31559896b78a820f5184a331f4f8d364",
+    "dirty": false
+   },
+   "rows": [
+    {
+     "seed": 20261106,
+     "n_compared": 22,
+     "differ": [],
+     "id_switches": [
+      180,
+      180
+     ],
+     "false_tracks_per_scan": [
+      3.325068870523416,
+      3.325068870523416
+     ]
+    },
+    {
+     "seed": 20261107,
+     "n_compared": 22,
+     "differ": [],
+     "id_switches": [
+      191,
+      191
+     ],
+     "false_tracks_per_scan": [
+      3.5013774104683195,
+      3.5013774104683195
+     ]
+    }
+   ],
+   "pass": true
+  }
+ ],
+ "pass": true
+}

@@ -1,0 +1,119 @@
+{
+ "reference_jipda": {
+  "map": {
+   "gospa_mean_m": 3660.9591294058105,
+   "false_tracks_per_scan": 2.3485714285714283,
+   "missed_per_scan": 3.718857142857143,
+   "id_switches": 10.4,
+   "wall_s": 64.02765450020088
+  },
+  "uniform": {
+   "gospa_mean_m": 2992.456494199535,
+   "false_tracks_per_scan": 1.0834285714285714,
+   "missed_per_scan": 2.849142857142857,
+   "id_switches": 12.0,
+   "wall_s": 12.223050024802797
+  }
+ },
+ "candidates": {
+  "n5_30": {
+   "means": {
+    "map": {
+     "gospa_mean_m": 3692.853992113901,
+     "false_tracks_per_scan": 2.2720000000000002,
+     "missed_per_scan": 3.9074285714285706,
+     "id_switches": 10.6,
+     "wall_s": 36.23208819180145
+    },
+    "uniform": {
+     "gospa_mean_m": 3060.748639937273,
+     "false_tracks_per_scan": 0.9977142857142859,
+     "missed_per_scan": 3.142857142857143,
+     "id_switches": 12.2,
+     "wall_s": 16.775469433405668
+    }
+   },
+   "gospa_ratio": {
+    "map": 1.0087121602784097,
+    "uniform": 1.0228214331169434
+   },
+   "score": 1.0228214331169434,
+   "false_sum": 3.269714285714286
+  },
+  "n5_100": {
+   "means": {
+    "map": {
+     "gospa_mean_m": 3750.956913524431,
+     "false_tracks_per_scan": 2.458285714285714,
+     "missed_per_scan": 3.9325714285714284,
+     "id_switches": 10.4,
+     "wall_s": 45.37126813319628
+    },
+    "uniform": {
+     "gospa_mean_m": 3094.170171819155,
+     "false_tracks_per_scan": 1.0274285714285714,
+     "missed_per_scan": 3.2205714285714286,
+     "id_switches": 12.2,
+     "wall_s": 12.741829983395291
+    }
+   },
+   "gospa_ratio": {
+    "map": 1.024583116319364,
+    "uniform": 1.0339900271956428
+   },
+   "score": 1.0339900271956428,
+   "false_sum": 3.4857142857142858
+  },
+  "n20_30": {
+   "means": {
+    "map": {
+     "gospa_mean_m": 3666.0510426612564,
+     "false_tracks_per_scan": 2.291428571428571,
+     "missed_per_scan": 3.7885714285714287,
+     "id_switches": 10.0,
+     "wall_s": 37.749816000007556
+    },
+    "uniform": {
+     "gospa_mean_m": 3009.311370025467,
+     "false_tracks_per_scan": 1.0457142857142858,
+     "missed_per_scan": 2.9382857142857146,
+     "id_switches": 12.4,
+     "wall_s": 12.362545308592962
+    }
+   },
+   "gospa_ratio": {
+    "map": 1.0013908686427406,
+    "uniform": 1.0056324547603626
+   },
+   "score": 1.0056324547603626,
+   "false_sum": 3.3371428571428567
+  },
+  "n20_100": {
+   "means": {
+    "map": {
+     "gospa_mean_m": 3670.9919945583215,
+     "false_tracks_per_scan": 2.3108571428571425,
+     "missed_per_scan": 3.776,
+     "id_switches": 10.8,
+     "wall_s": 39.31342636660556
+    },
+    "uniform": {
+     "gospa_mean_m": 3058.3713781137944,
+     "false_tracks_per_scan": 1.0788571428571427,
+     "missed_per_scan": 3.0617142857142854,
+     "id_switches": 11.6,
+     "wall_s": 11.625345608399948
+    }
+   },
+   "gospa_ratio": {
+    "map": 1.0027405018187514,
+    "uniform": 1.0220270149430832
+   },
+   "score": 1.0220270149430832,
+   "false_sum": 3.3897142857142852
+  }
+ },
+ "selected": "n20_30",
+ "n_min": 20.0,
+ "tau_scans": 30.0
+}

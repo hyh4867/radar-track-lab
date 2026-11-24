@@ -1,0 +1,21 @@
+{
+ "seed": 20261106,
+ "scan": "last",
+ "grid": {
+  "dr_m": 1000.0,
+  "daz_deg": 1.5,
+  "tau": 30.0
+ },
+ "stats": {
+  "jipda_est": {
+   "weighted_median_ratio": 0.8796227790012484,
+   "share_clutter_within_factor2": 0.6423515253970628,
+   "share_clutter_under_half": 0.3090256401024998
+  },
+  "jipda_map": {
+   "weighted_median_ratio": 0.6633042558147495,
+   "share_clutter_within_factor2": 0.8619014973165947,
+   "share_clutter_under_half": 0.11018100583373856
+  }
+ }
+}

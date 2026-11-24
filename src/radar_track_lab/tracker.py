@@ -292,6 +292,10 @@ class _TrackerBase:
     def _pregate_extra(self, group, t_end):
         return None
 
+    def _extra_gate(self, ok, tracks, dets, scan):
+        """Hook (stage 5 cone hold v2): indices into ``ok`` pairs (track index, detection index) that stay gated."""
+        return ok
+
 
 class EKFTracker(_TrackerBase):
     name = "EKF-GNN"
@@ -310,6 +314,7 @@ class EKFTracker(_TrackerBase):
         nu, S, _ = ekf.innovation(xp, Pp, z[dj], p.R)
         d2 = ekf.mahalanobis2(nu, S)
         ok = np.flatnonzero(d2 <= p.gate_threshold)
+        ok = self._extra_gate(ok, group[gi], dets[dj], scan)
         if ok.size == 0:
             return np.zeros(0, int), np.zeros(0, int), None
         cost = d2[ok] + np.log(np.linalg.det(S[ok]))

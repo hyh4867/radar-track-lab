@@ -1,0 +1,171 @@
+{
+ "EHAM_1106_eval": {
+  "n_seeds": 5,
+  "g1_minus_h1_per_run": 5.4,
+  "from_aircraft_with_truth_rate_gt_120fts_per_run": 5.4,
+  "aircraft_with_truth_rate_gt_120fts": {
+   "2233": 162
+  },
+  "top_increase": [
+   [
+    2233,
+    27,
+    162
+   ],
+   [
+    1283,
+    0,
+    20
+   ],
+   [
+    1417,
+    0,
+    35
+   ],
+   [
+    2061,
+    0,
+    0
+   ],
+   [
+    399,
+    0,
+    78
+   ]
+  ],
+  "top_decrease": [
+   [
+    1283,
+    0
+   ],
+   [
+    1417,
+    0
+   ],
+   [
+    2061,
+    0
+   ],
+   [
+    399,
+    0
+   ],
+   [
+    1912,
+    0
+   ]
+  ]
+ },
+ "YSSY_1106_peak": {
+  "n_seeds": 5,
+  "g1_minus_h1_per_run": 15.8,
+  "from_aircraft_with_truth_rate_gt_120fts_per_run": 13.4,
+  "aircraft_with_truth_rate_gt_120fts": {
+   "407": 166
+  },
+  "top_increase": [
+   [
+    407,
+    67,
+    166
+   ],
+   [
+    595,
+    4,
+    100
+   ],
+   [
+    267,
+    3,
+    20
+   ],
+   [
+    582,
+    3,
+    18
+   ],
+   [
+    496,
+    3,
+    18
+   ]
+  ],
+  "top_decrease": [
+   [
+    404,
+    -2
+   ],
+   [
+    79,
+    -1
+   ],
+   [
+    103,
+    -1
+   ],
+   [
+    260,
+    0
+   ],
+   [
+    272,
+    0
+   ]
+  ]
+ },
+ "KATL_1106_peak": {
+  "n_seeds": 5,
+  "g1_minus_h1_per_run": -1.0,
+  "from_aircraft_with_truth_rate_gt_120fts_per_run": 0.0,
+  "aircraft_with_truth_rate_gt_120fts": {},
+  "top_increase": [
+   [
+    1098,
+    11,
+    20
+   ],
+   [
+    2051,
+    5,
+    49
+   ],
+   [
+    1512,
+    2,
+    66
+   ],
+   [
+    898,
+    2,
+    18
+   ],
+   [
+    2429,
+    1,
+    26
+   ]
+  ],
+  "top_decrease": [
+   [
+    1661,
+    -3
+   ],
+   [
+    2773,
+    -3
+   ],
+   [
+    2092,
+    -2
+   ],
+   [
+    2105,
+    -2
+   ],
+   [
+    295,
+    -2
+   ]
+  ]
+ }
+}

@@ -1,0 +1,6 @@
+# Stage 4 additions (docs/PREREGISTRATION_4.md), merged over default + stage2 + stage3 by scripts/stage4_run.py.
+# clutter_map_est is written by scripts/stage4_select.py from the tuning window only.
+clutter_map_est:             # FROZEN by scripts/stage4_select.py --write (tuning window, 5 seeds): c1_1.5_30
+  dr_m: 1000.0
+  daz_deg: 1.5
+  tau_scans: 30.0

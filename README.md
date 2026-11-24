@@ -10,8 +10,11 @@ The work ran in stages, each with its questions, predictions and verdict rules c
 - **Stage 2** (`docs/PREREGISTRATION_2.md`): why tracks were lost, an IMM, a cross-check with Stone Soup, and frozen parameters on five more airports and a second day.
 - **Evaluation audit**: which samples the RMSEs use and how much of the gap comes from prediction.
 - **Stage 3** (`docs/PREREGISTRATION_3.md`): the stage 2 conclusions re-checked under a more realistic sensor model (E1–E4), the pre-gate fix, and JPDA/JIPDA in dense clutter.
+- **Stage 4** (`docs/PREREGISTRATION_4.md`): a clutter map estimated from the detections (partial improvement; it failed under uniform clutter), and holding tracks inside the overhead cone.
+- **Stage 5** (`docs/PREREGISTRATION_5.md`): adaptive clutter-map cells (improved) and a cone hold with a Mode C altitude check (improved, two criteria borderline).
+- **Stage 6** (`docs/PREREGISTRATION_6.md`): a Mode C altitude gate on all associations to separate crossing aircraft at different altitudes (partial improvement; crossings were not separated), and a data-driven density floor (no practical change).
 
-Stage 1 text below is kept as first published. Lines marked "Update (stage 2)" or "Update (stage 3)" were added later.
+Stage 1 text below is kept as first published. Lines marked "Update (stage N)" were added later.
 
 > **Main finding.** Under the default condition (detection probability 0.9, 5 clutter detections per scan, 0.15° azimuth noise; mean of 20 Monte Carlo runs), the EKF tracker's position error per track is 175 m against 528 m for the baseline, and it changes track ID 24.9 times in 30 minutes against 459.2. Right after a detection update the gap is much smaller (126 m against 173 m, 27% lower): most of the difference comes from predicting between scans and keeping track identity through missed detections.
 
@@ -327,10 +330,95 @@ Added after the verdicts; verdicts, frozen settings and earlier result files wer
 - The tracker is still 2-D. Slant range is converted to ground range with Mode C altitude, without digitiser error (±125 ft) or QNH.
 - JPDA was tested with one hit rule only. Track scores (LLR) and other thresholds were not tried.
 - JIPDA is given the true clutter density; the estimated-density variant is descriptive only.
+  - Update (stages 4–5): estimating the density from the detections with adaptive cells (JIPDA-amap) comes close to the true-density result at Schiphol (λ 1000 clutter map: 4.38 against 3.97 false tracks per scan). See the stage 4 and 5 sections.
 - The IMM has no PDA or existence probability (no IMM-JIPDA), although B0 showed it is weak in dense clutter.
 - Stone Soup has no Gaussian JIPDA, so the existence-probability part was checked only against hand calculations.
 - There is no terrain shadowing, no multipath and no signal-strength-weighted merging. Out-of-sample evaluation still covers two days and six airports.
 
+
+## Stage 4: clutter map estimated from the detections (JIPDA-map)
+
+Follow-up to stage 3, where JIPDA was given the true clutter density. Preregistration: `docs/PREREGISTRATION_4.md`. Report: `docs/reports/2026-11-23-radar-clutter-map.md` (Korean). Tables: `results/stage4/summary.md`.
+
+**Method.** JIPDA with the stage 3 frozen values; only the clutter density changes. The density is an exponentially forgetting count of detections that are not associated with a confirmed track (association probability sum < 0.5), per range × azimuth cell, with a fixed floor (`ClutterMapDensity` in `src/radar_track_lab/jpda.py`). The estimator gets no true density, clutter model or zone position. Eight candidates (cell size and memory) were scored on the tuning window by λ 1000 clutter-map GOSPA only. The rule picked the smallest cell and shortest memory (1 km × 1.5°, τ 30 scans), frozen in `configs/stage4.yaml` (`results/stage4/tune_selection.json`).
+
+Schiphol evaluation window, ideal measurement model (M0), 20 seeds:
+
+| Condition | Method | False tracks / scan | GOSPA [m] | Missed / scan | ID switches |
+|---|---|---:|---:|---:|---:|
+| λ 1000 clutter map | JIPDA (true density) | 3.97 | 3,817 | 2.61 | 31.35 |
+| λ 1000 clutter map | JIPDA-est (10 km × 22.5° grid) | 28.34 | 7,755 | 2.59 | 50.30 |
+| λ 1000 clutter map | JIPDA-map | 13.10 | 5,800 | 3.17 | 34.35 |
+| λ 1000 uniform | JIPDA (true density) | 1.38 | 2,870 | 2.07 | 36.30 |
+| λ 1000 uniform | JIPDA-map | **105.21** | **11,480** | 2.44 | 85.35 |
+
+- Verdict **partial improvement**. Against JIPDA-est on the λ 1000 clutter map, GOSPA is −1,955 m [−2,372, −1,538] (criterion met), but false tracks are 13.10 per scan against the limit of 8 (not met). At λ 5 false tracks and ID switches stay within 1.10 × JIPDA.
+- **Failure under uniform clutter.** With clutter spread evenly, JIPDA-map false tracks rose from 1.38 (JIPDA) to 105.21 per scan and GOSPA from 2,870 to 11,480 m. The small cells hold too few clutter counts where clutter is sparse, so the estimated density is too low. The tuning rule looked only at the clutter-map condition and did not catch this.
+- At λ 5 the method also costs +0.28–0.49 missed targets per scan and +3.4–6.8 s confirmation delay against JIPDA.
+
+**Cone hold (stage 4 part 2).** Under the M4 sensor model a confirmed track that has a Mode C altitude and whose predicted elevation is above 42° is held (no association, M-of-N frozen) for at most a computed time, instead of being deleted inside the overhead cone. Mode C is used only for the cone decision here. Share of the cone-induced ID-switch increase recovered (`results/stage4/cone_summary.md`, bootstrap 95%):
+
+| Airport | EKF | IMM |
+|---|---:|---:|
+| Schiphol | 89.3% [76.4, 103.7] | 81.1% [66.4, 96.3] |
+| Atlanta (KATL_1106_peak) | 36.5% [22.2, 51.3] | 31.0% [12.4, 47.8] |
+
+At Atlanta false tracks rose by 11.9% (EKF), above the 10% side-effect limit, and switches with a nearby other aircraft rose from 29.20 to 38.65 per run (post hoc, `results/stage4/cone_diag.json`).
+
+## Stage 5: adaptive clutter-map cells (JIPDA-amap) and cone hold v2
+
+Follow-up to stage 4. Preregistration: `docs/PREREGISTRATION_5.md`. Report: `docs/reports/2026-11-24-radar-stage5.md` (Korean). Tables: `results/stage5/summary.md`, `results/stage5/cone_summary.md`.
+
+**Part 1, JIPDA-amap: improved.** `AdaptiveClutterMapDensity` (`src/radar_track_lab/jpda.py`) starts from the stage 4 cell (1 km × 1.5°) and widens the window to 3×3, 5×5, … cells until the forgetting-weighted count reaches n_min, up to 9 km × 22.5°. Selected on the tuning window: n_min 20, τ 30 (`results/stage5/tune_selection.json`). Schiphol evaluation window, M0, 20 seeds:
+
+| Condition | JIPDA (true density) | JIPDA-est | JIPDA-map (stage 4) | JIPDA-amap |
+|---|---:|---:|---:|---:|
+| λ 1000 clutter map, false tracks / scan | 3.97 | 28.34 | 13.10 | **4.38** |
+| λ 1000 clutter map, GOSPA [m] | 3,817 | 7,755 | 5,800 | **3,959** |
+| λ 1000 uniform, false tracks / scan | 1.38 | 1.37 | 105.21 | **1.36** |
+| λ 1000 uniform, GOSPA [m] | 2,870 | 2,883 | 11,480 | **2,906** |
+
+- All preregistered criteria were met: GOSPA below JIPDA-est at λ 1000 and λ 200 clutter map (−3,796 m [−4,188, −3,405] and −8,214 m [−8,635, −7,792]), and GOSPA and false-track ratios to JIPDA ≤ 1.10 in the other three conditions (GOSPA ratios 1.013–1.060).
+- Still a cost at λ 5: +0.29 missed targets per scan and +4.8 s confirmation delay (λ 5 clutter map) against JIPDA.
+- Atlanta check (KATL_1106_peak, 8 seeds, not a verdict): λ 1000 clutter-map false tracks 6.37 per scan against 4.79 for JIPDA (ratio 1.33).
+- This is a follow-up designed after seeing stage 4, evaluated on the same window and seeds.
+
+**Part 2, cone hold v2 (H1): improved, with two borderline criteria.** H1 adds a Mode C altitude check: a held track, and a track just released from the hold, accepts only reports whose Mode C altitude lies within Δh = 200 ft + 50 ft/s × Δt of the track's predicted altitude (vertical speed from the last 30 s). So unlike stage 4, Mode C is used in association. M4 sensor model, 13 windows (6 airports, 2 days), EKF and IMM, 20 seeds (`results/stage5/cone_summary.md`):
+
+- Atlanta (KATL_1106_peak) recovery: EKF 54.7% [38.8, 70.3], IMM 59.8% [40.6, 78.6] (stage 4: 36.5%, 31.0%). The criterion (≥ 50%) was met by the point estimate; both intervals include values below 50%.
+- Schiphol recovery: EKF 113.1%, IMM 111.4%. Above 100% means H1 also prevents switches unrelated to the cone.
+- False tracks ≤ 1.072 × M4 in all 26 cases. EKF ID switches below M4 in 11 of 13 windows (limit 11; the two others, at Oslo, have no cone effect).
+- Not reduced: at Atlanta, switches with a nearby other aircraft stayed at 38.05 per run (M4 29.20). The Atlanta gain came from fewer losses after consecutive misses inside the cone.
+- The simulated Mode C had no errors (only 100 ft quantisation), so the stage 5 report called this a favourable condition.
+- **Update (stage 6): H1 is fragile to Mode C faults.** With assumed faults (2% missing, 1% wrong altitude), H1 ID switches rose in all 13 windows (EKF 1.08–2.70 ×) and false tracks 1.16–2.25 ×. One wrong altitude (for example 40,000 ft) becomes the track's last Mode C, the track is judged to be inside the cone and held, and the altitude check then rejects its correct reports. At Oslo (ENGM_1106_peak), where the cone has no effect, held track-scans went from 0 to 107 per run and ID switches from 8.55 to 12.35, worse than M4 (8.55). So H1 with faulty Mode C can be worse than no hold at all, not only "less good than with ideal Mode C". Source: `results/stage6/cone_summary.md`, section 2.4 of the stage 6 report. The fault rates are assumptions, not values from the literature.
+
+## Stage 6: Mode C altitude gate on all associations (G1), and a data-driven floor
+
+Follow-up to stage 5. Preregistration: `docs/PREREGISTRATION_6.md`. Report: `docs/reports/2026-11-24-radar-stage6.md` (Korean). Tables: `results/stage6/cone_summary.md`, `results/stage6/summary.md`.
+
+**Part 1, G1: partial improvement (criteria 3 and 4 of 4); crossing aircraft at different altitudes are still not told apart.** G1 extends the H1 altitude window (same Δh) to every confirmed track that has a Mode C history; reports without altitude use the 2-D gate only. Crossing event: two aircraft within 2 km horizontally and ≥ 1,000 ft apart in altitude; a crossing switch is an ID switch within ±3 scans of such an event (`src/radar_track_lab/crossing.py`). M4, 13 windows, EKF and IMM, 20 seeds, with and without assumed Mode C faults (`results/stage6/cone_summary.md`):
+
+| Criterion | Limit | Result | Met |
+|---|---|---|---|
+| 1. ID switches below H1 | ≥ 11 of 13 windows, EKF and IMM | EKF 3/13, IMM 1/13 | no |
+| 2. Atlanta switches with a nearby other aircraft (EKF) | < M4 29.20 | 42.55 (H1 38.05) | no |
+| 3. False tracks | ≤ 1.10 × H1 in all 26 cases | max 1.067 | yes |
+| 4. With Mode C faults, EKF ID switches below H1 | ≥ 9 of 13 windows | 11/13 | yes |
+
+- Crossing switches summed over the 13 windows (EKF, per run): M4 198.80, H1 160.85, **H1+G1 170.35** (IMM 190.05, 151.25, 162.50). There are 1,035 crossing events in total. G1 increased crossing switches instead of reducing them.
+- Criterion 4 was met for a reason unrelated to crossings: G1 keeps a wrong altitude out of the track's history, which hides H1's fault fragility described under stage 5 above. The preregistered "share of the G1 gain kept under faults" has a negative denominator and no meaning.
+- Post hoc (`results/stage6/g1_attrib.json`, EKF, 5 seeds; not a verdict): most of G1's extra ID switches come from a few aircraft whose truth altitude oscillates by about ±400 ft every 15–20 s (Schiphol: 5.4 of 5.4 per run from one aircraft; Sydney YSSY_1106_peak: 13.4 of 15.8). Once the vertical-speed extrapolation misses, the predicted altitude moves away faster (up to 100 ft/s) than the window widens (50 ft/s), and the track keeps rejecting its own reports until it is deleted. This is a design flaw of G1. Whether the oscillation is real flight or an ADS-B data error was not checked.
+- At Atlanta every pair G1 rejected belonged to another aircraft (`results/stage6/g1_diag.json`), yet crossing switches still rose. The cause was not analysed.
+- Both predictions were wrong in direction. Reviewer: Atlanta nearby-aircraft switches 15 (8–24), crossing switches −70%. Agent: 34 (28–38), −50%. Actual: 42.55, +5.9%.
+
+**Part 2, floor from the data: partial improvement by the rule, no practical change.** The fixed JIPDA-amap density floor was replaced by max(f × capped-window density, floor/10), f frozen at 0.25 (`configs/stage6.yaml`). The three candidates (f = 0.25, 0.5, 1.0) scored the same on the tuning window, because at λ 5 almost every cell already uses the capped window; the candidate design was degenerate, which should have been noticed when preregistering (`results/stage6/tune_selection.json`). On the evaluation window GOSPA stayed within 1% of stage 5 in all five conditions (ratios 0.994–1.0002); the λ 5 missed-target and confirmation-delay changes were −0.001 per scan and −0.02 s (`results/stage6/summary.md`). Post hoc (`results/stage6/floor_diag.json`): the estimated density at target reports fell from 30 × to 3.1 × the true density with no change in results, so the λ 5 cost is not caused by the floor, as stages 4 and 5 had assumed. Its cause is open.
+
+### Stage 4–6 limits
+
+- All results are simulation on recorded ADS-B truth. Clutter maps do not change over time. Mode C faults are assumed rates (2% missing, 1% wrong).
+- Stages 5 and 6 are follow-ups designed after seeing the previous stage, mostly on the same windows and seeds.
+- The G1 window flaw, H1's fault fragility and the remaining crossing switches at Atlanta were not fixed. The truth-altitude oscillation of a few aircraft was not checked against the raw data.
+- Regression: stage 4, 5 and 6 code reproduces earlier run files exactly (`results/stage4/regression.json`, `results/stage5/regression.json`, `results/stage6/regression.json`, and all 1,040 M4/H1 runs of stage 6 part 1 against stage 5 in `results/stage6/regression_full.json`).
 
 ## Setup
 
@@ -443,7 +531,7 @@ Update (stage 2): an IMM was added in stage 2 (`src/radar_track_lab/imm.py`; "St
 
 ## How it was verified
 
-- **Unit tests (20 in stage 1; 73 in the whole suite now, `tests/`; without the extracted data 72 pass and one privacy check on the processed files is skipped)**: azimuth convention, polar–Cartesian and geodetic–ENU round trips, polar covariance, velocity rotation for meridian convergence; EKF convergence on a straight line and error below raw measurements; the χ² gate value and rejection of a far detection; a globally optimal assignment where greedy fails; M-of-N confirmation and deletion; track numbers persisting and never reused; assignment by connected groups matching one dense solve in number of pairs and total cost (200 random sparse cost matrices); GOSPA on hand-computed cases; identical results for the same seed and different ones for another seed; clutter count matching λ; Hermite interpolation exact for constant acceleration; NEES interval containing the degrees of freedom; dbFlags exclusion of military, PIA and LADD aircraft.
+- **Unit tests (20 in stage 1; 104 in the whole suite now, `tests/`; without the extracted data 103 pass and one privacy check on the processed files is skipped)**: azimuth convention, polar–Cartesian and geodetic–ENU round trips, polar covariance, velocity rotation for meridian convergence; EKF convergence on a straight line and error below raw measurements; the χ² gate value and rejection of a far detection; a globally optimal assignment where greedy fails; M-of-N confirmation and deletion; track numbers persisting and never reused; assignment by connected groups matching one dense solve in number of pairs and total cost (200 random sparse cost matrices); GOSPA on hand-computed cases; identical results for the same seed and different ones for another seed; clutter count matching λ; Hermite interpolation exact for constant acceleration; NEES interval containing the degrees of freedom; dbFlags exclusion of military, PIA and LADD aircraft.
 - **Separate tuning window.** q was chosen on 10:00–10:15 UTC with a rule fixed in advance and never adjusted on the evaluation window.
 - **Same detections for both methods.** For each seed the tracker and the baseline see the same detections, and both use the same track management.
 - **Filter consistency** on synthetic truth that follows the model (NEES section above), so a mismatch shows up as a statistical failure rather than being hidden by model error.
@@ -451,6 +539,7 @@ Update (stage 2): an IMM was added in stage 2 (`src/radar_track_lab/imm.py`; "St
 - **Association change checked for equality.** Splitting the assignment into connected groups (needed for λ 1000) gave identical summaries at λ 5 and 20 to the dense solve before the change, and a unit test compares the two on 200 random sparse cost matrices (same number of pairs, same total cost).
 - **Generated tables.** `results/RESULTS.md` is written by `scripts/write_results_md.py` from the JSON in `results/data/`; no number in it is typed by hand.
 - **Later stages.** Stage 2 and 3 tests cover the IMM on synthetic turns, the cause classifier, the sensor elements (Swerling I Pd by Monte Carlo, 4/3-Earth geometry, merging), the pre-gate against no pre-gate on random sets, JPDA/JIPDA against hand calculations, and the post-hoc C2 definitions. Stage 3 re-ran all 63 stage 1 and 2 run files with the new code and got zero differences in every summary metric (`results/stage3/regression.json`, `results/stage3/regression_after_impl.json`). A separate script (`scripts/stage3_recompute.py`) recomputes 29 headline numbers from the run files alone, and all match (`results/stage3/recompute.json`).
+- **Stages 4–6.** Tests cover the clutter-map cells, forgetting and floor, window widening, the cone hold time, the Mode C altitude window and vertical speed, Mode C fault injection rates, and crossing-event detection. Before each stage's runs, the earlier methods were re-run on 2 seeds with the new code and matched the earlier run files exactly (`results/stage4/regression.json`, `results/stage5/regression.json`, `results/stage6/regression.json`); in stage 6 all 1,040 M4 and H1 runs also matched stage 5 (`results/stage6/regression_full.json`). Each stage froze its settings on the tuning window before evaluation.
 - **Provenance.** Seeds are fixed. This public repository starts from a fresh history; development happened in a private repository.
 
 ## Limits
@@ -458,6 +547,8 @@ Update (stage 2): an IMM was added in stage 2 (`src/radar_track_lab/imm.py`; "St
 - **2-D plane.** Altitude and slant range are ignored. Aircraft at different altitudes that cross in the plane cannot be told apart, as with a real primary radar. There is no overhead cone of silence, vertical coverage or low-altitude shadowing from Earth curvature.
   - Update (stage 3): the tracker is still 2-D. The stage 3 sensor model (M2 and later) adds slant range, the 42° cone and the 4/3-Earth horizon. Slant range is converted to ground range with Mode C altitude. There is no terrain shadowing.
   - Update (stage 3): under that model, aircraft that fly over the radar at cruise altitude get no detections while inside the 42° cone and lose their tracks (+6.1 EKF ID switches at Schiphol). The IMM does not reduce this either. Source: `results/stage3/diag_near/summary.md`; post hoc, not a verdict.
+  - Update (stages 4–5): holding tracks inside the cone with a Mode C altitude check recovers most of the cone loss at Schiphol and 55–60% at Atlanta, with error-free Mode C. With assumed Mode C faults this hold becomes worse than no hold in some windows (stage 6, `results/stage6/cone_summary.md`).
+  - Update (stage 6): using Mode C altitude in every association (G1) did not separate crossing aircraft at different altitudes. Crossing switches over 13 windows rose from 160.85 to 170.35 per run (EKF). Aircraft that cross at different altitudes are still not reliably told apart. Source: `results/stage6/cone_summary.md`.
 - **No IMM.** With a single constant-velocity model the prediction lags in turns, and a track that leaves its gate becomes an ID switch. Of the 24.9 ID switches under the default condition, 13.3 are tracks lost while the aircraft was present; turns are the likely main cause, but they were not checked one by one.
   - Update (stage 2): checked one by one, 265 of 267 were in turns. The IMM cut them from 13.3 to 6.0 per run, and 5.0 of the remaining 6.0 come from the same two tightly circling aircraft.
   - Update (stage 2): several selected IMM values sit at the edge of the tuning grid. The IMM's mean NEES on real truth is 2.67, so its covariance is still larger than the actual error.
@@ -559,6 +650,25 @@ python scripts/stage3_c2_breakdown.py && python scripts/stage3_diag_near.py && p
 python scripts/stage3_stonesoup_b_firstdiff.py && python scripts/stage3_jpda_selfsens.py
 ```
 
+Stages 4–6 were run by the queue scripts below (each takes a lane argument, 0 or 1, and runs two lanes in parallel; `scripts/stage4_guard.sh` waits while memory is short and uses macOS `sysctl`; the scripts expect the virtual environment at `.venv/`). They call `scripts/stage4_run.py`, `stage5_run.py`, `stage6_run.py` and the `stage*_cone_run.py` runners, which also run on their own:
+
+```sh
+# stage 4: tune, freeze in configs/stage4.yaml, evaluate, Atlanta check, cone hold
+scripts/stage4_queue_tune.sh 0 & scripts/stage4_queue_tune.sh 1; wait; python scripts/stage4_select.py
+scripts/stage4_queue_eval.sh 0 & scripts/stage4_queue_eval.sh 1; wait; python scripts/stage4_merge.py && python scripts/stage4_report.py
+python scripts/stage4_cone_run.py --scenarios EHAM_1106_eval,KATL_1106_peak --methods ekf_cone,imm_cone && python scripts/stage4_cone_report.py
+# stage 5: JIPDA-amap and cone hold v2 (H1, H2) on 13 windows
+scripts/stage5_queue_tune.sh 0 & scripts/stage5_queue_tune.sh 1; wait; python scripts/stage5_select.py
+scripts/stage5_queue_eval.sh 0 & scripts/stage5_queue_eval.sh 1; wait; python scripts/stage5_merge.py && python scripts/stage5_report.py
+scripts/stage5_queue_cone.sh 0 & scripts/stage5_queue_cone.sh 1; wait; python scripts/stage5_cone_report.py
+# stage 6: G1 with and without Mode C faults, then the data-driven floor
+scripts/stage6_queue_cone.sh 0 & scripts/stage6_queue_cone.sh 1; wait; python scripts/stage6_cone_report.py
+scripts/stage6_queue_tune.sh 0 & scripts/stage6_queue_tune.sh 1; wait; python scripts/stage6_select.py
+scripts/stage6_queue_eval.sh 0 & scripts/stage6_queue_eval.sh 1; wait; python scripts/stage6_merge.py && python scripts/stage6_report.py
+# post hoc (not verdicts)
+python scripts/stage6_g1_diag.py && python scripts/stage6_g1_attrib.py && python scripts/stage6_floor_diag.py
+```
+
 The B0 and B1 runs were launched by `scripts/stage3_b0.sh`, `scripts/stage3_queue_b_tune.sh` and `scripts/stage3_queue_b_eval.sh`. These wrap a local job queue (`tools/heavy-run.sh`) that lives outside this repository; the `scripts/stage3_run.py` commands inside them run on their own. Stage 3 run times on the 8 GiB machine ranged from minutes to several hours per job (the report has the details).
 
 | File | SHA-256 |
@@ -583,9 +693,12 @@ src/radar_track_lab/
   scenarios.py              airport, day and window scenarios (stage 2)
   audit.py                  sample accounting for the evaluation audit
   sensor.py                 Swerling I Pd, altitude geometry, merging (stage 3)
-  jpda.py                   joint events (exact / loopy BP), JPDA, JIPDA, clutter-density grid (stage 3)
+  jpda.py                   joint events (exact / loopy BP), JPDA, JIPDA, clutter-density grid (stage 3), clutter maps (stages 4–6)
+  cone.py                   cone hold, Mode C altitude window (H1, G1), Mode C fault injection (stages 4–6)
+  crossing.py               crossing events at different altitudes (stage 6)
   runtime.py                memory wait and code-version helpers
 configs/stage2.yaml, sites.yaml, stage3.yaml   frozen stage 2 parameters, airport reference points, stage 3 settings
+configs/stage4.yaml, stage5.yaml, stage6.yaml  frozen stage 4–6 settings
 docs/                       preregistrations, protocols, design note and reports (Korean)
 scripts/                    extraction, experiments, figures and tables, demo export, thumbnails
 results/RESULTS.md          all result tables (generated from results/data/)
@@ -593,6 +706,7 @@ results/data/, figures/     JSON/CSV results and figures
 results/data/stage2/        stage 2 runs per scenario and method, verdict summary
 results/audit/              evaluation audit: paired tables, sample audit, prediction experiments
 results/stage3/             stage 3 runs (a/, b0/, b1/), summaries, Stone Soup checks, post-hoc diagnostics
+results/stage4/ … stage6/   stage 4–6 runs (tune/, eval/, cone/, …), summaries, regression checks, post-hoc diagnostics
 results/thumbnails/         still image and loop video
 web/                        static demo and pre-computed scenarios
 tests/                      pytest

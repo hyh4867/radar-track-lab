@@ -1,0 +1,43 @@
+{
+ "seed": 20261106,
+ "scan": "last",
+ "lam1000_uniform": {
+  "jipda_map": {
+   "weighted_median_ratio": 0.9195716879698587,
+   "share_clutter_within_factor2": 0.69263468013468,
+   "share_clutter_under_half": 0.2300084175084175
+  },
+  "jipda_amap": {
+   "weighted_median_ratio": 1.0088178681544777,
+   "share_clutter_within_factor2": 0.999915824915825,
+   "share_clutter_under_half": 0.0,
+   "share_clutter_by_level": {
+    "1": 0.0015151515151515152,
+    "2": 0.9844276094276094,
+    "3": 0.014057239057239056
+   }
+  }
+ },
+ "lam1000_map": {
+  "jipda_map": {
+   "weighted_median_ratio": 0.6633042558147495,
+   "share_clutter_within_factor2": 0.8619014973165947,
+   "share_clutter_under_half": 0.11018100583373856
+  },
+  "jipda_amap": {
+   "weighted_median_ratio": 0.9890800664137869,
+   "share_clutter_within_factor2": 0.9905301002557931,
+   "share_clutter_under_half": 2.1276645726953395e-05,
+   "share_clutter_by_level": {
+    "0": 0.3021062809184851,
+    "1": 0.4828546004679237,
+    "2": 0.09421679458358019,
+    "3": 0.03453591683209004,
+    "4": 0.016237901790786807,
+    "5": 0.0071025493648301605,
+    "6": 0.006868110449965631,
+    "7": 0.056077845592338346
+   }
+  }
+ }
+}

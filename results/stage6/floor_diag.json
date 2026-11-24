@@ -1,0 +1,18 @@
+{
+ "stage5_fixed_floor": {
+  "fed_target_reports": 414,
+  "fed_clutter_reports": 924,
+  "target_share_of_fed": 0.3094170403587444,
+  "est_over_true_at_target_reports_median": 30.006737290535725,
+  "est_over_true_at_clutter_reports_median": 1.1291972412093065,
+  "floor_over_true_median_density": 27.253443832751632
+ },
+ "stage6_floor_0.25": {
+  "fed_target_reports": 416,
+  "fed_clutter_reports": 924,
+  "target_share_of_fed": 0.31044776119402984,
+  "est_over_true_at_target_reports_median": 3.120306810480051,
+  "est_over_true_at_clutter_reports_median": 0.8998591899920817,
+  "floor_over_true_median_density": 27.253443832751632
+ }
+}

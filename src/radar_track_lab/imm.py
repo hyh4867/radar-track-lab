@@ -202,6 +202,7 @@ class IMMTracker(_TrackerBase):
         nu, S, _ = ekf.innovation(xb[:, :4], Pb[:, :4, :4], z[dj], p.R)
         d2 = ekf.mahalanobis2(nu, S)
         ok = np.flatnonzero(d2 <= p.gate_threshold)
+        ok = self._extra_gate(ok, g, dets[dj], scan)
         if ok.size == 0:
             return np.zeros(0, int), np.zeros(0, int), None
         cost = d2[ok] + np.log(np.linalg.det(S[ok]))

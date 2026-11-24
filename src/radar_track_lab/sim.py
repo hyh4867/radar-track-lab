@@ -65,7 +65,7 @@ def make_tracker(method: str, params: TrackerParams, cfg: dict | None = None):
         from .imm import IMMParams, IMMTracker
 
         return IMMTracker(params, IMMParams.from_config(cfg))
-    if method in ("jpda", "jipda", "jipda_est"):
+    if method in ("jpda", "jipda", "jipda_est", "jipda_map", "jipda_amap"):
         from dataclasses import replace
 
         from .jpda import JPDATracker, PDAParams
@@ -73,6 +73,20 @@ def make_tracker(method: str, params: TrackerParams, cfg: dict | None = None):
         pda = PDAParams.from_config(cfg, "jpda" if method == "jpda" else "jipda")
         if method == "jipda_est":
             pda = replace(pda, density="estimated")
+        if method == "jipda_map":  # PREREGISTRATION_4: cell size and forgetting from cfg["clutter_map_est"]
+            m = cfg.get("clutter_map_est") or {}
+            pda = replace(pda, density="map", map_dr_m=float(m.get("dr_m", pda.map_dr_m)),
+                          map_daz_deg=float(m.get("daz_deg", pda.map_daz_deg)),
+                          map_tau_scans=float(m.get("tau_scans", pda.map_tau_scans)))
+        if method == "jipda_amap":  # PREREGISTRATION_5: fine cells + widening, from cfg["clutter_amap_est"]
+            m = cfg.get("clutter_amap_est") or {}
+            if not m:
+                raise ValueError("jipda_amap needs cfg['clutter_amap_est']")
+            pda = replace(pda, density="amap", map_dr_m=float(m["dr_m"]), map_daz_deg=float(m["daz_deg"]),
+                          map_tau_scans=float(m["tau_scans"]), amap_n_min=float(m["n_min"]),
+                          amap_cap_dr_m=float(m.get("cap_dr_m", 10_000.0)),
+                          amap_cap_daz_deg=float(m.get("cap_daz_deg", 22.5)),
+                          amap_floor_frac=None if m.get("floor_frac") is None else float(m["floor_frac"]))
         return JPDATracker(params, pda, RadarParams.from_config(cfg))
     raise ValueError(method)
 

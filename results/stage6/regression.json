@@ -1,0 +1,68 @@
+{
+ "files": [
+  {
+   "new": "results/stage6/regression/cone/EHAM_1106_eval__M4__ekf.json",
+   "old": "results/stage5/cone/EHAM_1106_eval__M4__ekf.json",
+   "n": 2,
+   "bad": [],
+   "pass": true
+  },
+  {
+   "new": "results/stage6/regression/cone/EHAM_1106_eval__M4__imm.json",
+   "old": "results/stage5/cone/EHAM_1106_eval__M4__imm.json",
+   "n": 2,
+   "bad": [],
+   "pass": true
+  },
+  {
+   "new": "results/stage6/regression/cone/EHAM_1106_eval__M4__ekf_h1.json",
+   "old": "results/stage5/cone/EHAM_1106_eval__M4__ekf_h1.json",
+   "n": 2,
+   "bad": [],
+   "pass": true
+  },
+  {
+   "new": "results/stage6/regression/cone/EHAM_1106_eval__M4__imm_h1.json",
+   "old": "results/stage5/cone/EHAM_1106_eval__M4__imm_h1.json",
+   "n": 2,
+   "bad": [],
+   "pass": true
+  },
+  {
+   "new": "results/stage6/regression/cone/KATL_1106_peak__M4__ekf.json",
+   "old": "results/stage5/cone/KATL_1106_peak__M4__ekf.json",
+   "n": 2,
+   "bad": [],
+   "pass": true
+  },
+  {
+   "new": "results/stage6/regression/cone/KATL_1106_peak__M4__imm.json",
+   "old": "results/stage5/cone/KATL_1106_peak__M4__imm.json",
+   "n": 2,
+   "bad": [],
+   "pass": true
+  },
+  {
+   "new": "results/stage6/regression/cone/KATL_1106_peak__M4__ekf_h1.json",
+   "old": "results/stage5/cone/KATL_1106_peak__M4__ekf_h1.json",
+   "n": 2,
+   "bad": [],
+   "pass": true
+  },
+  {
+   "new": "results/stage6/regression/cone/KATL_1106_peak__M4__imm_h1.json",
+   "old": "results/stage5/cone/KATL_1106_peak__M4__imm_h1.json",
+   "n": 2,
+   "bad": [],
+   "pass": true
+  },
+  {
+   "new": "results/stage6/regression/EHAM_1106_eval__jipda_amap__lam200_map.json",
+   "old": "results/stage5/eval/EHAM_1106_eval__jipda_amap__lam200_map.json",
+   "n": 2,
+   "bad": [],
+   "pass": true
+  }
+ ],
+ "pass": true
+}

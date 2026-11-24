@@ -1,0 +1,56 @@
+{
+ "EHAM_1106_eval|ekf": {
+  "causes_per_run": {
+   "turn": 13.5,
+   "truth_gap": 8.95,
+   "misses": 7.05,
+   "near_other": 6.3,
+   "near_radar": 0.05,
+   "speed_change": 0.2,
+   "unexplained": 0.1
+  },
+  "near_misses_kinds_per_run": {
+   "undetected scans all in cone": 4.95
+  }
+ },
+ "EHAM_1106_eval|ekf_cone": {
+  "causes_per_run": {
+   "turn": 13.5,
+   "truth_gap": 8.5,
+   "misses": 3.65,
+   "near_other": 4.7,
+   "near_radar": 0.05,
+   "speed_change": 0.2,
+   "unexplained": 0.1
+  },
+  "near_misses_kinds_per_run": {
+   "undetected scans all in cone": 1.55
+  }
+ },
+ "KATL_1106_peak|ekf": {
+  "causes_per_run": {
+   "turn": 27.3,
+   "near_other": 29.2,
+   "truth_gap": 123.95,
+   "misses": 25.5,
+   "unexplained": 1.25,
+   "near_radar": 3.6
+  },
+  "near_misses_kinds_per_run": {
+   "undetected scans all in cone": 17.0
+  }
+ },
+ "KATL_1106_peak|ekf_cone": {
+  "causes_per_run": {
+   "turn": 27.25,
+   "near_other": 38.65,
+   "truth_gap": 114.95,
+   "misses": 16.0,
+   "unexplained": 2.45,
+   "near_radar": 4.45
+  },
+  "near_misses_kinds_per_run": {
+   "undetected scans all in cone": 7.3
+  }
+ }
+}

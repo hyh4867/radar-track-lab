@@ -1,0 +1,5 @@
+# Stage 6 additions (docs/PREREGISTRATION_6.md), merged after configs/stage5.yaml by scripts/stage6_run.py.
+# Part 2: data-driven floor for JIPDA-amap, floor = max(floor_frac x cap-window density, FLOOR / 10).
+# floor_frac is written by scripts/stage6_select.py --write from the tuning window only (null = stage 5 fixed floor).
+clutter_amap_est:
+  floor_frac: 0.25            # FROZEN by scripts/stage6_select.py --write
